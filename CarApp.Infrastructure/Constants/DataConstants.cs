@@ -8,5 +8,9 @@ namespace CarApp.Infrastructure.Constants
 {
     public static class DataConstants
     {
+
+        public const int UserFirstNameMaxLength = 50;
+
+        public const int UserLastNameMaxLength = 50;
     }
 }

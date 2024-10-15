@@ -1,0 +1,20 @@
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static CarApp.Infrastructure.Constants.DataConstants;
+
+namespace CarApp.Infrastructure.Data.Models
+{
+    public class ApplicationUser : IdentityUser
+    {
+        [MaxLength(UserFirstNameMaxLength)]
+        public string FirstName { get; set; } = string.Empty;
+
+        [MaxLength(UserLastNameMaxLength)]
+        public string LastName { get; set; } = string.Empty;
+    }
+}
