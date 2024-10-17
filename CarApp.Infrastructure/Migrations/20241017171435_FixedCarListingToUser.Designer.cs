@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241017171435_FixedCarListingToUser")]
+    partial class FixedCarListingToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,11 +111,24 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<int>("FuelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8, 2)");
 
                     b.Property<int>("TransmissionID")
                         .HasColumnType("int");
@@ -125,6 +141,8 @@ namespace CarApp.Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("FuelId");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("ModelId");
 
@@ -221,21 +239,8 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Mileage")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8, 2)");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -245,8 +250,6 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("CarId")
                         .IsUnique();
-
-                    b.HasIndex("LocationId");
 
                     b.HasIndex("SellerId");
 
@@ -487,6 +490,12 @@ namespace CarApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarApp.Infrastructure.Data.Models.CarLocation", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CarApp.Infrastructure.Data.Models.CarModel", "Model")
                         .WithMany("Cars")
                         .HasForeignKey("ModelId")
@@ -502,6 +511,8 @@ namespace CarApp.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Fuel");
+
+                    b.Navigation("Location");
 
                     b.Navigation("Model");
 
@@ -527,12 +538,6 @@ namespace CarApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarApp.Infrastructure.Data.Models.CarLocation", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarApp.Infrastructure.Data.Models.ApplicationUser", "Seller")
                         .WithMany("CarListings")
                         .HasForeignKey("SellerId")
@@ -540,8 +545,6 @@ namespace CarApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
-
-                    b.Navigation("Location");
 
                     b.Navigation("Seller");
                 });

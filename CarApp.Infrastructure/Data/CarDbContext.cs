@@ -19,5 +19,14 @@ namespace CarApp.Infrastructure.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<CarListing> CarListings { get; set; }
+        public DbSet<CarBrand> CarBrands { get; set; }
+        public DbSet<CarModel> CarModels { get; set; }
+        public DbSet<CarCategory> CarCategories { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
+        public DbSet<CarTransmission> CarTransmissions { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
     }
 }

@@ -16,5 +16,9 @@ namespace CarApp.Infrastructure.Data.Models
 
         [MaxLength(UserLastNameMaxLength)]
         public string LastName { get; set; } = string.Empty;
+
+        public ICollection<CarListing>? CarListings { get; set; } = new HashSet<CarListing>();
+
+        public ICollection<Favourite>? Favourites { get; set; } = new HashSet<Favourite>();
     }
 }
