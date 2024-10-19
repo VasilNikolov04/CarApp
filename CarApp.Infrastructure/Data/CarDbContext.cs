@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
+using System.Reflection;
 
 namespace CarApp.Infrastructure.Data
 {
@@ -15,9 +17,15 @@ namespace CarApp.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<CarListing>()
+                .Property(p => p.Price)
+                .HasConversion<decimal>();
         }
 
         public DbSet<Car> Cars { get; set; }
@@ -25,8 +33,9 @@ namespace CarApp.Infrastructure.Data
         public DbSet<CarBrand> CarBrands { get; set; }
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<CarCategory> CarCategories { get; set; }
+        public DbSet<CarFuelType> CarFuelTypes { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
-        public DbSet<CarTransmission> CarTransmissions { get; set; }
+        public DbSet<CarGear> CarGears { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
     }
 }

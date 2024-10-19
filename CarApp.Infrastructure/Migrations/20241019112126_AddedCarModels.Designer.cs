@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20241017174129_FixedCarAndCarListing")]
-    partial class FixedCarAndCarListing
+    [Migration("20241019112126_AddedCarModels")]
+    partial class AddedCarModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,7 +133,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("TransmissionID");
 
-                    b.ToTable("Car");
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarBrand", b =>
@@ -151,7 +151,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarBrand");
+                    b.ToTable("CarBrands");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarCategory", b =>
@@ -169,7 +169,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarCategory");
+                    b.ToTable("CarCategories");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarFuelType", b =>
@@ -201,7 +201,7 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<int>("CarListingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -210,7 +210,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("CarListingId");
 
-                    b.ToTable("CarImage");
+                    b.ToTable("CarImages");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarListing", b =>
@@ -234,6 +234,11 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MainImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int>("Mileage")
                         .HasColumnType("int");
 
@@ -253,7 +258,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("CarListing");
+                    b.ToTable("CarListings");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarLocation", b =>
@@ -303,7 +308,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("CarModel");
+                    b.ToTable("CarModels");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarTransmission", b =>
@@ -321,7 +326,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("TransmissionId");
 
-                    b.ToTable("CarTransmission");
+                    b.ToTable("CarTransmissions");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.Favourite", b =>
@@ -336,7 +341,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("CarListingId");
 
-                    b.ToTable("Favourite");
+                    b.ToTable("Favourites");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

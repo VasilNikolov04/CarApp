@@ -19,8 +19,7 @@ namespace CarApp.Infrastructure.Data.Models
         public string? Description { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(8, 2)")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Required]
         public int LocationId { get; set; }
@@ -30,9 +29,13 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public required int Mileage { get; set; }
 
-        public required ICollection<CarImage> CarImages { get; set; } = new HashSet<CarImage>();
+        [MaxLength(ImageUrlMaxLength)]
+        [Required]
+        public required string MainImageUrl { get; set; }
+        public required ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
 
         public required ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();
+
         public bool IsDeleted { get; set; }
 
         [Required]

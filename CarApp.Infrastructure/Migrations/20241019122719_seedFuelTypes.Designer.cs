@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241019122719_seedFuelTypes")]
+    partial class seedFuelTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,10 +114,10 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<int>("FuelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GearId")
+                    b.Property<int>("ModelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ModelId")
+                    b.Property<int>("TransmissionID")
                         .HasColumnType("int");
 
                     b.Property<int>("Whp")
@@ -126,9 +129,9 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("FuelId");
 
-                    b.HasIndex("GearId");
-
                     b.HasIndex("ModelId");
+
+                    b.HasIndex("TransmissionID");
 
                     b.ToTable("Cars");
                 });
@@ -229,41 +232,6 @@ namespace CarApp.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarGear", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("GearName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CarGears");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GearName = "Manual"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GearName = "Automatic"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GearName = "Semi-Automatic"
-                        });
-                });
-
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarImage", b =>
                 {
                     b.Property<int>("Id")
@@ -317,7 +285,7 @@ namespace CarApp.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(8, 2)");
 
                     b.Property<string>("SellerId")
                         .IsRequired()
@@ -383,6 +351,24 @@ namespace CarApp.Infrastructure.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("CarModels");
+                });
+
+            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarTransmission", b =>
+                {
+                    b.Property<int>("TransmissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransmissionId"));
+
+                    b.Property<string>("TransmissionAbbreviation")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("TransmissionId");
+
+                    b.ToTable("CarTransmissions");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.Favourite", b =>
@@ -551,15 +537,15 @@ namespace CarApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarApp.Infrastructure.Data.Models.CarGear", "Gear")
-                        .WithMany("Cars")
-                        .HasForeignKey("GearId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarApp.Infrastructure.Data.Models.CarModel", "Model")
                         .WithMany("Cars")
                         .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarApp.Infrastructure.Data.Models.CarTransmission", "Transmission")
+                        .WithMany("Cars")
+                        .HasForeignKey("TransmissionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -567,9 +553,9 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.Navigation("Fuel");
 
-                    b.Navigation("Gear");
-
                     b.Navigation("Model");
+
+                    b.Navigation("Transmission");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarImage", b =>
@@ -719,11 +705,6 @@ namespace CarApp.Infrastructure.Migrations
                     b.Navigation("Cars");
                 });
 
-            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarGear", b =>
-                {
-                    b.Navigation("Cars");
-                });
-
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarListing", b =>
                 {
                     b.Navigation("CarImages");
@@ -732,6 +713,11 @@ namespace CarApp.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarModel", b =>
+                {
+                    b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarTransmission", b =>
                 {
                     b.Navigation("Cars");
                 });

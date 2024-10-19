@@ -19,6 +19,7 @@ namespace CarApp.Infrastructure.Data.Models
         [ForeignKey(nameof(CategoryId))]
         public required CarCategory Category { get; set; }
 
+        [Required]
         public int Whp { get; set; }
 
         [Required]
@@ -27,9 +28,9 @@ namespace CarApp.Infrastructure.Data.Models
 
         public required CarFuelType Fuel { get; set; }
 
-        public int TransmissionID { get; set; }
-        [ForeignKey(nameof(TransmissionID))]
-        public CarTransmission? Transmission { get; set; }
+        public int GearId { get; set; }
+        [ForeignKey(nameof(GearId))]
+        public CarGear? Gear { get; set; }
 
         public required CarListing CarListing { get; set; }
 

@@ -15,8 +15,8 @@ namespace CarApp.Infrastructure.Data.Models
 
         public int BrandId { get; set; }
         [ForeignKey(nameof(BrandId))]
-        public required CarBrand CarBrand { get; set; }
+        public CarBrand CarBrand { get; set; } = null!;
 
-        public ICollection<Car>? Cars { get; set; }
+        public ICollection<Car> Cars { get; set; } = new List<Car>();
     }
 }

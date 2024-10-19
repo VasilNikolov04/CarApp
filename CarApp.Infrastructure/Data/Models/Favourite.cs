@@ -16,12 +16,13 @@ namespace CarApp.Infrastructure.Data.Models
         public required string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public required ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; } = null!;
+
 
         [Required]
         public required int CarListingId { get; set; }
 
         [ForeignKey(nameof(CarListingId))]
-        public required CarListing CarListing { get; set; }
+        public  CarListing CarListing { get; set; } = null!;
     }
 }

@@ -22,7 +22,8 @@ namespace CarApp.Infrastructure.Constants
             public const int CarModelNameMaxLength = 50;
             public const int CarCategoryNameMaxLength = 30;
 
-            public const int FuelNameMaxLength = 20;
+            public const int FuelNameMinLength = 3;
+            public const int FuelNameMaxLength = 30;
 
             public const int ImageUrlMaxLength = 255;
 
@@ -35,7 +36,7 @@ namespace CarApp.Infrastructure.Constants
             public const int CountryNameMinLength = 3;
             public const int CountryNameMaxLength = 50;
 
-            public const int CarTransmissionAbbreviation = 10;
+            public const int CarGearMaxLength = 20;
         }
     }
 }

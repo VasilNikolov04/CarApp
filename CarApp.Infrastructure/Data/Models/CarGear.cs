@@ -3,14 +3,14 @@ using static CarApp.Infrastructure.Constants.DataConstants.Car;
 
 namespace CarApp.Infrastructure.Data.Models
 {
-    public class CarTransmission
+    public class CarGear
     {
         [Key]
-        public int TransmissionId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [MaxLength(CarTransmissionAbbreviation)]
-        public required string TransmissionAbbreviation { get; set; }
+        [MaxLength(CarGearMaxLength)]
+        public required string GearName { get; set; }
 
         public ICollection<Car> Cars { get; set; } = new List<Car>();
     }
