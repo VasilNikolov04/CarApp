@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CarApp.Infrastructure.Data.SeedDb
 {
-    public class GearSeed : IEntityTypeConfiguration<CarGear>
+    public class GearConfiguration : IEntityTypeConfiguration<CarGear>
     {
         public void Configure(EntityTypeBuilder<CarGear> builder)
         {

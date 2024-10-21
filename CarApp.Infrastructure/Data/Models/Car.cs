@@ -23,6 +23,9 @@ namespace CarApp.Infrastructure.Data.Models
         public int Whp { get; set; }
 
         [Required]
+        public int Year { get; set; }
+
+        [Required]
         public int FuelId { get; set; }
         [ForeignKey(nameof(FuelId))]
 
@@ -31,6 +34,10 @@ namespace CarApp.Infrastructure.Data.Models
         public int GearId { get; set; }
         [ForeignKey(nameof(GearId))]
         public CarGear? Gear { get; set; }
+
+        public int DrivetrainId { get; set; }
+        [ForeignKey(nameof(DrivetrainId))]
+        public CarDrivetrain? Drivetrain { get; set; }
 
         public required CarListing CarListing { get; set; }
 

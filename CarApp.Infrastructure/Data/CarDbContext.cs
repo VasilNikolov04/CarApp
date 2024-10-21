@@ -36,6 +36,9 @@ namespace CarApp.Infrastructure.Data
         public DbSet<CarFuelType> CarFuelTypes { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<CarGear> CarGears { get; set; }
+        public DbSet<CarDrivetrain> CarDrivetrains { get; set; }
+
+        public DbSet<CarLocation> CarLocations { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
     }
 }

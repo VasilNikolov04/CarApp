@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021134445_AddYearAndDrivetrain")]
+    partial class AddYearAndDrivetrain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,42 +182,20 @@ namespace CarApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarDrivetrain", b =>
                 {
-                    b.Property<int>("DrivetrainId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DrivetrainId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DrivetrainName")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.HasKey("DrivetrainId");
+                    b.HasKey("Id");
 
                     b.ToTable("CarDrivetrains");
-
-                    b.HasData(
-                        new
-                        {
-                            DrivetrainId = 1,
-                            DrivetrainName = "Rear-Wheel Drive (RWD)"
-                        },
-                        new
-                        {
-                            DrivetrainId = 2,
-                            DrivetrainName = "Front-Wheel Drive (FWD)"
-                        },
-                        new
-                        {
-                            DrivetrainId = 3,
-                            DrivetrainName = "All-Wheel Drive (AWD)"
-                        },
-                        new
-                        {
-                            DrivetrainId = 4,
-                            DrivetrainName = "Four-Wheel Drive (4x4)"
-                        });
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarFuelType", b =>
