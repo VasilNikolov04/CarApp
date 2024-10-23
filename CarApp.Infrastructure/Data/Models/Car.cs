@@ -12,15 +12,18 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public int ModelId { get; set; }
         [ForeignKey(nameof(ModelId))]
-        public required CarModel Model { get; set; }
+        public CarModel Model { get; set; } = null!;
 
         [Required]
-        public int CategoryId { get; set; }
-        [ForeignKey(nameof(CategoryId))]
-        public required CarCategory Category { get; set; }
+        public int CarBodyId { get; set; }
+        [ForeignKey(nameof(CarBodyId))]
+        public CarBodyType CarBodyType { get; set; } = null!;
 
         [Required]
         public int Whp { get; set; }
+
+        [Required]
+        public int Mileage { get; set; }
 
         [Required]
         public int Year { get; set; }
@@ -29,7 +32,7 @@ namespace CarApp.Infrastructure.Data.Models
         public int FuelId { get; set; }
         [ForeignKey(nameof(FuelId))]
 
-        public required CarFuelType Fuel { get; set; }
+        public CarFuelType Fuel { get; set; } = null!;
 
         public int GearId { get; set; }
         [ForeignKey(nameof(GearId))]

@@ -16,6 +16,6 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public int CarListingId { get; set; }
         [ForeignKey(nameof(CarListingId))]
-        public required CarListing CarListing { get; set; }
+        public CarListing CarListing { get; set; } = null!;
     }
 }

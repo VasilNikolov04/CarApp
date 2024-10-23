@@ -3,7 +3,7 @@ using static CarApp.Infrastructure.Constants.DataConstants.Car;
 
 namespace CarApp.Infrastructure.Data.Models
 {
-    public class CarCategory
+    public class CarBodyType
     {
         [Key]
         public int Id { get; set; }

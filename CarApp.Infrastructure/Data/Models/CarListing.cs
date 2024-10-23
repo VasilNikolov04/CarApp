@@ -13,7 +13,7 @@ namespace CarApp.Infrastructure.Data.Models
         public int CarId { get; set; }
 
         [ForeignKey(nameof(CarId))]
-        public required Car Car { get; set; }
+        public Car Car { get; set; } = null!;
 
         [MaxLength(CarListingDescriptionMaxLength)]
         public string? Description { get; set; }
@@ -21,26 +21,23 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public int Price { get; set; }
 
-        [Required]
-        public int LocationId { get; set; }
-        [ForeignKey(nameof(LocationId))]
-        public required CarLocation Location { get; set; }
-
-        [Required]
-        public required int Mileage { get; set; }
+        //[Required]
+        //public int LocationId { get; set; }
+        //[ForeignKey(nameof(LocationId))]
+        //public CarLocation Location { get; set; }
 
         [MaxLength(ImageUrlMaxLength)]
         [Required]
-        public required string MainImageUrl { get; set; }
-        public required ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
+        public string MainImageUrl { get; set; }
+        public ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
 
-        public required ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();
+        public ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();
 
         public bool IsDeleted { get; set; }
 
         [Required]
         public required string SellerId { get; set; }
         [ForeignKey(nameof(SellerId))]
-        public required ApplicationUser Seller { get; set; }
+        public ApplicationUser Seller { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241023181528_movedMilleageToCar")]
+    partial class movedMilleageToCar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +108,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarBodyId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("DrivetrainId")
@@ -131,7 +134,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarBodyId");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("DrivetrainId");
 
@@ -142,76 +145,6 @@ namespace CarApp.Infrastructure.Migrations
                     b.HasIndex("ModelId");
 
                     b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarBodyType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CarBodyTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Convertible"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Coupe"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "SUV"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Sedan"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Van"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Hatchback"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Station Wagon"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Pickup Truck"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "Compact"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "Other"
-                        });
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarBrand", b =>
@@ -429,6 +362,24 @@ namespace CarApp.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CarCategories");
+                });
+
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarDrivetrain", b =>
                 {
                     b.Property<int>("DrivetrainId")
@@ -605,6 +556,9 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MainImageUrl")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -621,6 +575,8 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("CarId")
                         .IsUnique();
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("SellerId");
 
@@ -831,9 +787,9 @@ namespace CarApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.Car", b =>
                 {
-                    b.HasOne("CarApp.Infrastructure.Data.Models.CarBodyType", "CarBodyType")
+                    b.HasOne("CarApp.Infrastructure.Data.Models.CarCategory", "Category")
                         .WithMany("Cars")
-                        .HasForeignKey("CarBodyId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -861,7 +817,7 @@ namespace CarApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CarBodyType");
+                    b.Navigation("Category");
 
                     b.Navigation("Drivetrain");
 
@@ -891,6 +847,12 @@ namespace CarApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarApp.Infrastructure.Data.Models.CarLocation", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CarApp.Infrastructure.Data.Models.ApplicationUser", "Seller")
                         .WithMany("CarListings")
                         .HasForeignKey("SellerId")
@@ -898,6 +860,8 @@ namespace CarApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
+
+                    b.Navigation("Location");
 
                     b.Navigation("Seller");
                 });
@@ -996,14 +960,14 @@ namespace CarApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarBodyType", b =>
-                {
-                    b.Navigation("Cars");
-                });
-
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarBrand", b =>
                 {
                     b.Navigation("CarModels");
+                });
+
+            modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarCategory", b =>
+                {
+                    b.Navigation("Cars");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarDrivetrain", b =>
