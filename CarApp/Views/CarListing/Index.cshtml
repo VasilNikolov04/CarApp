@@ -1,1 +1,19 @@
 ﻿@model IEnumerable<CarInfoViewModel>
+
+
+@foreach(var carListing in Model)
+{
+    <div class="card border-3 border-dark" style="width: 18rem;">
+        <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
+        <div class="card-body">
+            <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@carListing.FuelType</li>
+            <li class="list-group-item">@carListing.GearType</li>
+            <li class="list-group-item">@carListing.whp whp</li>
+            <li class="list-group-item">€@carListing.Price</li>
+        </ul>
+    </div>
+
+}

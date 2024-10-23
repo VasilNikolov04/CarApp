@@ -24,8 +24,10 @@ namespace CarApp.Controllers
                 {
                     Brand = cl.Car.Model.CarBrand.BrandName,
                     Model = cl.Car.Model.ModelName,
+                    Price = cl.Price,
                     FuelType = cl.Car.Fuel.FuelName,
                     GearType = cl.Car.Gear.GearName ?? string.Empty,
+                    ImageUrl = cl.MainImageUrl,
                     whp = cl.Car.Whp
                 })
                 .AsNoTracking()
