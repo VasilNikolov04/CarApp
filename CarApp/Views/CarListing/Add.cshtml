@@ -1,0 +1,113 @@
+﻿@model CarViewModel
+
+<div class="container mt-5">
+    <h2 class="mb-4">Add a New Car Listing</h2>
+
+    <!-- Start the form -->
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+        <!-- Car Brand Dropdown -->
+        <div class="form-group">
+            <label asp-for="BrandId">Car Brand</label>
+            <select id="carBrand" asp-for="BrandId" class="form-control"
+                    asp-items="@(new SelectList(Model.Brands, "Id", "BrandName"))" onchange="updateModels()" required>
+                <option value="">Select a Brand</option>
+            </select>
+            <span asp-validation-for="BrandId" class="text-danger"></span>
+        </div>
+        <!--Car Model Dropdown-->
+
+        <div class="form-group">
+            <label asp-for="ModelId">Car Model</label>
+            <select id="carModel" asp-for="ModelId" class="form-control" required>
+                <option value="">Select a Model</option>
+            </select>
+            <span asp-validation-for="ModelId" class="text-danger"></span>
+        </div>
+
+        <!-- Year -->
+        <div class="form-group">
+            <label asp-for="@Model.Year">Year</label>
+            <input asp-for="@Model.Year" type="number" class="form-control" name="Year" placeholder="Enter Year" required>
+            <span asp-validation-for="@Model.Year" class="text-danger"></span>
+        </div>
+
+        <!-- Horsepower -->
+        <div class="form-group">
+            <label asp-for="@Model.Whp">Horsepower</label>
+            <input asp-for="@Model.Whp" type="number" class="form-control" id="Whp" name="Whp" placeholder="Enter Horsepower" required>
+            <span asp-validation-for="@Model.Whp" class="text-danger"></span>
+        </div>
+
+        <!-- Price -->
+        <label asp-for="@Model.Price" class="form-label-add-edit">Price</label>
+        <div class="input-group">
+            <span class="input-group-text">€</span>
+            <input asp-for="Price" class="form-control" aria-required="true" type="number" step="1" min="0" />
+        </div>
+        <span asp-validation-for="@Model.Price" class="text-danger"></span>
+
+        <!-- Fuel Type Dropdown -->
+        <div class="form-group">
+            <label asp-for="@Model.FuelId">Fuel Type</label>
+            <select asp-for="@Model.FuelId" class="form-control" asp-items="@(new SelectList(Model.FuelTypes, "Id", "FuelName"))" required>
+                <option value="">Select Fuel Type</option>
+            </select>
+            <span asp-validation-for="@Model.FuelId" class="text-danger"></span>
+        </div>
+
+        <!-- Transmission Dropdown -->
+        <div class="form-group">
+            <label asp-for="@Model.GearId">Transmission</label>
+            <select asp-for="@Model.GearId" class="form-control" asp-items="@(new SelectList(Model.Gears, "Id", "GearName"))" required>
+                <option value="">Select Gear Type</option>
+            </select>
+            <span asp-validation-for="@Model.GearId" class="text-danger"></span>
+        </div>
+
+        <!-- Drivetrain Dropdown -->
+        <div class="form-group">
+            <label asp-for="@Model.DrivetrainId">Drivetrain</label>
+            <select asp-for="@Model.DrivetrainId" class="form-control" asp-items="@(new SelectList(Model.Drivetrains, "DrivetrainId", "DrivetrainName"))" required>
+                <option value="">Select Drivetrain Type</option>
+            </select>
+            <span asp-validation-for="@Model.GearId" class="text-danger"></span>
+        </div>
+
+        <!-- Additional Images Upload -->
+        <div class="form-group">
+            <label asp-for="@Model.CarImages">Additional Images</label>
+            <input asp-for="@Model.CarImages" type="file" class="form-control-file" id="CarImages" name="CarImages" multiple>
+        </div>
+        <span asp-validation-for="@Model.CarImages" class="text-danger"></span>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary mt-3">Create Listing</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/carSelection.js"></script> <!-- Include this only once -->
+    
+    <script>
+        // Step 1: Populate modelsData array with data from the server-side Model
+        const modelsData = [];
+
+        @foreach (var carModel in Model.Models)
+        {
+            <text>
+                modelsData.push({
+                    BrandId: @carModel.BrandId,
+                    ModelId: @carModel.Id,
+                    ModelName: "@carModel.ModelName"
+                });
+            </text>
+        }
+
+        // Debugging: Log modelsData to see if it's correct
+        console.log('Models Data:', modelsData);
+
+        // Step 2: Populate carModels object (done in the separate JS file)
+        populateCarModels(modelsData);
+    </script>
+}
