@@ -47,6 +47,13 @@
         </div>
         <span asp-validation-for="@Model.Price" class="text-danger"></span>
 
+        <!-- Milleage -->
+        <label asp-for="@Model.Milleage" class="form-label-add-edit">Milleage</label>
+        <div class="input-group">
+            <input asp-for="Milleage" class="form-control" aria-required="true" type="number" step="1" min="0" />
+        </div>
+        <span asp-validation-for="@Model.Milleage" class="text-danger"></span>
+
         <!-- Fuel Type Dropdown -->
         <div class="form-group">
             <label asp-for="@Model.FuelId">Fuel Type</label>

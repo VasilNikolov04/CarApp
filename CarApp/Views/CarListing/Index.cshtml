@@ -1,19 +1,28 @@
 ﻿@model IEnumerable<CarInfoViewModel>
 
+<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <a asp-controller="CarListing" asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i>Add Car Listing</a>
+    }
+</div>
+<hr />
 
-@foreach(var carListing in Model)
-{
-    <div class="card border-3 border-dark" style="width: 18rem;">
-        <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
-        <div class="card-body">
-            <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
+<div class="row text-center">
+    @foreach(var carListing in Model)
+    {
+        <div class="card border-3 border-dark" style="width: 18rem;">
+            <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
+            <div class="card-body">
+                <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@carListing.FuelType</li>
+                <li class="list-group-item">@carListing.GearType</li>
+                <li class="list-group-item">@carListing.whp whp</li>
+                <li class="list-group-item">€@carListing.Price</li>
+            </ul>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">@carListing.FuelType</li>
-            <li class="list-group-item">@carListing.GearType</li>
-            <li class="list-group-item">@carListing.whp whp</li>
-            <li class="list-group-item">€@carListing.Price</li>
-        </ul>
-    </div>
 
-}
+    }
+</div>

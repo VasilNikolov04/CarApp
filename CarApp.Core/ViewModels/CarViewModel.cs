@@ -57,6 +57,9 @@ namespace CarApp.Core.ViewModels
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int Year { get; set; }
 
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        public int Milleage { get; set; }
+
         /// <summary>
         /// Car Fuel
         /// </summary>

@@ -84,6 +84,7 @@ namespace CarApp.Controllers
             {
                 ModelId = model.ModelId,
                 Year = model.Year,
+                Mileage = model.Milleage,
                 Whp = model.Whp,
                 CarBodyId = model.CarBodyId,
                 FuelId = model.FuelId,
