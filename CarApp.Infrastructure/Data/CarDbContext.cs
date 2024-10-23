@@ -4,30 +4,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 using System.Reflection;
+using CarApp.Infrastructure.Data.Configurations;
+using Newtonsoft.Json;
+using static CarApp.Infrastructure.Data.Configurations.BrandConfiguration;
 
 namespace CarApp.Infrastructure.Data
 {
     public class CarDbContext : IdentityDbContext<ApplicationUser>
     {
-        public CarDbContext(DbContextOptions<CarDbContext> options)
-        : base(options)
-        {
-
-        }
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
-
-            builder.Entity<CarListing>()
-                .Property(p => p.Price)
-                .HasConversion<decimal>();
-        }
-
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarListing> CarListings { get; set; }
         public DbSet<CarBrand> CarBrands { get; set; }
@@ -40,5 +24,57 @@ namespace CarApp.Infrastructure.Data
 
         public DbSet<CarLocation> CarLocations { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
+
+        public CarDbContext(DbContextOptions<CarDbContext> options)
+        : base(options)
+        {
+
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            builder.Entity<CarListing>()
+                .Property(p => p.Price)
+                .HasConversion<decimal>();
+        }
+
+        public void SeedModelsFromJson()
+        {
+            string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                @"..\..\..\..\CarApp.Infrastructure\Data\SeedData\BrandModelSeed.json");
+            var carBrandModelsJson = File.ReadAllText(jsonFilePath);
+            var carBrandModels = JsonConvert.DeserializeObject<List<CarBrandModelData>>(carBrandModelsJson);
+
+            var brands = CarBrands.ToList();
+
+            var modelsToSeed = new List<CarModel>();
+
+            foreach (var carBrandModel in carBrandModels)
+            {
+                var brand = brands.FirstOrDefault(b => b.BrandName.Equals(carBrandModel.Brand, StringComparison.OrdinalIgnoreCase));
+                if (brand != null)
+                {
+                    foreach (var modelName in carBrandModel.Models)
+                    {
+                        modelsToSeed.Add(new CarModel
+                        {
+                            ModelName = modelName,
+                            BrandId = brand.Id
+                        });
+                    }
+                }
+            }
+            CarModels.AddRange(modelsToSeed);
+            SaveChanges();
+        }
+    }
+
+    public class CarBrandModelData
+    {
+        public string Brand { get; set; }
+        public List<string> Models { get; set; }
     }
 }

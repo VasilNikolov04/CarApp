@@ -1,0 +1,458 @@
+[
+  {
+    "make_id": "254",
+    "make": "Abarth"
+  },
+  {
+    "make_id": "1",
+    "make": "AC"
+  },
+  {
+    "make_id": "2",
+    "make": "Acura"
+  },
+  {
+    "make_id": "3",
+    "make": "Alfa Romeo"
+  },
+  {
+    "make_id": "4",
+    "make": "Alpina"
+  },
+  {
+    "make_id": "5",
+    "make": "Alpine"
+  },
+  {
+    "make_id": "6",
+    "make": "Aro"
+  },
+  {
+    "make_id": "7",
+    "make": "Asia"
+  },
+  {
+    "make_id": "8",
+    "make": "Aston Martin"
+  },
+  {
+    "make_id": "9",
+    "make": "Audi"
+  },
+  {
+    "make_id": "10",
+    "make": "Austin"
+  },
+  {
+    "make_id": "13",
+    "make": "Bentley"
+  },
+  {
+    "make_id": "16",
+    "make": "BMW"
+  },
+  {
+    "make_id": "207",
+    "make": "Brabus"
+  },
+  {
+    "make_id": "18",
+    "make": "Bugatti"
+  },
+  {
+    "make_id": "19",
+    "make": "Buick"
+  },
+  {
+    "make_id": "20",
+    "make": "BYD"
+  },
+  {
+    "make_id": "21",
+    "make": "Cadillac"
+  },
+  {
+    "make_id": "25",
+    "make": "Chery"
+  },
+  {
+    "make_id": "26",
+    "make": "Chevrolet"
+  },
+  {
+    "make_id": "27",
+    "make": "Chrysler"
+  },
+  {
+    "make_id": "28",
+    "make": "Citroen"
+  },
+  {
+    "make_id": "283",
+    "make": "Cupra"
+  },
+  {
+    "make_id": "31",
+    "make": "Dacia"
+  },
+  {
+    "make_id": "33",
+    "make": "Daewoo"
+  },
+  {
+    "make_id": "35",
+    "make": "Daihatsu"
+  },
+  {
+    "make_id": "37",
+    "make": "Datsun"
+  },
+  {
+    "make_id": "38",
+    "make": "DeLorean"
+  },
+  {
+    "make_id": "264",
+    "make": "DKW"
+  },
+  {
+    "make_id": "41",
+    "make": "Dodge"
+  },
+  {
+    "make_id": "169",
+    "make": "DongFeng"
+  },
+  {
+    "make_id": "46",
+    "make": "Ferrari"
+  },
+  {
+    "make_id": "47",
+    "make": "Fiat"
+  },
+  {
+    "make_id": "48",
+    "make": "Ford"
+  },
+  {
+    "make_id": "155",
+    "make": "GAZ"
+  },
+  {
+    "make_id": "232",
+    "make": "Genesis"
+  },
+  {
+    "make_id": "52",
+    "make": "GMC"
+  },
+  {
+    "make_id": "180",
+    "make": "Gonow"
+  },
+  {
+    "make_id": "53",
+    "make": "Great Wall"
+  },
+  {
+    "make_id": "212",
+    "make": "Haval"
+  },
+  {
+    "make_id": "56",
+    "make": "Honda"
+  },
+  {
+    "make_id": "292",
+    "make": "Hongqi"
+  },
+  {
+    "make_id": "229",
+    "make": "Hudson"
+  },
+  {
+    "make_id": "57",
+    "make": "Hummer"
+  },
+  {
+    "make_id": "58",
+    "make": "Hyundai"
+  },
+  {
+    "make_id": "60",
+    "make": "Infiniti"
+  },
+  {
+    "make_id": "64",
+    "make": "Isuzu"
+  },
+  {
+    "make_id": "65",
+    "make": "IVECO"
+  },
+  {
+    "make_id": "66",
+    "make": "JAC"
+  },
+  {
+    "make_id": "67",
+    "make": "Jaguar"
+  },
+  {
+    "make_id": "68",
+    "make": "Jeep"
+  },
+  {
+    "make_id": "182",
+    "make": "JMC"
+  },
+  {
+    "make_id": "70",
+    "make": "Kia"
+  },
+  {
+    "make_id": "71",
+    "make": "Koenigsegg"
+  },
+  {
+    "make_id": "72",
+    "make": "Lamborghini"
+  },
+  {
+    "make_id": "73",
+    "make": "Lancia"
+  },
+  {
+    "make_id": "74",
+    "make": "Land Rover"
+  },
+  {
+    "make_id": "75",
+    "make": "Landwind"
+  },
+  {
+    "make_id": "76",
+    "make": "Lexus"
+  },
+  {
+    "make_id": "77",
+    "make": "Lincoln"
+  },
+  {
+    "make_id": "78",
+    "make": "Lotus"
+  },
+  {
+    "make_id": "316",
+    "make": "Lynk & Co"
+  },
+  {
+    "make_id": "80",
+    "make": "Mahindra"
+  },
+  {
+    "make_id": "83",
+    "make": "Maserati"
+  },
+  {
+    "make_id": "84",
+    "make": "Maybach"
+  },
+  {
+    "make_id": "85",
+    "make": "Mazda"
+  },
+  {
+    "make_id": "86",
+    "make": "McLaren"
+  },
+  {
+    "make_id": "88",
+    "make": "Mercedes-Benz"
+  },
+  {
+    "make_id": "91",
+    "make": "MG"
+  },
+  {
+    "make_id": "92",
+    "make": "Microcar"
+  },
+  {
+    "make_id": "94",
+    "make": "MINI"
+  },
+  {
+    "make_id": "95",
+    "make": "Mitsubishi"
+  },
+  {
+    "make_id": "97",
+    "make": "Morgan"
+  },
+  {
+    "make_id": "160",
+    "make": "Moskvich"
+  },
+  {
+    "make_id": "99",
+    "make": "Nissan"
+  },
+  {
+    "make_id": "101",
+    "make": "Oldsmobile"
+  },
+  {
+    "make_id": "102",
+    "make": "Opel"
+  },
+  {
+    "make_id": "104",
+    "make": "Pagani"
+  },
+  {
+    "make_id": "106",
+    "make": "Perodua"
+  },
+  {
+    "make_id": "107",
+    "make": "Peugeot"
+  },
+  {
+    "make_id": "108",
+    "make": "Plymouth"
+  },
+  {
+    "make_id": "279",
+    "make": "Polestar"
+  },
+  {
+    "make_id": "109",
+    "make": "Pontiac"
+  },
+  {
+    "make_id": "110",
+    "make": "Porsche"
+  },
+  {
+    "make_id": "275",
+    "make": "RAM"
+  },
+  {
+    "make_id": "117",
+    "make": "Renault"
+  },
+  {
+    "make_id": "123",
+    "make": "Renault Samsung"
+  },
+  {
+    "make_id": "218",
+    "make": "Rimac"
+  },
+  {
+    "make_id": "118",
+    "make": "Rolls-Royce"
+  },
+  {
+    "make_id": "120",
+    "make": "Rover"
+  },
+  {
+    "make_id": "121",
+    "make": "Saab"
+  },
+  {
+    "make_id": "192",
+    "make": "Santana"
+  },
+  {
+    "make_id": "125",
+    "make": "Scion"
+  },
+  {
+    "make_id": "126",
+    "make": "Seat"
+  },
+  {
+    "make_id": "317",
+    "make": "Seres"
+  },
+  {
+    "make_id": "172",
+    "make": "ShuangHuan"
+  },
+  {
+    "make_id": "127",
+    "make": "Skoda"
+  },
+  {
+    "make_id": "128",
+    "make": "Smart"
+  },
+  {
+    "make_id": "131",
+    "make": "SsangYong"
+  },
+  {
+    "make_id": "132",
+    "make": "Subaru"
+  },
+  {
+    "make_id": "133",
+    "make": "Suzuki"
+  },
+  {
+    "make_id": "134",
+    "make": "Talbot"
+  },
+  {
+    "make_id": "187",
+    "make": "Tesla"
+  },
+  {
+    "make_id": "139",
+    "make": "Tofas"
+  },
+  {
+    "make_id": "140",
+    "make": "Toyota"
+  },
+  {
+    "make_id": "141",
+    "make": "Trabant"
+  },
+  {
+    "make_id": "161",
+    "make": "UAZ"
+  },
+  {
+    "make_id": "144",
+    "make": "Vauxhall"
+  },
+  {
+    "make_id": "154",
+    "make": "VAZ (Lada)"
+  },
+  {
+    "make_id": "147",
+    "make": "Volkswagen"
+  },
+  {
+    "make_id": "148",
+    "make": "Volvo"
+  },
+  {
+    "make_id": "298",
+    "make": "Voyah"
+  },
+  {
+    "make_id": "149",
+    "make": "Wartburg"
+  },
+  {
+    "make_id": "153",
+    "make": "Zastava"
+  }
+]
