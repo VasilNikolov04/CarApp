@@ -4,7 +4,7 @@
     <h2 class="mb-4">Add a New Car Listing</h2>
 
     <!-- Start the form -->
-    <form asp-action="Create" method="post" enctype="multipart/form-data">
+    <form asp-action="Add" method="post" enctype="multipart/form-data">
 
         <!-- Car Brand Dropdown -->
         <div class="form-group">
@@ -74,6 +74,15 @@
             <span asp-validation-for="@Model.GearId" class="text-danger"></span>
         </div>
 
+        <!-- Drivetrain Dropdown -->
+        <div class="form-group">
+            <label asp-for="@Model.CarBodyId">Drivetrain</label>
+            <select asp-for="@Model.CarBodyId" class="form-control" asp-items="@(new SelectList(Model.CarBodyTypes, "Id", "Name"))" required>
+                <option value="">Select Body Type</option>
+            </select>
+            <span asp-validation-for="@Model.CarBodyId" class="text-danger"></span>
+        </div>
+
         <!-- Additional Images Upload -->
         <div class="form-group">
             <label asp-for="@Model.CarImages">Additional Images</label>
@@ -82,7 +91,9 @@
         <span asp-validation-for="@Model.CarImages" class="text-danger"></span>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary mt-3">Create Listing</button>
+        <div class="mb-2">
+            <input class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Save" />
+        </div>
     </form>
 </div>
 
@@ -96,11 +107,11 @@
         @foreach (var carModel in Model.Models)
         {
             <text>
-                modelsData.push({
+               modelsData.push({
                     BrandId: @carModel.BrandId,
                     ModelId: @carModel.Id,
                     ModelName: "@carModel.ModelName"
-                });
+               });
             </text>
         }
 

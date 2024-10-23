@@ -1,3 +1,6 @@
+using CarApp.Infrastructure.Data;
+using CarApp.Infrastructure.Data.SeedDb;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
@@ -7,7 +10,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
 
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -34,5 +39,14 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<CarDbContext>();
+    if (context.CarModels == null)
+    {
+        context.SeedModelsFromJson();
+    }
+}
 
 await app.RunAsync();
