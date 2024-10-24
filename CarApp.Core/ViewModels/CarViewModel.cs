@@ -1,12 +1,6 @@
 ﻿using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static CarApp.Infrastructure.Constants.DataConstants.Car;
 using static CarApp.Infrastructure.Constants.DataErrorMessages.Car;
 
 namespace CarApp.Core.ViewModels
@@ -43,13 +37,17 @@ namespace CarApp.Core.ViewModels
         /// </summary>
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public ICollection<IFormFile> CarImages { get; set; } = null!;
-
+        public ICollection<IFormFile> CarImages { get; set; } = new List<IFormFile>();
         /// <summary>
         /// Car Price
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int Price { get; set; }
+
+        /// <summary>
+        /// Car Description
+        /// </summary>
+        public string? Description { get; set; }= string.Empty;
 
         /// <summary>
         /// Car Year
@@ -85,7 +83,6 @@ namespace CarApp.Core.ViewModels
         /// Car Drivetrain
         /// </summary>
 
-        [Required(ErrorMessage = RequiredErrorMessage)]
         public int DrivetrainId { get; set; }
         public ICollection<CarDrivetrain> Drivetrains { get; set; } = new List<CarDrivetrain>();
 

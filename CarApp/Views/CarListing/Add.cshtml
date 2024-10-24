@@ -6,109 +6,143 @@
     <!-- Start the form -->
     <form asp-action="Add" method="post" enctype="multipart/form-data">
 
-        <!-- Car Brand Dropdown -->
-        <div class="form-group">
-            <label asp-for="BrandId">Car Brand</label>
-            <select id="carBrand" asp-for="BrandId" class="form-control"
-                    asp-items="@(new SelectList(Model.Brands, "Id", "BrandName"))" onchange="updateModels()" required>
-                <option value="">Select a Brand</option>
-            </select>
-            <span asp-validation-for="BrandId" class="text-danger"></span>
-        </div>
-        <!--Car Model Dropdown-->
+        <div class="row">
+            <!-- Car Brand and Model Dropdowns Side by Side -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="BrandId">Car Brand</label>
+                    <select id="carBrand" asp-for="BrandId" class="form-control"
+                            asp-items="@(new SelectList(Model.Brands, "Id", "BrandName"))" onchange="updateModels()" required>
+                        <option value="">Select a Brand</option>
+                    </select>
+                    <span asp-validation-for="BrandId" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="ModelId">Car Model</label>
-            <select id="carModel" asp-for="ModelId" class="form-control" required>
-                <option value="">Select a Model</option>
-            </select>
-            <span asp-validation-for="ModelId" class="text-danger"></span>
-        </div>
-
-        <!-- Year -->
-        <div class="form-group">
-            <label asp-for="@Model.Year">Year</label>
-            <input asp-for="@Model.Year" type="number" class="form-control" name="Year" placeholder="Enter Year" required>
-            <span asp-validation-for="@Model.Year" class="text-danger"></span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ModelId">Car Model</label>
+                    <select id="carModel" asp-for="ModelId" class="form-control" required>
+                        <option value="">Select a Model</option>
+                    </select>
+                    <span asp-validation-for="ModelId" class="text-danger"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Horsepower -->
-        <div class="form-group">
-            <label asp-for="@Model.Whp">Horsepower</label>
-            <input asp-for="@Model.Whp" type="number" class="form-control" id="Whp" name="Whp" placeholder="Enter Horsepower" required>
-            <span asp-validation-for="@Model.Whp" class="text-danger"></span>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Price -->
-        <label asp-for="@Model.Price" class="form-label-add-edit">Price</label>
-        <div class="input-group">
-            <span class="input-group-text">€</span>
-            <input asp-for="Price" class="form-control" aria-required="true" type="number" step="1" min="0" />
-        </div>
-        <span asp-validation-for="@Model.Price" class="text-danger"></span>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Year">Year</label>
+                    <input asp-for="Year" type="number" class="form-control" min="1900" max="@DateTime.Now.Year" placeholder="Enter Year" required>
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+            </div>
 
-        <!-- Milleage -->
-        <label asp-for="@Model.Milleage" class="form-label-add-edit">Milleage</label>
-        <div class="input-group">
-            <input asp-for="Milleage" class="form-control" aria-required="true" type="number" step="1" min="0" />
-        </div>
-        <span asp-validation-for="@Model.Milleage" class="text-danger"></span>
-
-        <!-- Fuel Type Dropdown -->
-        <div class="form-group">
-            <label asp-for="@Model.FuelId">Fuel Type</label>
-            <select asp-for="@Model.FuelId" class="form-control" asp-items="@(new SelectList(Model.FuelTypes, "Id", "FuelName"))" required>
-                <option value="">Select Fuel Type</option>
-            </select>
-            <span asp-validation-for="@Model.FuelId" class="text-danger"></span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Whp">Horsepower</label>
+                    <input asp-for="Whp" type="number" class="form-control" min="0" placeholder="Enter Horsepower" required>
+                    <span asp-validation-for="Whp" class="text-danger"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Transmission Dropdown -->
-        <div class="form-group">
-            <label asp-for="@Model.GearId">Transmission</label>
-            <select asp-for="@Model.GearId" class="form-control" asp-items="@(new SelectList(Model.Gears, "Id", "GearName"))" required>
-                <option value="">Select Gear Type</option>
-            </select>
-            <span asp-validation-for="@Model.GearId" class="text-danger"></span>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input asp-for="Price" class="form-control" type="number" min="1" step="1" placeholder="Enter Price" required>
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Milleage">Mileage</label>
+                    <input asp-for="Milleage" type="number" class="form-control" min="0" placeholder="Enter Mileage" required>
+                    <span asp-validation-for="Milleage" class="text-danger"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Drivetrain Dropdown -->
-        <div class="form-group">
-            <label asp-for="@Model.DrivetrainId">Drivetrain</label>
-            <select asp-for="@Model.DrivetrainId" class="form-control" asp-items="@(new SelectList(Model.Drivetrains, "DrivetrainId", "DrivetrainName"))" required>
-                <option value="">Select Drivetrain Type</option>
-            </select>
-            <span asp-validation-for="@Model.GearId" class="text-danger"></span>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.FuelId">Fuel Type</label>
+                    <select asp-for="@Model.FuelId" class="form-control" asp-items="@(new SelectList(Model.FuelTypes, "Id", "FuelName"))" required>
+                        <option value="">Select Fuel Type</option>
+                    </select>
+                    <span asp-validation-for="@Model.FuelId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.GearId">Transmission</label>
+                    <select asp-for="@Model.GearId" class="form-control" asp-items="@(new SelectList(Model.Gears, "Id", "GearName"))" required>
+                        <option value="">Select Transmission</option>
+                    </select>
+                    <span asp-validation-for="@Model.GearId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.DrivetrainId">Drivetrain</label>
+                    <select asp-for="@Model.DrivetrainId" class="form-control" asp-items="@(new SelectList(Model.Drivetrains, "DrivetrainId", "DrivetrainName"))" required>
+                        <option value="">Select Drivetrain</option>
+                    </select>
+                    <span asp-validation-for="@Model.DrivetrainId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.CarBodyId">Car Body Type</label>
+                    <select asp-for="@Model.CarBodyId" class="form-control" asp-items="@(new SelectList(Model.CarBodyTypes, "Id", "Name"))" required>
+                        <option value="">Select Body Type</option>
+                    </select>
+                    <span asp-validation-for="@Model.CarBodyId" class="text-danger"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Drivetrain Dropdown -->
-        <div class="form-group">
-            <label asp-for="@Model.CarBodyId">Drivetrain</label>
-            <select asp-for="@Model.CarBodyId" class="form-control" asp-items="@(new SelectList(Model.CarBodyTypes, "Id", "Name"))" required>
-                <option value="">Select Body Type</option>
-            </select>
-            <span asp-validation-for="@Model.CarBodyId" class="text-danger"></span>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="@Model.CarImages">Insert Images</label>
+                    <input asp-for="@Model.CarImages" type="file" class="form-control-file" id="CarImages" name="CarImages" multiple required>
+                    <span asp-validation-for="@Model.CarImages" class="text-danger"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Additional Images Upload -->
-        <div class="form-group">
-            <label asp-for="@Model.CarImages">Additional Images</label>
-            <input asp-for="@Model.CarImages" type="file" class="form-control-file" id="CarImages" name="CarImages" multiple>
-        </div>
-        <span asp-validation-for="@Model.CarImages" class="text-danger"></span>
-
-        <!-- Submit Button -->
-        <div class="mb-2">
-            <input class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Save" />
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </div>
         </div>
     </form>
 </div>
 
 @section Scripts {
-    <script src="~/js/carSelection.js"></script> <!-- Include this only once -->
+    <script src="~/js/carSelection.js"></script>
     
     <script>
-        // Step 1: Populate modelsData array with data from the server-side Model
         const modelsData = [];
 
         @foreach (var carModel in Model.Models)
@@ -122,10 +156,8 @@
             </text>
         }
 
-        // Debugging: Log modelsData to see if it's correct
         console.log('Models Data:', modelsData);
 
-        // Step 2: Populate carModels object (done in the separate JS file)
         populateCarModels(modelsData);
     </script>
 }

@@ -33,6 +33,8 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit= false;
             })
             .AddEntityFrameworkStores<CarDbContext>();
 

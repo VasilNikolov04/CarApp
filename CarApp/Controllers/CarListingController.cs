@@ -26,8 +26,8 @@ namespace CarApp.Controllers
                     Model = cl.Car.Model.ModelName,
                     Price = cl.Price,
                     FuelType = cl.Car.Fuel.FuelName,
-                    GearType = cl.Car.Gear.GearName ?? string.Empty,
-                    ImageUrl = cl.MainImageUrl,
+                    GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
+                    ImageUrl = cl.MainImageUrl ?? string.Empty,
                     whp = cl.Car.Whp
                 })
                 .AsNoTracking()
@@ -99,6 +99,7 @@ namespace CarApp.Controllers
             {
                 CarId = newCar.Id,
                 Price = model.Price,
+                Description = model.Description ?? string.Empty,
                 SellerId = GetCurrentUserId() ?? string.Empty
             };
 

@@ -19,7 +19,10 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">@carListing.FuelType</li>
                 <li class="list-group-item">@carListing.GearType</li>
-                <li class="list-group-item">@carListing.whp whp</li>
+                @if(carListing.whp > 0)
+                {
+                    <li class="list-group-item">@carListing.whp whp</li>
+                }
                 <li class="list-group-item">€@carListing.Price</li>
             </ul>
         </div>

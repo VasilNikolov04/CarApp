@@ -141,7 +141,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarBodyType", b =>
@@ -159,7 +159,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarBodyTypes");
+                    b.ToTable("CarBodyTypes", (string)null);
 
                     b.HasData(
                         new
@@ -229,7 +229,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarBrands");
+                    b.ToTable("CarBrands", (string)null);
 
                     b.HasData(
                         new
@@ -444,7 +444,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("DrivetrainId");
 
-                    b.ToTable("CarDrivetrains");
+                    b.ToTable("CarDrivetrains", (string)null);
 
                     b.HasData(
                         new
@@ -484,7 +484,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarFuelTypes");
+                    b.ToTable("CarFuelTypes", (string)null);
 
                     b.HasData(
                         new
@@ -544,7 +544,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarGears");
+                    b.ToTable("CarGears", (string)null);
 
                     b.HasData(
                         new
@@ -584,7 +584,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("CarListingId");
 
-                    b.ToTable("CarImages");
+                    b.ToTable("CarImages", (string)null);
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarListing", b =>
@@ -624,7 +624,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("CarListings");
+                    b.ToTable("CarListings", (string)null);
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarLocation", b =>
@@ -651,7 +651,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarLocations");
+                    b.ToTable("CarLocations", (string)null);
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarModel", b =>
@@ -674,7 +674,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("CarModels");
+                    b.ToTable("CarModels", (string)null);
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.Favourite", b =>
@@ -689,7 +689,7 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.HasIndex("CarListingId");
 
-                    b.ToTable("Favourites");
+                    b.ToTable("Favourites", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -16,7 +16,7 @@ namespace CarApp.Infrastructure.Data.Models
         public Car Car { get; set; } = null!;
 
         [MaxLength(CarListingDescriptionMaxLength)]
-        public string? Description { get; set; }
+        public string? Description { get; set; } = string.Empty;
 
         [Required]
         public int Price { get; set; }
@@ -28,7 +28,7 @@ namespace CarApp.Infrastructure.Data.Models
 
         [MaxLength(ImageUrlMaxLength)]
         [Required]
-        public string MainImageUrl { get; set; }
+        public string? MainImageUrl { get; set; }
         public ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
 
         public ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();
@@ -38,6 +38,6 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public required string SellerId { get; set; }
         [ForeignKey(nameof(SellerId))]
-        public ApplicationUser Seller { get; set; }
+        public ApplicationUser Seller { get; set; } = null!;
     }
 }
