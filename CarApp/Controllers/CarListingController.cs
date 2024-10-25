@@ -26,7 +26,7 @@ namespace CarApp.Controllers
                     id = cl.Id,
                     Brand = cl.Car.Model.CarBrand.BrandName,
                     Model = cl.Car.Model.ModelName,
-                    Price = cl.Price,
+                    Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.Car.Fuel.FuelName,
                     GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                     ImageUrl = cl.MainImageUrl ?? string.Empty,
@@ -147,7 +147,7 @@ namespace CarApp.Controllers
                     {
                         Brand = cl.Car.Model.CarBrand.BrandName,
                         Model = cl.Car.Model.ModelName,
-                        Price = cl.Price.ToString(),
+                        Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                         FuelType = cl.Car.Fuel.FuelName,
                         GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                         BodyType = cl.Car.CarBodyType.Name,
