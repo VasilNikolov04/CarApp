@@ -12,6 +12,7 @@
     @foreach(var carListing in Model)
     {
         <div class="card border-3 border-dark" style="width: 18rem;">
+            <a asp-controller="CarListing" asp-action="Details" asp-route-id="@carListing.id" class="text-reset text-decoration-none">
             <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
             <div class="card-body">
                 <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
@@ -25,6 +26,7 @@
                 }
                 <li class="list-group-item">€@carListing.Price</li>
             </ul>
+            </a>
         </div>
 
     }

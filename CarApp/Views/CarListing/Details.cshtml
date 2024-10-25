@@ -1,0 +1,56 @@
+﻿@model CarDetailsViewModel
+@{
+}
+
+<div class="container mt-5">
+    <!-- Car Title -->
+    <h1 class="display-4">@Model.Brand <strong>@Model.Model</strong></h1>
+
+    <style>
+        /* Set a max height for carousel images */
+        .carousel-item img{
+            max-height: 600px; /* Adjust this value as needed */
+            object-fit: contain;
+            margin: 0 auto; /* Center images */
+        }
+
+        .carousel-item {
+            background-color:black;
+        }
+    </style>
+    <!-- Image Carousel -->
+    <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.Images.Count; i++)
+            {
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="~/images/@Model.Images.ElementAt(i).ImageUrl" class="d-block w-100" alt="Car Image @(i + 1)">
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carImageCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carImageCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Quick Info Section -->
+    <div class="mt-4">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Horsepower:</strong> @Model.Whp hp</li>
+            <li class="list-group-item"><strong>Gear Type:</strong> @Model.GearType</li>
+            <li class="list-group-item"><strong>Body Type:</strong> @Model.BodyType</li>
+            <li class="list-group-item"><strong>Fuel Type:</strong> @Model.FuelType</li>
+        </ul>
+    </div>
+
+    <!-- Description Section -->
+    <div class="mt-4">
+        <h3>Description</h3>
+        <p>@Model.Description</p>
+    </div>
+</div>

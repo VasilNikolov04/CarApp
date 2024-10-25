@@ -8,6 +8,7 @@ namespace CarApp.Core.ViewModels
 {
     public class CarInfoViewModel
     {
+        public int id { get; set; }
         public string Model { get; set; } = null!;
 
         public string Brand { get; set; } = null!;

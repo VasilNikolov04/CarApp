@@ -52,23 +52,26 @@ namespace CarApp.Infrastructure.Data
 
             var modelsToSeed = new List<CarModel>();
 
-            foreach (var carBrandModel in carBrandModels)
+            if (carBrandModels != null)
             {
-                var brand = brands.FirstOrDefault(b => b.BrandName.Equals(carBrandModel.Brand, StringComparison.OrdinalIgnoreCase));
-                if (brand != null)
+                foreach (var carBrandModel in carBrandModels)
                 {
-                    foreach (var modelName in carBrandModel.Models)
+                    var brand = brands.FirstOrDefault(b => b.BrandName.Equals(carBrandModel.Brand, StringComparison.OrdinalIgnoreCase));
+                    if (brand != null)
                     {
-                        modelsToSeed.Add(new CarModel
+                        foreach (var modelName in carBrandModel.Models)
                         {
-                            ModelName = modelName,
-                            BrandId = brand.Id
-                        });
+                            modelsToSeed.Add(new CarModel
+                            {
+                                ModelName = modelName,
+                                BrandId = brand.Id
+                            });
+                        }
                     }
                 }
+                CarModels.AddRange(modelsToSeed);
+                SaveChanges();
             }
-            CarModels.AddRange(modelsToSeed);
-            SaveChanges();
         }
     }
 

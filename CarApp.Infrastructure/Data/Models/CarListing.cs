@@ -16,7 +16,7 @@ namespace CarApp.Infrastructure.Data.Models
         public Car Car { get; set; } = null!;
 
         [MaxLength(CarListingDescriptionMaxLength)]
-        public string? Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         [Required]
         public int Price { get; set; }

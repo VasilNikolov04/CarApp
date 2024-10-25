@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using System.Security.Claims;
 
 namespace CarApp.Controllers
@@ -22,6 +23,7 @@ namespace CarApp.Controllers
             IEnumerable<CarInfoViewModel> model = await context.CarListings
                 .Select(cl => new CarInfoViewModel()
                 {
+                    id = cl.Id,
                     Brand = cl.Car.Model.CarBrand.BrandName,
                     Model = cl.Car.Model.ModelName,
                     Price = cl.Price,
@@ -127,6 +129,40 @@ namespace CarApp.Controllers
             }
             await context.CarListings.AddAsync(newCarListing);
             await context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            CarListing? carlisting = await context.CarListings.FindAsync(id);
+
+            if (carlisting != null && carlisting.IsDeleted == false)
+            {
+
+                var model = await context.CarListings
+                    .Where(car => car.Id == id)
+                    .Select(cl => new CarDetailsViewModel()
+                    {
+                        Brand = cl.Car.Model.CarBrand.BrandName,
+                        Model = cl.Car.Model.ModelName,
+                        Price = cl.Price.ToString(),
+                        FuelType = cl.Car.Fuel.FuelName,
+                        GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
+                        BodyType = cl.Car.CarBodyType.Name,
+                        Images = cl.CarImages,
+                        Whp = cl.Car.Whp,
+                        Description = cl.Description
+                    })
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+                
+                if(model != null)
+                {
+                    return View(model);
+                }
+            }
 
             return RedirectToAction(nameof(Index));
         }
