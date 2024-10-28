@@ -26,9 +26,6 @@ namespace CarApp.Core.ViewModels
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         public ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
-
-        [Required(ErrorMessage = RequiredErrorMessage)]
-        public ICollection<IFormFile>? NewCarImages { get; set; } = new List<IFormFile>();
         /// <summary>
         /// Car Price
         /// </summary>

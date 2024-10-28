@@ -7,22 +7,11 @@
     }
 </div>
 <hr />
-<style>
-    .card-img-top{
-        min-height: 200px;
-        object-fit: cover;
-    }
 
-    .card-img-top:hover {
-        min-height: 200px;
-        object-fit: contain;
-        background-color:black;
-    }
-</style>
 <div class="row text-center">
     @foreach(var carListing in Model)
     {
-        <div class="card border-3 border-dark m-3" style="width: 18rem;">
+        <div class="card border-3 border-dark" style="width: 18rem;">
             <a asp-controller="CarListing" asp-action="Details" asp-route-id="@carListing.id" class="text-reset text-decoration-none">
             <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
             <div class="card-body">
@@ -35,12 +24,10 @@
                 {
                     <li class="list-group-item">@carListing.whp whp</li>
                 }
-                <li class="list-group-item">@carListing.Price</li>
+                <li class="list-group-item">€@carListing.Price</li>
             </ul>
             </a>
         </div>
-        @* 
-        </div> *@
 
     }
 </div>
