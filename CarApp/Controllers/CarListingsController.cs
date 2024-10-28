@@ -9,10 +9,10 @@ using System.Security.Claims;
 
 namespace CarApp.Controllers
 {
-    public class CarListingController : Controller
+    public class CarListingsController : Controller
     {
         private readonly CarDbContext context;
-        public CarListingController(CarDbContext _context)
+        public CarListingsController(CarDbContext _context)
         {
             context = _context;
         }
@@ -30,7 +30,8 @@ namespace CarApp.Controllers
                     FuelType = cl.Car.Fuel.FuelName,
                     GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                     ImageUrl = cl.MainImageUrl ?? string.Empty,
-                    whp = cl.Car.Whp
+                    whp = cl.Car.Whp,
+                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' MMMM yyyy")
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -101,6 +102,7 @@ namespace CarApp.Controllers
             {
                 CarId = newCar.Id,
                 Price = model.Price,
+                DatePosted = DateTime.Now,
                 Description = model.Description ?? string.Empty,
                 SellerId = GetCurrentUserId() ?? string.Empty
             };
@@ -153,7 +155,8 @@ namespace CarApp.Controllers
                         BodyType = cl.Car.CarBodyType.Name,
                         Images = cl.CarImages,
                         Whp = cl.Car.Whp,
-                        Description = cl.Description
+                        Description = cl.Description,
+                        DatePosted = cl.DatePosted.ToString("hh:mm 'on' MMMM yyyy")
                     })
                     .AsNoTracking()
                     .FirstOrDefaultAsync();

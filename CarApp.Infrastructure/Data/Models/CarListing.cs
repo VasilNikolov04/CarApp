@@ -21,6 +21,9 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public int Price { get; set; }
 
+        [Required]
+        public DateTime DatePosted { get; set; } = DateTime.Now;
+
         //[Required]
         //public int LocationId { get; set; }
         //[ForeignKey(nameof(LocationId))]

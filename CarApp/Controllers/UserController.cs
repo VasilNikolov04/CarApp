@@ -122,7 +122,7 @@ namespace CarApp.Controllers
             }
             await context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Details),nameof(CarListing), new {id = carListing.Id});
+            return RedirectToAction(nameof(Details),"CarListings", new {id = carListing.Id});
         }
         public string? GetCurrentUserId()
         {

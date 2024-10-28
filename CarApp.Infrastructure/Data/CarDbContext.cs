@@ -77,7 +77,7 @@ namespace CarApp.Infrastructure.Data
 
     public class CarBrandModelData
     {
-        public string Brand { get; set; }
-        public List<string> Models { get; set; }
+        public string? Brand { get; set; }
+        public List<string>? Models { get; set; }
     }
 }

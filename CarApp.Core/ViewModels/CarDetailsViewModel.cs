@@ -27,6 +27,8 @@ namespace CarApp.Core.ViewModels
 
         public string? GearType { get; set; }
 
+        public string DatePosted { get; set; } = null!;
+
         public ICollection<CarImage> Images { get; set; } = new List<CarImage>();
     }
 }

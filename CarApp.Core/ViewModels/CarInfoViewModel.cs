@@ -19,6 +19,8 @@ namespace CarApp.Core.ViewModels
 
         public string FuelType { get; set; } = null!;
 
+        public string DatePosted { get; set; } = null!;
+
         public string? GearType { get; set; }
 
         public string ImageUrl { get; set; } = null!;
