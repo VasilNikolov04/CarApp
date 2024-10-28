@@ -1,5 +1,4 @@
 using CarApp.Infrastructure.Data;
-using CarApp.Infrastructure.Data.SeedDb;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -4,7 +4,6 @@ using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using System.Security.Claims;
 
 namespace CarApp.Controllers
