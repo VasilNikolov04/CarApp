@@ -30,7 +30,7 @@ namespace CarApp.Controllers
                     id = cl.Id,
                     Brand = cl.Car.Model.CarBrand.BrandName,
                     Model = cl.Car.Model.ModelName,
-                    Price = cl.Price,
+                    Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.Car.Fuel.FuelName,
                     GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                     ImageUrl = cl.MainImageUrl ?? string.Empty,
@@ -103,23 +103,23 @@ namespace CarApp.Controllers
             carListing.CarImages = model.CarImages;
             carListing.Price = model.Price;
 
-            //if (model.CarImages != null && model.CarImages.Count > 0)
-            //{
-            //    foreach (var image in model.CarImages)
-            //    {
-            //        if (image.Length > 0)
-            //        {
-            //            var fileName = Path.GetFileName(image.FileName);
-            //            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+            if (model.NewCarImages != null && model.NewCarImages.Count > 0)
+            {
+                foreach (var image in model.NewCarImages)
+                {
+                    if (image != null)
+                    {
+                        var fileName = Path.GetFileName(image.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
-            //            using (var stream = new FileStream(filePath, FileMode.Create))
-            //            {
-            //                await image.CopyToAsync(stream);
-            //            }
-            //            newCarListing.CarImages.Add(new CarImage { ImageUrl = fileName });
-            //        }
-            //    }
-            //}
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await image.CopyToAsync(stream);
+                        }
+                        carListing.CarImages.Add(new CarImage { ImageUrl = fileName });
+                    }
+                }
+            }
             await context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details),nameof(CarListing), new {id = carListing.Id});

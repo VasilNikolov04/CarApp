@@ -13,7 +13,7 @@ namespace CarApp.Core.ViewModels
 
         public string Brand { get; set; } = null!;
 
-        public int Price { get; set; }
+        public string Price { get; set; } = null!;
 
         public int whp { get; set; }
 
