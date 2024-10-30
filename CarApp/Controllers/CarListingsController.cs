@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace CarApp.Controllers
@@ -20,6 +21,7 @@ namespace CarApp.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<CarInfoViewModel> model = await context.CarListings
+                .Where(cl => cl.IsDeleted == false)
                 .Select(cl => new CarInfoViewModel()
                 {
                     id = cl.Id,
@@ -30,7 +32,8 @@ namespace CarApp.Controllers
                     GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                     ImageUrl = cl.MainImageUrl ?? string.Empty,
                     whp = cl.Car.Whp,
-                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' MMMM yyyy")
+                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
+                    SellerId = (cl.SellerId == GetCurrentUserId())
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -143,19 +146,19 @@ namespace CarApp.Controllers
             {
 
                 var model = await context.CarListings
-                    .Where(car => car.Id == id)
+                    .Where(car => car.Id == id && car.IsDeleted == false)
                     .Select(cl => new CarDetailsViewModel()
                     {
                         Brand = cl.Car.Model.CarBrand.BrandName,
                         Model = cl.Car.Model.ModelName,
-                        Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
+                        Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
                         FuelType = cl.Car.Fuel.FuelName,
                         GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                         BodyType = cl.Car.CarBodyType.Name,
                         Images = cl.CarImages,
                         Whp = cl.Car.Whp,
                         Description = cl.Description,
-                        DatePosted = cl.DatePosted.ToString("hh:mm 'on' MMMM yyyy")
+                        DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture)
                     })
                     .AsNoTracking()
                     .FirstOrDefaultAsync();

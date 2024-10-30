@@ -21,6 +21,8 @@ namespace CarApp.Core.ViewModels
 
         public string DatePosted { get; set; } = null!;
 
+        public bool SellerId { get; set; }
+
         public string? GearType { get; set; }
 
         public string ImageUrl { get; set; } = null!;

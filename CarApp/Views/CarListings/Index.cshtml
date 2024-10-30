@@ -37,6 +37,11 @@
                 <li class="list-group-item">@carListing.Price</li>
                 <span class="list-group-item">@carListing.DatePosted</span>
             </ul>
+            @if(carListing.SellerId == true)
+                {
+                    <a class="btn btn-primary m-2" asp-controller="User" asp-action="EditListing" 
+                    asp-route-id="@carListing.id">Edit Listing</a>
+                }
             </a>
         </div>
 

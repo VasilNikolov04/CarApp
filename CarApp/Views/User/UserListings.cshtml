@@ -11,7 +11,7 @@
 <div class="row text-center">
     @foreach (var carListing in Model)
     {
-        <div class="card border-3 border-dark" style="width: 18rem;">
+        <div class="card border-3 border-dark m-3 justify-content-center" style="width: 18rem;">
             <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
             <div class="card-body">
                 <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
@@ -25,10 +25,11 @@
                 }
                 <li class="list-group-item">€@carListing.Price</li>
             </ul>
-            <a asp-controller="CarLising" asp-action="Preview" class="btn btn-primary m-1 w-100">
-                <i class="fas fa-plus"></i>Preview</a>
             <a asp-controller="User" asp-action="EditListing" asp-route-id="@carListing.id" class="btn btn-primary m-1 w-100">
-                <i class="fas fa-plus"></i>Edit</a>
+                <i class="fas fa-plus"></i>Edit
+            </a>
+            <a asp-controller="User" asp-action="Delete" asp-route-id="@carListing.id" class="btn btn-danger m-1 w-100"
+               onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
         </div>
 
 

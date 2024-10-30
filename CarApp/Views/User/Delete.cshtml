@@ -1,0 +1,21 @@
+﻿@model CarListingDeleteViewModel
+@{
+}
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-center">@Model.Brand @Model.Model</h3>
+            </div>
+            <div class="card-footer">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    <a asp-controller="User" asp-action="UserListings" class="btn btn-warning">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

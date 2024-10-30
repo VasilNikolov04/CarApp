@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Security.Claims;
 
 namespace CarApp.Controllers
@@ -24,7 +25,7 @@ namespace CarApp.Controllers
             var userId = GetCurrentUserId();
 
             var model = await context.CarListings
-                .Where(cl => cl.SellerId == userId)
+                .Where(cl => cl.SellerId == userId && cl.IsDeleted == false)
                 .Select(cl => new CarInfoViewModel()
                 {
                     id = cl.Id,
@@ -123,6 +124,45 @@ namespace CarApp.Controllers
             await context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details),"CarListings", new {id = carListing.Id});
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            CarListing? carListing = await context.CarListings.FindAsync(id);
+            if (carListing != null && carListing.IsDeleted == false && carListing.SellerId == GetCurrentUserId())
+            {
+                var model = await context.CarListings
+                    .Where(cl => cl.Id == id && cl.IsDeleted == false)
+                    .Select(cl => new CarListingDeleteViewModel
+                    {
+                        Id = cl.Id,
+                        Brand = cl.Car.Model.CarBrand.BrandName,
+                        Model = cl.Car.Model.ModelName
+                    })
+                    .FirstOrDefaultAsync();
+
+                return View(model);
+            }
+            return RedirectToAction("Index", "CarListings");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Delete(CarListingDeleteViewModel modelToDelete)
+        {
+            CarListing? carListing = await context.CarListings
+                .Where(cl => cl.Id == modelToDelete.Id && cl.IsDeleted == false)
+                .FirstOrDefaultAsync();
+
+            if (carListing != null)
+            {
+                carListing.IsDeleted = true;
+                await context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "CarListings");
         }
         public string? GetCurrentUserId()
         {
