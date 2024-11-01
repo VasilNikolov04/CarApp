@@ -1,5 +1,6 @@
 ﻿@model CarViewModel
 
+<meta charset="UTF-8">
 <div class="container mt-5">
     <h2 class="mb-4">Add a New Car Listing</h2>
 
@@ -151,7 +152,7 @@
                modelsData.push({
                     BrandId: @carModel.BrandId,
                     ModelId: @carModel.Id,
-                    ModelName: "@carModel.ModelName"
+                    ModelName: "@Html.Raw(@carModel.ModelName)"
                });
             </text>
         }

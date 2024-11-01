@@ -7,6 +7,7 @@ using System.Reflection;
 using CarApp.Infrastructure.Data.Configurations;
 using Newtonsoft.Json;
 using static CarApp.Infrastructure.Data.Configurations.BrandConfiguration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarApp.Infrastructure.Data
 {
@@ -21,7 +22,6 @@ namespace CarApp.Infrastructure.Data
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<CarGear> CarGears { get; set; }
         public DbSet<CarDrivetrain> CarDrivetrains { get; set; }
-
         public DbSet<CarLocation> CarLocations { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
 
@@ -43,36 +43,40 @@ namespace CarApp.Infrastructure.Data
 
         public void SeedModelsFromJson()
         {
-            string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                @"..\..\..\..\CarApp.Infrastructure\Data\SeedData\BrandModelSeed.json");
-            var carBrandModelsJson = File.ReadAllText(jsonFilePath);
-            var carBrandModels = JsonConvert.DeserializeObject<List<CarBrandModelData>>(carBrandModelsJson);
-
-            var brands = CarBrands.ToList();
-
-            var modelsToSeed = new List<CarModel>();
-
-            if (carBrandModels != null)
+            if (CarModels.IsNullOrEmpty())
             {
-                foreach (var carBrandModel in carBrandModels)
+                string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    @"..\..\..\..\CarApp.Infrastructure\Data\SeedData\BrandModelSeed.json");
+                string carBrandModelsJson = File.ReadAllText(jsonFilePath, System.Text.Encoding.UTF8);
+                var carBrandModels = JsonConvert.DeserializeObject<List<CarBrandModelData>>(carBrandModelsJson);
+
+                var brands = CarBrands.ToList();
+
+                var modelsToSeed = new List<CarModel>();
+
+                if (carBrandModels != null)
                 {
-                    var brand = brands.FirstOrDefault(b => b.BrandName.Equals(carBrandModel.Brand, StringComparison.OrdinalIgnoreCase));
-                    if (brand != null)
+                    foreach (var carBrandModel in carBrandModels)
                     {
-                        foreach (var modelName in carBrandModel.Models)
+                        var brand = brands.FirstOrDefault(b => b.BrandName.Equals(carBrandModel.Brand, StringComparison.OrdinalIgnoreCase));
+                        if (brand != null)
                         {
-                            modelsToSeed.Add(new CarModel
+                            foreach (var modelName in carBrandModel.Models)
                             {
-                                ModelName = modelName,
-                                BrandId = brand.Id
-                            });
+                                modelsToSeed.Add(new CarModel
+                                {
+                                    ModelName = modelName,
+                                    BrandId = brand.Id
+                                });
+                            }
                         }
                     }
+                    CarModels.AddRange(modelsToSeed);
+                    SaveChanges();
                 }
-                CarModels.AddRange(modelsToSeed);
-                SaveChanges();
             }
         }
+        
     }
 
     public class CarBrandModelData

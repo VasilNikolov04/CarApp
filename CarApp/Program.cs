@@ -42,10 +42,8 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<CarDbContext>();
-    if (context.CarModels == null)
-    {
-        context.SeedModelsFromJson();
-    }
+    context.SeedModelsFromJson();
+    
 }
 
 await app.RunAsync();
