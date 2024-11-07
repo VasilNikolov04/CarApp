@@ -21,6 +21,8 @@ namespace CarApp.Infrastructure.Data.Repositories.Interfaces
 
         Task<IEnumerable<TType>> GetAllAsync();
 
+        Task SaveChangesAsync();
+
         IQueryable<TType> GetAllAttached();
 
         void Add(TType item);

@@ -109,6 +109,11 @@ namespace CarApp.Infrastructure.Data.Repositories
             return entity;
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await context.SaveChangesAsync();
+        }
+
         public bool Update(TType item)
         {
             try

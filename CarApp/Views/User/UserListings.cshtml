@@ -3,15 +3,23 @@
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
     @if (User?.Identity?.IsAuthenticated == true)
     {
-        <a asp-controller="CarListing" asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i>Add Car Listing</a>
+        <a asp-controller="CarListings" asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i>Add Car Listing</a>
     }
 </div>
 <hr />
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
 
+</style>
 <div class="row text-center">
     @foreach (var carListing in Model)
     {
         <div class="card border-3 border-dark m-3 justify-content-center" style="width: 18rem;">
+            <a asp-controller="CarListings" asp-action="Details" asp-route-id="@carListing.id" class="text-reset text-decoration-none">
             <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
             <div class="card-body">
                 <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
@@ -25,6 +33,7 @@
                 }
                 <li class="list-group-item">€@carListing.Price</li>
             </ul>
+            </a>
             <a asp-controller="User" asp-action="EditListing" asp-route-id="@carListing.id" class="btn btn-primary m-1 w-100">
                 <i class="fas fa-plus"></i>Edit
             </a>
