@@ -1,4 +1,6 @@
-﻿@model IEnumerable<CarInfoViewModel>
+﻿@using CarApp.Extensions;
+@model IEnumerable<CarInfoViewModel>
+
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
     @if (User?.Identity?.IsAuthenticated == true)
@@ -14,9 +16,6 @@
         object-fit: cover;
     }
 
-    .card-img-top :hover{
-
-    }
 </style>
 <div class="row text-center">
     @foreach(var carListing in Model)
@@ -37,7 +36,7 @@
                 <li class="list-group-item">@carListing.Price</li>
                 <span class="list-group-item">@carListing.DatePosted</span>
             </ul>
-            @if(carListing.SellerId == true)
+            @if(carListing.SellerId == User?.GetUserId()?.ToString())
                 {
                     <a class="btn btn-primary m-2" asp-controller="User" asp-action="EditListing" 
                     asp-route-id="@carListing.id">Edit Listing</a>

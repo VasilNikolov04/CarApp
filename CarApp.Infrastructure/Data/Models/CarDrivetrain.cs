@@ -6,7 +6,7 @@ namespace CarApp.Infrastructure.Data.Models
     public class CarDrivetrain
     {
         [Key]
-        public int DrivetrainId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(DrivetrainNameMaxLength)]

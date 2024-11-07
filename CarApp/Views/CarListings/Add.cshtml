@@ -45,7 +45,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Year">Year</label>
-                    <input asp-for="Year" type="number" class="form-control" min="1900" max="@DateTime.Now.Year" placeholder="Enter Year" required>
+                    <input asp-for="Year" type="number" class="form-control" min="1930" max="@DateTime.Now.Year" placeholder="Enter Year" required>
                     <span asp-validation-for="Year" class="text-danger"></span>
                 </div>
             </div>
@@ -104,7 +104,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="@Model.DrivetrainId">Drivetrain</label>
-                    <select asp-for="@Model.DrivetrainId" class="form-control" asp-items="@(new SelectList(Model.Drivetrains, "DrivetrainId", "DrivetrainName"))" required>
+                    <select asp-for="@Model.DrivetrainId" class="form-control" asp-items="@(new SelectList(Model.Drivetrains, "Id", "DrivetrainName"))" required>
                         <option value="">Select Drivetrain</option>
                     </select>
                     <span asp-validation-for="@Model.DrivetrainId" class="text-danger"></span>

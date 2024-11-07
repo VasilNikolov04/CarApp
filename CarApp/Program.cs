@@ -1,4 +1,6 @@
+using CarApp.Core.Services.Contracts;
 using CarApp.Infrastructure.Data;
+using CarApp.Infrastructure.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,10 @@ builder.Services.AddApplicationIdentity(builder.Configuration);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
+
+builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
+
+builder.Services.RegisterUserDefinedServices(typeof(ICarListingService).Assembly);
 
 
 var app = builder.Build();

@@ -17,22 +17,22 @@ namespace CarApp.Infrastructure.Data.SeedDb
             {
                 new CarDrivetrain()
                 {
-                    DrivetrainId = 1,
+                    Id = 1,
                     DrivetrainName = "Rear-Wheel Drive (RWD)"
                 },
                 new CarDrivetrain()
                 {
-                    DrivetrainId = 2,
+                    Id = 2,
                     DrivetrainName = "Front-Wheel Drive (FWD)"
                 },
                 new CarDrivetrain()
                 {
-                    DrivetrainId = 3,
+                    Id = 3,
                     DrivetrainName = "All-Wheel Drive (AWD)"
                 },
                 new CarDrivetrain()
                 {
-                    DrivetrainId = 4,
+                    Id = 4,
                     DrivetrainName = "Four-Wheel Drive (4x4)"
                 }
 

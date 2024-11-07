@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace CarApp.Core.ViewModels
 {
@@ -21,7 +22,7 @@ namespace CarApp.Core.ViewModels
 
         public string DatePosted { get; set; } = null!;
 
-        public bool SellerId { get; set; }
+        public string SellerId { get; set; } = null!;
 
         public string? GearType { get; set; }
 
