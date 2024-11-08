@@ -48,6 +48,7 @@ namespace CarApp.Core.ViewModels
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int Milleage { get; set; }
 
+
         /// <summary>
         /// Is the car deleted
         /// </summary>

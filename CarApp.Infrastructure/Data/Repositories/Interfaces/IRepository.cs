@@ -25,6 +25,8 @@ namespace CarApp.Infrastructure.Data.Repositories.Interfaces
 
         IQueryable<TType> GetAllAttached();
 
+        IQueryable<TType> GetAllAsReadOnly();
+
         void Add(TType item);
 
         Task AddAsync(TType item);

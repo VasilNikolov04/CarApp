@@ -9,7 +9,7 @@
 
         <div class="row">
             <!-- Car Brand and Model Dropdowns Side by Side -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="BrandId">Car Brand</label>
                     <select id="carBrand" asp-for="BrandId" class="form-control"
@@ -20,13 +20,21 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="ModelId">Car Model</label>
                     <select id="carModel" asp-for="ModelId" class="form-control" required>
                         <option value="">Select a Model</option>
                     </select>
                     <span asp-validation-for="ModelId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Trim">Trim</label>
+                    <input asp-for="Trim" type="text" class="form-control" placeholder="e.g. Plus, GTI, etc.">
+                    <span asp-validation-for="Trim" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -42,7 +50,7 @@
         </div>
 
         <div class="row mt-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="Year">Year</label>
                     <input asp-for="Year" type="number" class="form-control" min="1930" max="@DateTime.Now.Year" placeholder="Enter Year" required>
@@ -50,11 +58,19 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="Whp">Horsepower</label>
                     <input asp-for="Whp" type="number" class="form-control" min="0" placeholder="Enter Horsepower" required>
                     <span asp-validation-for="Whp" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="EngineDisplacement">Engine Displacement</label>
+                    <input asp-for="EngineDisplacement" type="number" class="form-control" min="50" max="10000" placeholder="Enter Engine Displacement" required>
+                    <span asp-validation-for="EngineDisplacement" class="text-danger"></span>
                 </div>
             </div>
         </div>

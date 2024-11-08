@@ -19,6 +19,12 @@ namespace CarApp.Infrastructure.Data.Models
         [ForeignKey(nameof(CarBodyId))]
         public CarBodyType CarBodyType { get; set; } = null!;
 
+        public string? Trim { get; set; }
+
+        [Required]
+        [Range(50, 10000)]
+        public int EngineDisplacement { get; set; }
+
         [Required]
         public int Whp { get; set; }
 

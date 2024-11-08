@@ -14,7 +14,11 @@ namespace CarApp.Core.ViewModels
 
         public string Brand { get; set; } = null!;
 
+        public string? Trim { get; set; }
+
         public string? Description { get; set; }
+
+        public int EngineDisplacement { get; set; }
 
         public int Milleage { get; set; }
 

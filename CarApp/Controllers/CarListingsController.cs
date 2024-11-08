@@ -1,14 +1,10 @@
 ﻿using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels;
+using CarApp.Core.ViewModels.CarListing;
 using CarApp.Extensions;
 using CarApp.Infrastructure.Data;
-using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Security.Claims;
 
 namespace CarApp.Controllers
 {
@@ -23,11 +19,16 @@ namespace CarApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery]AllCarsQueryModel model)
         {
-            IEnumerable<CarInfoViewModel> model 
-                = await carListingService.GetAllCarListingsAsync();
+            var cars = await carListingService.GetAllCarListingsAsync(
+                model.Sorting,
+                model.CurrentPage,
+                model.CarsPerPage);
 
+
+            model.TotalCarsCount = cars.TotalListingsCount;
+            model.CarListings = cars.CarListings;
             return View(model);
         }
 
@@ -43,7 +44,7 @@ namespace CarApp.Controllers
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Add(CarViewModel model)
         {
             string userId = User.GetUserId()!;

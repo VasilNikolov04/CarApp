@@ -42,12 +42,10 @@ namespace CarApp.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -111,6 +109,9 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<int>("DrivetrainId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EngineDisplacement")
+                        .HasColumnType("int");
+
                     b.Property<int>("FuelId")
                         .HasColumnType("int");
 
@@ -122,6 +123,9 @@ namespace CarApp.Infrastructure.Migrations
 
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Trim")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Whp")
                         .HasColumnType("int");

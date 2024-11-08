@@ -52,8 +52,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> EditListing(CarListingEditViewModel model)
         {
             string userId = User.GetUserId()!;
@@ -87,7 +86,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize] 
         public async Task<IActionResult> Delete(CarListingDeleteViewModel modelToDelete)
         {
             string userId = User.GetUserId()!;

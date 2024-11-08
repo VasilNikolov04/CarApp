@@ -93,6 +93,11 @@ namespace CarApp.Infrastructure.Data.Repositories
             return dbset.AsQueryable();
         }
 
+        public IQueryable<TType> GetAllAsReadOnly()
+        {
+            return dbset.AsNoTracking();
+        }
+
         public TType? GetById(Tid id)
         {
             TType? entity = dbset

@@ -1,0 +1,29 @@
+﻿@model CarInfoViewModel
+@using CarApp.Extensions;
+@{
+}
+
+<div class="card border-3 border-dark m-3" style="width: 18rem;">
+    <a asp-controller="CarListings" asp-action="Details" asp-route-id="@Model.id" class="text-reset text-decoration-none">
+        <img class="card-img-top mt-2" src="~/images/@Model.ImageUrl" alt="Car Image">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Brand <strong>@Model.Model</strong> @Model.Trim</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Model.FuelType</li>
+            <li class="list-group-item">@Model.GearType</li>
+            <li class="list-group-item">@Model.Year</li>
+            @if (Model.whp > 0)
+            {
+                <li class="list-group-item">@Model.whp whp</li>
+            }
+            <li class="list-group-item">@Model.Price</li>
+            <span class="list-group-item">@Model.DatePosted</span>
+        </ul>
+        @if (Model.SellerId == User?.GetUserId()?.ToString())
+        {
+            <a class="btn btn-primary m-2" asp-controller="User" asp-action="EditListing"
+               asp-route-id="@Model.id">Edit Listing</a>
+        }
+    </a>
+</div>

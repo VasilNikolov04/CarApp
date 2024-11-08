@@ -1,10 +1,13 @@
-﻿using CarApp.Core.Services.Contracts;
+﻿using CarApp.Core.Enumerations;
+using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels;
+using CarApp.Core.ViewModels.CarListing;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System.Globalization;
 
 namespace CarApp.Core.Services
@@ -30,8 +33,10 @@ namespace CarApp.Core.Services
             {
                 ModelId = model.ModelId,
                 Year = model.Year,
+                Trim = model.Trim,
                 Mileage = model.Milleage,
                 Whp = model.Whp,
+                EngineDisplacement = model.EngineDisplacement,
                 CarBodyId = model.CarBodyId,
                 FuelId = model.FuelId,
                 DrivetrainId = model.DrivetrainId,
@@ -74,28 +79,53 @@ namespace CarApp.Core.Services
             await carListingRepository.AddAsync(newCarListing);
         }
 
-        public async Task<IEnumerable<CarInfoViewModel>> GetAllCarListingsAsync()
+        public async Task<CarListingQueryServiceModel> GetAllCarListingsAsync(
+            CarListingSorting sorting = CarListingSorting.BrandModelYear, 
+            int currentPage = 1, 
+            int listingsPerPage = 1)
         {
-            IEnumerable<CarInfoViewModel> model = await carListingRepository
-                .GetAllAttached()
-                .Where(cl => cl.IsDeleted == false)
-                .Select(cl => new CarInfoViewModel()
-                {
-                    id = cl.Id,
-                    Brand = cl.Car.Model.CarBrand.BrandName,
-                    Model = cl.Car.Model.ModelName,
-                    Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
-                    FuelType = cl.Car.Fuel.FuelName,
-                    GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
-                    ImageUrl = cl.MainImageUrl ?? string.Empty,
-                    whp = cl.Car.Whp,
-                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
-                    SellerId = cl.SellerId.ToString()
-                })
-                .AsNoTracking()
-                .ToListAsync();
+            var carListings = carListingRepository.GetAllAsReadOnly();
+                
 
-            return model;
+            carListings = sorting switch
+            {
+                CarListingSorting.PriceDescending => carListings.OrderByDescending(cl => cl.Price),
+                CarListingSorting.PriceAscending => carListings.OrderBy(cl => cl.Price),
+                CarListingSorting.CarYearDescending => carListings.OrderBy(cl => cl.Car.Year),
+                CarListingSorting.CarYearAscending => carListings.OrderByDescending(cl => cl.Car.Year),
+                CarListingSorting.DateAddedDescending => carListings.OrderByDescending(cl => cl.DatePosted),
+                CarListingSorting.DateAddedAscending => carListings.OrderBy(cl => cl.DatePosted),
+                _ => carListings.OrderBy(cl => cl.Car.Model.CarBrand.BrandName)
+                .ThenBy(cl => cl.Car.Model.ModelName).ThenBy(cl => cl.Car.Year)
+            };
+
+             var listings = await carListings
+            .Skip((currentPage - 1) * listingsPerPage)
+            .Take(listingsPerPage)
+            .Select(cl => new CarInfoViewModel()
+            {
+                id = cl.Id,
+                Brand = cl.Car.Model.CarBrand.BrandName,
+                Model = cl.Car.Model.ModelName,
+                Trim = cl.Car.Trim,
+                Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
+                FuelType = cl.Car.Fuel.FuelName,
+                Year = cl.Car.Year,
+                GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
+                ImageUrl = cl.MainImageUrl ?? string.Empty,
+                whp = cl.Car.Whp,
+                DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
+                SellerId = cl.SellerId.ToString()
+            })
+            .ToListAsync();
+
+            int totalListings = carListings.Count();
+
+            return new CarListingQueryServiceModel()
+            {        
+                CarListings = listings,
+                TotalListingsCount = totalListings
+            };
         }
 
         public async Task<CarDetailsViewModel?> CarListingDetails(int listingId)
@@ -107,12 +137,15 @@ namespace CarApp.Core.Services
                     {
                         Brand = cl.Car.Model.CarBrand.BrandName,
                         Model = cl.Car.Model.ModelName,
+                        Trim = cl.Car.Trim,
+                        EngineDisplacement = cl.Car.EngineDisplacement,
                         Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
                         FuelType = cl.Car.Fuel.FuelName,
                         GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                         BodyType = cl.Car.CarBodyType.Name,
                         Images = cl.CarImages,
                         Whp = cl.Car.Whp,
+                        Milleage = cl.Car.Mileage,
                         Description = cl.Description,
                         DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture)
                     })
@@ -144,11 +177,14 @@ namespace CarApp.Core.Services
         public async Task<List<CarModel>> GetModelsAsync()
         {
             return await context.CarModels
+                .OrderBy(b => b.ModelName)
                 .ToListAsync();
         }
         public async Task<List<CarBrand>> GetBrandsAsync()
         {
-            return await context.CarBrands.ToListAsync();
+            return await context.CarBrands
+                .OrderBy(b => b.BrandName)
+                .ToListAsync();
         }
         public async Task<List<CarGear>> GetGearsAsync()
         {
@@ -162,5 +198,7 @@ namespace CarApp.Core.Services
         {
             return await context.CarBodyTypes.ToListAsync();
         }
+
+        
     }
 }

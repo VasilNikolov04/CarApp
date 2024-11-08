@@ -14,9 +14,13 @@ namespace CarApp.Core.ViewModels
 
         public string Brand { get; set; } = null!;
 
+        public string? Trim { get; set; }
+
         public string Price { get; set; } = null!;
 
         public int whp { get; set; }
+
+        public int Year { get; set; }
 
         public string FuelType { get; set; } = null!;
 

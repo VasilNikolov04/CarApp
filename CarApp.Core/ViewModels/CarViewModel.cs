@@ -45,6 +45,18 @@ namespace CarApp.Core.ViewModels
         public int Price { get; set; }
 
         /// <summary>
+        /// Car Trim
+        /// </summary>
+        public string? Trim { get; set; }
+
+        /// <summary>
+        /// Car Engine displacement
+        /// </summary>
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Range(50,10000)]
+        public int EngineDisplacement { get; set; }
+
+        /// <summary>
         /// Car Description
         /// </summary>
         public string? Description { get; set; }= string.Empty;

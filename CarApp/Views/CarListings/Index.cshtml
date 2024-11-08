@@ -1,5 +1,6 @@
 ﻿@using CarApp.Extensions;
-@model IEnumerable<CarInfoViewModel>
+@using CarApp.Core.ViewModels.CarListing
+@model AllCarsQueryModel
 
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
@@ -17,31 +18,144 @@
     }
 
 </style>
-<div class="row text-center">
-    @foreach(var carListing in Model)
-    {
-        <div class="card border-3 border-dark m-3" style="width: 18rem;">
-            <a asp-controller="CarListings" asp-action="Details" asp-route-id="@carListing.id" class="text-reset text-decoration-none">
-            <img class="card-img-top" src="~/images/@carListing.ImageUrl" alt="Car Image">
-            <div class="card-body">
-                <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
+
+<form method="get">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <label asp-for="Sorting" class="form-label">Sort By</label>
+            <div class="input-group">
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0">Brand/Model/Year</option>
+                    <option value="1">Car Year Descending</option>
+                    <option value="2">Car Year Ascending</option>
+                    <option value="3">Price Ascending</option>
+                    <option value="4">Price Descending</option>
+                    <option value="5">Date Added Ascending</option>
+                    <option value="6">Date Added Descending</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Sort</button>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">@carListing.FuelType</li>
-                <li class="list-group-item">@carListing.GearType</li>
-                @if(carListing.whp > 0)
-                {
-                    <li class="list-group-item">@carListing.whp whp</li>
-                }
-                <li class="list-group-item">@carListing.Price</li>
-                <span class="list-group-item">@carListing.DatePosted</span>
-            </ul>
-            @if(carListing.SellerId == User?.GetUserId()?.ToString())
-                {
-                    <a class="btn btn-primary m-2" asp-controller="User" asp-action="EditListing" 
-                    asp-route-id="@carListing.id">Edit Listing</a>
-                }
-            </a>
         </div>
+    </div>
+</form>
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalCarsCount /
+        Model.CarsPerPage);
+}
+@{
+    var nextPage = Model.CurrentPage + 1 <= maxPage ? Model.CurrentPage + 1 : maxPage;
+}
+<div class="row mb-5 mt-5">
+    <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="CarListings"
+           asp-action="Index"
+           asp-route-currentPage="@previousPage"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+
+    <div class="col-4 text-center">
+        @{
+            int currentPage = Model.CurrentPage;
+
+            // Determine the page numbers to display
+            var pagesToShow = new List<int>();
+
+            if (currentPage == 1)
+            {
+                // First page case: Show the current and next two pages
+                pagesToShow.Add(currentPage);
+                if (currentPage + 1 <= maxPage) pagesToShow.Add(currentPage + 1);
+                if (currentPage + 2 <= maxPage) pagesToShow.Add(currentPage + 2);
+            }
+            else if (currentPage == (int)maxPage)
+            {
+                // Last page case: Show the previous two pages and the current page
+                if (currentPage - 2 > 0) pagesToShow.Add(currentPage - 2);
+                if (currentPage - 1 > 0) pagesToShow.Add(currentPage - 1);
+                pagesToShow.Add(currentPage);
+            }
+            else
+            {
+                // Middle page case: Show previous, current, and next pages
+                if (currentPage - 1 > 0) pagesToShow.Add(currentPage - 1);
+                pagesToShow.Add(currentPage);
+                if (currentPage + 1 <= (int)maxPage) pagesToShow.Add(currentPage + 1);
+            }
+        }
+        @if (currentPage != 1
+            && 1 + currentPage > 3
+            && maxPage > 3)
+        {
+            <a class="btn btn-dark"
+               asp-controller="CarListings"
+               asp-action="Index"
+               asp-route-currentPage="1"
+               asp-route-sorting="@((int)Model.Sorting)">
+                1
+            </a>
+        }
+        <div class="btn-group" role="group" aria-label="Pagination buttons">
+            @foreach (var listingPage in pagesToShow)
+            {
+                if (listingPage == currentPage)
+                {
+                    <!-- Current Page Button (disabled) -->
+                    <span class="btn btn-primary disabled">@listingPage</span>
+                }
+                else
+                {
+                    <!-- Other Page Buttons -->
+                    <a class="btn btn-outline-primary"
+                       asp-controller="CarListings"
+                       asp-action="Index"
+                       asp-route-currentPage="@listingPage"
+                       asp-route-sorting="@((int)Model.Sorting)">
+                        @listingPage
+                    </a>
+                }
+            }
+        </div>
+        @if (currentPage != maxPage
+        && maxPage - currentPage > 1
+        && maxPage > 3)
+        {
+            <a class="btn btn-dark"
+               asp-controller="CarListings"
+               asp-action="Index"
+               asp-route-currentPage="@maxPage"
+               asp-route-sorting="@((int)Model.Sorting)">
+                @maxPage
+            </a>
+        }
+        
+    </div>
+
+    
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.CarListings.Any();
+    }
+
+    <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-primary
+           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="CarListings"
+           asp-action="Index"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>
+<div class="row text-center">
+    @foreach(var carListing in Model.CarListings)
+    {
+        <partial name="_CarListingPartial" model="@carListing" />
     }
 </div>
