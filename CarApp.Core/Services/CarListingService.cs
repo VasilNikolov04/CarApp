@@ -5,9 +5,7 @@ using CarApp.Core.ViewModels.CarListing;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System.Globalization;
 
 namespace CarApp.Core.Services
@@ -155,49 +153,6 @@ namespace CarApp.Core.Services
             return model;
         }
 
-        public async Task<CarViewModel> PopulateDropdownsAsync()
-        {
-
-            var model = new CarViewModel
-            {
-                Brands = await GetBrandsAsync(),
-                FuelTypes = await GetFuelTypesAsync(),
-                Models = await GetModelsAsync(),
-                Gears = await GetGearsAsync(),
-                Drivetrains = await GetDrivetrainAsync(),
-                CarBodyTypes = await GetBodyTypesAsync()
-            };
-
-            return model;
-        }
-        public async Task<List<CarFuelType>> GetFuelTypesAsync()
-        {
-            return await context.CarFuelTypes.ToListAsync();
-        }
-        public async Task<List<CarModel>> GetModelsAsync()
-        {
-            return await context.CarModels
-                .OrderBy(b => b.ModelName)
-                .ToListAsync();
-        }
-        public async Task<List<CarBrand>> GetBrandsAsync()
-        {
-            return await context.CarBrands
-                .OrderBy(b => b.BrandName)
-                .ToListAsync();
-        }
-        public async Task<List<CarGear>> GetGearsAsync()
-        {
-            return await context.CarGears.ToListAsync();
-        }
-        public async Task<List<CarDrivetrain>> GetDrivetrainAsync()
-        {
-            return await context.CarDrivetrains.ToListAsync();
-        }
-        public async Task<List<CarBodyType>> GetBodyTypesAsync()
-        {
-            return await context.CarBodyTypes.ToListAsync();
-        }
 
         
     }

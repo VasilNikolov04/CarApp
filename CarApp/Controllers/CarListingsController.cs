@@ -12,10 +12,13 @@ namespace CarApp.Controllers
     {
         private readonly CarDbContext context;
         private readonly ICarListingService carListingService;
-        public CarListingsController(CarDbContext _context, ICarListingService _carListingService)
+        private readonly IUtilityService utilityService;
+        public CarListingsController(CarDbContext _context, ICarListingService _carListingService,
+            IUtilityService _utilityService)
         {
             context = _context;
             carListingService = _carListingService;
+            utilityService = _utilityService;
         }
 
         [HttpGet]
@@ -37,7 +40,7 @@ namespace CarApp.Controllers
         public async Task<IActionResult> Add()
         {
             var model = new CarViewModel();
-            model = await carListingService.PopulateDropdownsAsync();
+            model = await utilityService.PopulateDropdownsAsync();
 
             return View(model);
         }
@@ -50,15 +53,13 @@ namespace CarApp.Controllers
             string userId = User.GetUserId()!;
             if (ModelState.IsValid == false)
             {
-                model = await carListingService.PopulateDropdownsAsync();
+                model = await utilityService.PopulateDropdownsAsync();
                 return View(model);
             }
 
             await carListingService.AddCarListingAsync(model, userId);
 
             return RedirectToAction(nameof(Index));
-
-
         }
 
         [HttpGet]

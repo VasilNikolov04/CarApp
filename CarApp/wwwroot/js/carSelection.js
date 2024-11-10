@@ -10,8 +10,6 @@ function populateCarModels(models) {
         }
         carModels[BrandId].push({ ModelId: ModelId, ModelName: ModelName });
     });
-
-    console.log('Populated carModels:', carModels);
 }
 
 function updateModels() {
@@ -22,11 +20,9 @@ function updateModels() {
 
     const selectedBrandId = parseInt(brandSelect.value, 10);  
 
-    console.log('Selected Brand ID:', selectedBrandId);
 
     const models = carModels[selectedBrandId];
 
-    console.log('Models found for this brand:', models);
 
     if (models && models.length > 0) {
         models.forEach(model => {

@@ -12,9 +12,17 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="BrandId">Car Brand</label>
-                    <select id="carBrand" asp-for="BrandId" class="form-control"
-                            asp-items="@(new SelectList(Model.Brands, "Id", "BrandName"))" onchange="updateModels()" required>
+                    <select asp-for="BrandId" class="form-select" id="carBrand" onchange="updateModels()" required>
                         <option value="">Select a Brand</option>
+                        @foreach (var brandGroup in Model.Brands)
+                        {
+                            <optgroup label="@brandGroup.Key">
+                                @foreach (var brand in brandGroup)
+                                {
+                                    <option value="@brand.Id">@brand.BrandName</option>
+                                }
+                            </optgroup>
+                        }
                     </select>
                     <span asp-validation-for="BrandId" class="text-danger"></span>
                 </div>

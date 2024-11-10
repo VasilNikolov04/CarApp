@@ -64,35 +64,28 @@
     <div class="col-4 text-center">
         @{
             int currentPage = Model.CurrentPage;
-
-            // Determine the page numbers to display
-            var pagesToShow = new List<int>();
+            List<int> pagesToShow = new List<int>();
 
             if (currentPage == 1)
             {
-                // First page case: Show the current and next two pages
                 pagesToShow.Add(currentPage);
                 if (currentPage + 1 <= maxPage) pagesToShow.Add(currentPage + 1);
                 if (currentPage + 2 <= maxPage) pagesToShow.Add(currentPage + 2);
             }
             else if (currentPage == (int)maxPage)
             {
-                // Last page case: Show the previous two pages and the current page
                 if (currentPage - 2 > 0) pagesToShow.Add(currentPage - 2);
                 if (currentPage - 1 > 0) pagesToShow.Add(currentPage - 1);
                 pagesToShow.Add(currentPage);
             }
             else
             {
-                // Middle page case: Show previous, current, and next pages
                 if (currentPage - 1 > 0) pagesToShow.Add(currentPage - 1);
                 pagesToShow.Add(currentPage);
                 if (currentPage + 1 <= (int)maxPage) pagesToShow.Add(currentPage + 1);
             }
         }
-        @if (currentPage != 1
-            && 1 + currentPage > 3
-            && maxPage > 3)
+        @if (currentPage != 1 && 1 + currentPage > 3 && maxPage > 3)
         {
             <a class="btn btn-dark"
                asp-controller="CarListings"
@@ -106,13 +99,11 @@
             @foreach (var listingPage in pagesToShow)
             {
                 if (listingPage == currentPage)
-                {
-                    <!-- Current Page Button (disabled) -->
+                {      
                     <span class="btn btn-primary disabled">@listingPage</span>
                 }
                 else
                 {
-                    <!-- Other Page Buttons -->
                     <a class="btn btn-outline-primary"
                        asp-controller="CarListings"
                        asp-action="Index"
@@ -123,9 +114,7 @@
                 }
             }
         </div>
-        @if (currentPage != maxPage
-        && maxPage - currentPage > 1
-        && maxPage > 3)
+        @if (currentPage != maxPage && maxPage - currentPage > 1 && maxPage > 3)
         {
             <a class="btn btn-dark"
                asp-controller="CarListings"

@@ -15,7 +15,7 @@ namespace CarApp.Core.ViewModels
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int BrandId { get; set; }
-        public ICollection<CarBrand> Brands { get; set; } = new List<CarBrand>();
+        public List<IGrouping<string, CarBrand>> Brands { get; set; } = new List<IGrouping<string, CarBrand>>();
 
         /// <summary>
         /// Car Model
