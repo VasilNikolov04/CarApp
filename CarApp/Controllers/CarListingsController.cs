@@ -25,9 +25,16 @@ namespace CarApp.Controllers
         public async Task<IActionResult> Index([FromQuery]AllCarsQueryModel model)
         {
             var cars = await carListingService.GetAllCarListingsAsync(
-                model.Sorting,
-                model.CurrentPage,
+                model.BrandId,
+                model.ModelId,
+                model.PriceLimit,
+                model.Sorting, 
+                model.CurrentPage, 
                 model.CarsPerPage);
+
+            model.Brands = await utilityService.GetBrandsAsync();
+            model.Models = await utilityService.GetModelsAsync();
+            model.PriceList = utilityService.GetPriceDropdown();
 
 
             model.TotalCarsCount = cars.TotalListingsCount;

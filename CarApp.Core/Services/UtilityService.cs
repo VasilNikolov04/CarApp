@@ -3,8 +3,10 @@ using CarApp.Core.ViewModels;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +65,34 @@ namespace CarApp.Core.Services
         public async Task<List<CarBodyType>> GetBodyTypesAsync()
         {
             return await context.CarBodyTypes.ToListAsync();
+        }
+
+        public List<int> GetPriceDropdown()
+        {
+            List<int> prices = new List<int>();
+            for (int i = 500; i <= 3000; i = i + 500)
+            {
+                prices.Add(i);
+            }
+
+            for(int i = 4000; i <= 10000; i = i + 1000)
+            {
+                prices.Add(i);
+            }
+
+            for(int i = 12500; i <= 20000; i = i + 2500)
+            {
+                prices.Add(i);
+            }
+            prices.Add(25000);
+            prices.Add(30000);
+            prices.Add(40000);
+            prices.Add(50000);
+            prices.Add(75000);
+            prices.Add(100000);
+            prices.Order();
+
+            return prices;
         }
     }
 

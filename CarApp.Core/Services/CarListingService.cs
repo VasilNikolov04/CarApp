@@ -14,14 +14,12 @@ namespace CarApp.Core.Services
     {
         private readonly IRepository<CarListing,int> carListingRepository;
         private readonly IRepository<Car, int> carRepository;
-        private readonly CarDbContext context;
 
         public CarListingService(IRepository<CarListing, int> _carListingRepository,
-            IRepository<Car, int> _carRepository, CarDbContext _context)
+            IRepository<Car, int> _carRepository)
         {
             carListingRepository = _carListingRepository;
             carRepository = _carRepository;
-            context = _context;
         }
 
         public async Task AddCarListingAsync(CarViewModel model, string? userId)
@@ -78,6 +76,9 @@ namespace CarApp.Core.Services
         }
 
         public async Task<CarListingQueryServiceModel> GetAllCarListingsAsync(
+            int brandId = 0,
+            int modelId = 0,
+            int price = 0, 
             CarListingSorting sorting = CarListingSorting.BrandModelYear, 
             int currentPage = 1, 
             int listingsPerPage = 1)
@@ -97,7 +98,23 @@ namespace CarApp.Core.Services
                 .ThenBy(cl => cl.Car.Model.ModelName).ThenBy(cl => cl.Car.Year)
             };
 
-             var listings = await carListings
+            if (price != 0)
+            {
+                carListings = carListings
+                    .Where(l => l.Price <= price);
+            }
+            if (brandId != 0)
+            {
+                carListings = carListings
+                    .Where(l => l.Car.Model.BrandId == brandId);
+            }
+            if (modelId != 0)
+            {
+                carListings = carListings
+                    .Where(l => l.Car.ModelId == modelId);
+            }
+
+            var listings = await carListings
             .Skip((currentPage - 1) * listingsPerPage)
             .Take(listingsPerPage)
             .Select(cl => new CarInfoViewModel()

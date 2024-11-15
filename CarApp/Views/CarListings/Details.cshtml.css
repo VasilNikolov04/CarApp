@@ -1,0 +1,11 @@
+﻿body {
+}
+.carousel-item img {
+    max-height: 600px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.carousel-item {
+    background-color: black;
+}

@@ -1,4 +1,5 @@
 ﻿using CarApp.Core.ViewModels;
+using CarApp.Core.ViewModels.CarListing;
 using CarApp.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,6 @@ namespace CarApp.Core.Services.Contracts
         Task<List<CarGear>> GetGearsAsync();
         Task<List<CarDrivetrain>> GetDrivetrainAsync();
         Task<List<CarBodyType>> GetBodyTypesAsync();
+        List<int> GetPriceDropdown();
     }
 }

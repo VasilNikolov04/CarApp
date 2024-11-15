@@ -4,11 +4,9 @@
 <div class="container mt-5">
     <h2 class="mb-4">Add a New Car Listing</h2>
 
-    <!-- Start the form -->
     <form asp-action="Add" method="post" enctype="multipart/form-data">
 
         <div class="row">
-            <!-- Car Brand and Model Dropdowns Side by Side -->
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="BrandId">Car Brand</label>
@@ -173,14 +171,14 @@
         @foreach (var carModel in Model.Models)
         {
             <text>
-               modelsData.push({
-                    BrandId: @carModel.BrandId,
+                    modelsData.push({
+                        BrandId: @carModel.BrandId,
                     ModelId: @carModel.Id,
                     ModelName: "@Html.Raw(@carModel.ModelName)"
-               });
+                           });
             </text>
         }
 
-        populateCarModels(modelsData);
+            populateCarModels(modelsData);
     </script>
 }
