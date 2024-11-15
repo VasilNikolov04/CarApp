@@ -99,6 +99,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             foreach (Type serviceInterfaceType in serviceInterfaceTypes)
             {
+                //hardcoded. Change ASAP
+                if(serviceInterfaceType.Name.ToLower() == "dropdownviewmodel")
+                {
+                    continue;
+                }
                 Type? serviceType = serviceTypes
                     .SingleOrDefault(t => "i" + t.Name.ToLower() == serviceInterfaceType.Name.ToLower());
 

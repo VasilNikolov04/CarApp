@@ -45,7 +45,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="ModelId">Car Model</label>
-                <select id="carModel" asp-for="ModelId" class="form-control">
+                <select id="carModel" asp-for="ModelId" class="form-select">
                     <option value="">Select a Model</option>
                 </select>
             </div>
@@ -54,30 +54,37 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PriceLimit">Price up to</label>
-                <select asp-for="PriceLimit" class="form-control" >
+                <select asp-for="PriceLimit" class="form-select">
                     <option value="">Price up to</option>
                     @foreach (int price in Model.PriceList)
                     {
                         if(Model.PriceLimit == price)
                         {
-                            <option value="@price" selected>@price</option>
+                            <option value="@price" selected>€@price</option>
                         }
                         else
                         {
-                            <option value="@price">@price</option>
+                            <option value="@price">€@price</option>
                         }
                     }
                 </select>
             </div>
         </div>
-        @*<button type="submit" class="btn btn-primary mt-3">Filter</button>*@
-    </div> 
 
+        <a asp-action="Index" asp-controller="RefinedSearch">Refined Search</a>
+        <input asp-for="Sorting" type="hidden" value="@((int)Model.Sorting)" />
+        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+    </div> 
+</form>
+<form>
     <div class="row align-items-center">
         <div class="col-md-6">
             <label asp-for="Sorting" class="form-label">Sort By</label>
             <div class="input-group">
-                <select asp-for="Sorting" class="form-control">
+                <input asp-for="BrandId" type="hidden" value="@Model.BrandId" />
+                <input asp-for="ModelId" type="hidden" value="@Model.ModelId" />
+                <input asp-for="PriceLimit" type="hidden" value="@Model.PriceLimit" />
+                <select asp-for="Sorting" class="form-select">
                     <option value="0">Brand/Model/Year</option>
                     <option value="1">Car Year Descending</option>
                     <option value="2">Car Year Ascending</option>
@@ -111,11 +118,11 @@
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="CarListings"
            asp-action="Index"
-           asp-route-brandId="@Model.BrandId"
-           asp-route-modelId="@Model.ModelId"
+           asp-route-BrandId="@Model.BrandId"
+           asp-route-ModelId="@Model.ModelId"
            asp-route-PriceLimit="@Model.PriceLimit"
-           asp-route-currentPage="@previousPage"
-           asp-route-sorting="@((int)Model.Sorting)">@ViewBag.BackArrow</a>
+           asp-route-Sorting="@((int)Model.Sorting)"
+           asp-route-CurrentPage="@previousPage">@ViewBag.BackArrow</a>
     </div>
 
     <div class="col-4 text-center">
@@ -147,11 +154,11 @@
             <a class="btn btn-dark"
                asp-controller="CarListings"
                asp-action="Index"
-               asp-route-currentPage="1"
-               asp-route-brandId="@Model.BrandId"
-               asp-route-modelId="@Model.ModelId"
+               asp-route-BrandId="@Model.BrandId"
+               asp-route-ModelId="@Model.ModelId"
                asp-route-PriceLimit="@Model.PriceLimit"
-               asp-route-sorting="@((int)Model.Sorting)">
+               asp-route-Sorting="@((int)Model.Sorting)"
+               asp-route-CurrentPage="1">
                 1
             </a>
         }
@@ -167,11 +174,11 @@
                     <a class="btn btn-outline-primary"
                        asp-controller="CarListings"
                        asp-action="Index"
-                       asp-route-brandId="@Model.BrandId"
-                       asp-route-modelId="@Model.ModelId"
+                       asp-route-BrandId="@Model.BrandId"
+                       asp-route-ModelId="@Model.ModelId"
                        asp-route-PriceLimit="@Model.PriceLimit"
-                       asp-route-currentPage="@listingPage"
-                       asp-route-sorting="@((int)Model.Sorting)">
+                       asp-route-Sorting="@((int)Model.Sorting)"
+                       asp-route-CurrentPage="@listingPage">
                         @listingPage
                     </a>
                 }
@@ -182,11 +189,11 @@
             <a class="btn btn-dark"
                asp-controller="CarListings"
                asp-action="Index"
-               asp-route-brandId="@Model.BrandId"
-               asp-route-modelId="@Model.ModelId"
+               asp-route-BrandId="@Model.BrandId"
+               asp-route-ModelId="@Model.ModelId"
                asp-route-PriceLimit="@Model.PriceLimit"
-               asp-route-currentPage="@maxPage"
-               asp-route-sorting="@((int)Model.Sorting)">
+               asp-route-Sorting="@((int)Model.Sorting)"
+               asp-route-CurrentPage="@maxPage">
                 @maxPage
             </a>
         }
@@ -204,11 +211,11 @@
            @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
            asp-controller="CarListings"
            asp-action="Index"
-           asp-route-brandId="@Model.BrandId"
-           asp-route-modelId="@Model.ModelId"
+           asp-route-BrandId="@Model.BrandId"
+           asp-route-ModelId="@Model.ModelId"
            asp-route-PriceLimit="@Model.PriceLimit"
-           asp-route-currentPage="@(Model.CurrentPage + 1)"
-           asp-route-sorting="@((int)Model.Sorting)">>></a>
+           asp-route-Sorting="@((int)Model.Sorting)"
+           asp-route-CurrentPage="@(Model.CurrentPage + 1)">>></a>
     </div>
 </div>
 <div class="row text-center">

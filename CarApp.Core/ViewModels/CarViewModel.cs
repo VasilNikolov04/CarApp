@@ -8,7 +8,7 @@ namespace CarApp.Core.ViewModels
     /// <summary>
     /// Car Listing data transfer model
     /// </summary>
-    public class CarViewModel
+    public class CarViewModel : DropDownViewModel
     {
         /// <summary>
         /// Car Brand
@@ -22,7 +22,7 @@ namespace CarApp.Core.ViewModels
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int ModelId { get; set; }
-        public ICollection<CarModel> Models { get; set; } = new List<CarModel>();
+        public List<CarModel> Models { get; set; } = new List<CarModel>();
 
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace CarApp.Core.ViewModels
         /// </summary>
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public ICollection<IFormFile> CarImages { get; set; } = new List<IFormFile>();
+        public List<IFormFile> CarImages { get; set; } = new List<IFormFile>();
         /// <summary>
         /// Car Price
         /// </summary>
@@ -79,28 +79,28 @@ namespace CarApp.Core.ViewModels
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int FuelId { get; set; }
-        public ICollection<CarFuelType> FuelTypes { get; set; } = new List<CarFuelType>();
+        public List<CarFuelType> FuelTypes { get; set; } = new List<CarFuelType>();
 
         /// <summary>
         /// Car Transmission
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int GearId { get; set; }
-        public ICollection<CarGear> Gears { get; set; } = new List<CarGear>();
+        public List<CarGear> Gears { get; set; } = new List<CarGear>();
 
         /// <summary>
         /// Car Category
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int CarBodyId { get; set; }
-        public ICollection<CarBodyType> CarBodyTypes { get; set; } = new List<CarBodyType>();
+        public List<CarBodyType> CarBodyTypes { get; set; } = new List<CarBodyType>();
 
         /// <summary>
         /// Car Drivetrain
         /// </summary>
 
         public int DrivetrainId { get; set; }
-        public ICollection<CarDrivetrain> Drivetrains { get; set; } = new List<CarDrivetrain>();
+        public List<CarDrivetrain> Drivetrains { get; set; } = new List<CarDrivetrain>();
 
 
 

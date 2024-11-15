@@ -1,0 +1,213 @@
+﻿@using CarApp.Core.ViewModels.RefinedSearch
+@model RefinedSearchViewModel
+
+<meta charset="UTF-8">
+<div class="container mt-5">
+    <h2 class="mb-4">Add a New Car Listing</h2>
+
+    <form asp-action="CarListings" method="post" enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Brand">Car Brand</label>
+                    <select asp-for="Brand" class="form-select" id="carBrand" onchange="updateModelsIndex()">
+                        <option value="">Select a Brand</option>
+                        @foreach (var brandGroup in Model.Brands)
+                        {
+                            <optgroup label="@brandGroup.Key">
+                                @foreach (var brand in brandGroup)
+                                {
+                                    <option value="@brand.BrandName">@brand.BrandName</option>
+                                }
+                            </optgroup>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Model">Car Model</label>
+                    <select id="carModel" asp-for="Model" class="form-select">
+                        <option value="">Select a Model</option>
+                    </select>
+                </div>
+            </div>
+
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                        <label asp-for="MinYear">Min Year</label>
+                        <select asp-for="MinYear" class="form-select">
+                            <option value="">Select Year</option>
+                            @for (int i = DateTime.Now.Year; i >= 1930; i--)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                </div>
+            </div>
+            </div>
+         
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="MaxYear">Max Year</label>
+                        <select asp-for="MaxYear" class="form-select">
+                            <option value="">Select Year</option>
+                            @for (int i = DateTime.Now.Year; i >= 1930; i--)
+                            {
+                                <option value="@i">@i</option>
+                            }   
+                        </select>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="MinWhp">Min Horsepower</label>
+                        <input asp-for="MinWhp" type="number" class="form-control">
+                    </div>
+                </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                        <label asp-for="MaxWhp">Max Horsepower</label>
+                    <input asp-for="MaxWhp" type="number" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="MinEngineDisplacement">Min Engine Displacement</label>
+                        <input asp-for="MinEngineDisplacement" type="number" class="form-control">
+                </div>
+            </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="MaxEngineDisplacement">Max Engine Displacement</label>
+                        <input asp-for="MaxEngineDisplacement" type="number" class="form-control">
+                    </div>
+                </div>
+        </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="MinPrice">Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input asp-for="MinPrice" class="form-select" type="number" step="1" placeholder="Min Price">
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="MaxPrice">Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">€</span>
+                            <input asp-for="MaxPrice" class="form-select" type="number" step="1" placeholder="Max Price">
+                        </div>
+                    </div>
+                </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="MinMilleage">Min Mileage</label>
+                        <input asp-for="MinMilleage" type="number" class="form-control" min="0" placeholder="Enter Min Mileage">
+                </div>
+            </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="MaxMilleage">Max Mileage</label>
+                        <input asp-for="MaxMilleage" type="number" class="form-control" min="0" placeholder="Enter Max Mileage">
+                    </div>
+                </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Fuel">Fuel Type</label>
+                    <select asp-for="@Model.Fuel" class="form-control">
+                        <option value="">Select Fuel Type</option>
+                            @foreach (var fuel in Model.FuelTypes)
+                            {
+                                <option value="@fuel.FuelName">@fuel.FuelName</option>
+                                
+                            }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Gear">Transmission</label>
+                        <select asp-for="@Model.Gear" class="form-control">
+                            <option value="">Select Gear Type</option>
+                            @foreach (var gear in Model.Gears)
+                            {
+                                <option value="@gear.GearName">@gear.GearName</option>
+
+                            }
+                        </select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.Drivetrain">Drivetrain</label>
+                        <select asp-for="@Model.Drivetrain" class="form-control">
+                            <option value="">Select Drivetrain Type</option>
+                            @foreach (var drivetrain in Model.Drivetrains)
+                            {
+                                <option value="@drivetrain.DrivetrainName">@drivetrain.DrivetrainName</option>
+
+                            }
+                        </select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="@Model.CarBody">Car Body Type</label>
+                        <select asp-for="@Model.CarBody" class="form-control">
+                            <option value="">Select Car Body</option>
+                            @foreach (var carBodyType in Model.CarBodyTypes)
+                            {
+                                <option value="@carBodyType.Name">@carBodyType.Name</option>
+
+                            }
+                        </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/carSelectionIndex.js"></script>
+
+    <script>
+        const modelsData = [];
+
+        @foreach (var carModel in Model.Models)
+        {
+            <text>
+                    modelsData.push({
+                    BrandName: "@Html.Raw(@carModel.CarBrand.BrandName)",
+                    ModelName: "@Html.Raw(@carModel.ModelName)"
+                            });
+            </text>
+        }
+
+            populateCarModelsIndex(modelsData);
+    </script>
+}

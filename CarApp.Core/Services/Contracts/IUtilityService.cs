@@ -19,5 +19,7 @@ namespace CarApp.Core.Services.Contracts
         Task<List<CarDrivetrain>> GetDrivetrainAsync();
         Task<List<CarBodyType>> GetBodyTypesAsync();
         List<int> GetPriceDropdown();
+
+        Task<T> PopulateAllDropdownsAsync<T>(T viewModel) where T : DropDownViewModel, new();
     }
 }

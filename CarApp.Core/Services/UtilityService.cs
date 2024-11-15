@@ -94,6 +94,18 @@ namespace CarApp.Core.Services
 
             return prices;
         }
+
+        public async Task<T> PopulateAllDropdownsAsync<T>(T model) where T : DropDownViewModel, new()
+        {
+            model.Brands = await GetBrandsAsync();
+            model.FuelTypes = await GetFuelTypesAsync();
+            model.Models = await GetModelsAsync();
+            model.Gears = await GetGearsAsync();
+            model.Drivetrains = await GetDrivetrainAsync();
+            model.CarBodyTypes = await GetBodyTypesAsync();
+
+            return model;
+        }
     }
 
 }
