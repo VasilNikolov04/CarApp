@@ -8,16 +8,11 @@ namespace CarApp.Infrastructure.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(CityNameMaxLength)]
-        public required string City { get; set; }
-
         [MaxLength(RegionNameMaxLength)]
-        public string? Region { get; set; }
+        public required string RegionName { get; set; } = null!;
 
-        [Required]
-        [MaxLength(CountryNameMaxLength)]
-        public required string Country { get; set; }
+        public ICollection<CarLocationCity> LocationCities { get; set; } 
+            = new List<CarLocationCity>();
 
     }
 }

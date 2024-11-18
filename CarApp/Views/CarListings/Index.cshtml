@@ -207,8 +207,7 @@
     }
 
     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-primary
-           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
            asp-controller="CarListings"
            asp-action="Index"
            asp-route-BrandId="@Model.BrandId"
@@ -234,22 +233,22 @@
         @foreach (var carModel in Model.Models)
         {
             <text>
-                    modelsData.push({
+               modelsData.push({
                     BrandId: @carModel.BrandId,
                     ModelId: @carModel.Id,
                     ModelName: "@Html.Raw(@carModel.ModelName)"
-                                });
+               });
             </text>
         }
 
         populateCarModels(modelsData);
 
         const selectedBrandId = @Model.BrandId;
+        const selectedModelId = @Model.ModelId;
         if (selectedBrandId) {
             
             updateModels();
  
-            const selectedModelId = @Model.ModelId;
             const modelSelect = document.getElementById("carModel");
             const selectedOption = Array.from(modelSelect.options).find(option => option.value == selectedModelId.toString());
             if (selectedOption) {

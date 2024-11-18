@@ -106,6 +106,24 @@ namespace CarApp.Core.Services
 
             return model;
         }
+
+        public List<int> GetMileageDropdown()
+        { 
+            List<int> mileage = new List<int>();
+
+            for (int i = 10000; i <= 100000; i = i + 10000)
+            {
+                mileage.Add(i);
+            }
+
+            for (int i = 125000; i <= 250000; i = i + 25000)
+            {
+                mileage.Add(i);
+            }
+            mileage.Add(300000);
+
+            return mileage;
+        }
     }
 
 }

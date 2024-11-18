@@ -1,4 +1,5 @@
-﻿using CarApp.Infrastructure.Data.Models;
+﻿using CarApp.Core.Enumerations;
+using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,13 @@ namespace CarApp.Core.ViewModels.RefinedSearch
 {
     public class RefinedSearchViewModel : DropDownViewModel
     {
+        public int CarsPerPage { get; } = 4;
+
+        public CarListingSorting Sorting { get; init; }
+
+        public int CurrentPage { get; init; } = 1;
+
+        public int TotalCarsCount { get; set; }
 
         public string? Brand { get; set; }
         public List<IGrouping<string, CarBrand>> Brands { get; set; } = new List<IGrouping<string, CarBrand>>();
@@ -34,9 +42,8 @@ namespace CarApp.Core.ViewModels.RefinedSearch
         public int MinYear { get; set; }
         public int MaxYear { get; set; }
 
-
-        public int MinMilleage { get; set; }
-        public int MaxMilleage { get; set; }
+        public int Mileage { get; set; }
+        public List<int> MileageList { get; set; } = new List<int>();
 
         public string? Fuel { get; set; }
         public List<CarFuelType> FuelTypes { get; set; } = new List<CarFuelType>();
@@ -52,5 +59,8 @@ namespace CarApp.Core.ViewModels.RefinedSearch
 
         public string? Drivetrain { get; set; }
         public List<CarDrivetrain> Drivetrains { get; set; } = new List<CarDrivetrain>();
+
+        public IEnumerable<CarInfoViewModel> CarListings { get; set; }
+        = new List<CarInfoViewModel>();
     }
 }

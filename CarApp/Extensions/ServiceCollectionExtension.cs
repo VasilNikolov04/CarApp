@@ -38,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Password.RequireDigit= false;
                 options.Password.RequiredLength = 8;
             })
-            .AddEntityFrameworkStores<CarDbContext>();
+            .AddEntityFrameworkStores<CarDbContext>();                
 
             return services;
         }

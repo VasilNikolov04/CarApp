@@ -1,17 +1,22 @@
-﻿@using CarApp.Core.ViewModels.RefinedSearch
+﻿@using CarApp.Extensions;
+@using CarApp.Core.ViewModels.RefinedSearch
 @model RefinedSearchViewModel
+
+@{
+    ViewBag.BackArrow = "<<";
+}
 
 <meta charset="UTF-8">
 <div class="container mt-5">
-    <h2 class="mb-4">Add a New Car Listing</h2>
+    <h2 class="mb-4">Search Car Listings Page: @Model.CurrentPage</h2>
 
-    <form asp-action="CarListings" method="post" enctype="multipart/form-data">
+    <form method="get">
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Brand">Car Brand</label>
-                    <select asp-for="Brand" class="form-select" id="carBrand" onchange="updateModelsIndex()">
+                    <select asp-for="Brand" class="form-select" id="carBrand" onchange="updateModels()">
                         <option value="">Select a Brand</option>
                         @foreach (var brandGroup in Model.Brands)
                         {
@@ -26,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Model">Car Model</label>
                     <select id="carModel" asp-for="Model" class="form-select">
@@ -34,36 +39,33 @@
                     </select>
                 </div>
             </div>
+        </div>
 
         <div class="row mt-3">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                         <label asp-for="MinYear">Min Year</label>
                         <select asp-for="MinYear" class="form-select">
-                            <option value="">Select Year</option>
-                            @for (int i = DateTime.Now.Year; i >= 1930; i--)
+                            <option value=""></option>
+                            @for (int year = DateTime.Now.Year; year >= 1930; year--)
                             {
-                                <option value="@i">@i</option>
+                                <option value="@year">From @year</option>
                             }
                         </select>
                 </div>
             </div>
-            </div>
-         
-
-                <div class="col-md-4">
+            <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="MaxYear">Max Year</label>
                         <select asp-for="MaxYear" class="form-select">
-                            <option value="">Select Year</option>
-                            @for (int i = DateTime.Now.Year; i >= 1930; i--)
+                            <option value=""></option>
+                            @for (int year = DateTime.Now.Year; year >= 1930; year--)
                             {
-                                <option value="@i">@i</option>
+                                <option value="@year"> To @year</option>    
                             }   
                         </select>
                     </div>
                 </div>
-            <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="MinWhp">Min Horsepower</label>
@@ -76,7 +78,8 @@
                     <input asp-for="MaxWhp" type="number" class="form-control">
                 </div>
             </div>
-
+        </div>
+        <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="MinEngineDisplacement">Min Engine Displacement</label>
@@ -89,16 +92,13 @@
                         <input asp-for="MaxEngineDisplacement" type="number" class="form-control">
                     </div>
                 </div>
-        </div>
-        </div>
 
-        <div class="row mt-3">
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="MinPrice">Price</label>
                     <div class="input-group">
                         <span class="input-group-text">€</span>
-                        <input asp-for="MinPrice" class="form-select" type="number" step="1" placeholder="Min Price">
+                        <input asp-for="MinPrice" class="form-control" type="number" step="1">
                     </div>
                 </div>
             </div>
@@ -107,89 +107,305 @@
                         <label asp-for="MaxPrice">Price</label>
                         <div class="input-group">
                             <span class="input-group-text">€</span>
-                            <input asp-for="MaxPrice" class="form-select" type="number" step="1" placeholder="Max Price">
+                            <input asp-for="MaxPrice" class="form-control" type="number" step="1">
                         </div>
-                    </div>
-                </div>
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="MinMilleage">Min Mileage</label>
-                        <input asp-for="MinMilleage" type="number" class="form-control" min="0" placeholder="Enter Min Mileage">
-                </div>
-            </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="MaxMilleage">Max Mileage</label>
-                        <input asp-for="MaxMilleage" type="number" class="form-control" min="0" placeholder="Enter Max Mileage">
                     </div>
                 </div>
         </div>
 
+
         <div class="row mt-3">
-            <div class="col-md-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label asp-for="@Model.Mileage">Any Mileage</label>
+                    <select asp-for="@Model.Mileage" class="form-control">
+                        <option value="">Any Mileage</option>
+                        @foreach (var mileage in Model.MileageList)
+                        {
+                            <option value="@mileage">To @mileage km</option>
+                        }
+                    </select>
+                    </div>
+                </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.Fuel">Fuel Type</label>
                     <select asp-for="@Model.Fuel" class="form-control">
-                        <option value="">Select Fuel Type</option>
+                        <option value="">Any Fuel Type</option>
                             @foreach (var fuel in Model.FuelTypes)
                             {
-                                <option value="@fuel.FuelName">@fuel.FuelName</option>
-                                
+                                <option value="@fuel.FuelName">@fuel.FuelName</option>    
                             }
                     </select>
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="@Model.Gear">Transmission</label>
+                    <label asp-for="@Model.Gear">Gear Type</label>
                         <select asp-for="@Model.Gear" class="form-control">
-                            <option value="">Select Gear Type</option>
+                            <option value="">Any Gear Type</option>
                             @foreach (var gear in Model.Gears)
                             {
-                                <option value="@gear.GearName">@gear.GearName</option>
-
+                                <option value="@gear.GearName">@gear.GearName</option> 
                             }
                         </select>
                 </div>
             </div>
-
-            <div class="col-md-3">
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.Drivetrain">Drivetrain</label>
                         <select asp-for="@Model.Drivetrain" class="form-control">
-                            <option value="">Select Drivetrain Type</option>
+                            <option value="">Any Drivetrain Type</option>
                             @foreach (var drivetrain in Model.Drivetrains)
                             {
-                                <option value="@drivetrain.DrivetrainName">@drivetrain.DrivetrainName</option>
-
+                                <option value="@drivetrain.DrivetrainName">@drivetrain.DrivetrainName</option>         
                             }
                         </select>
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.CarBody">Car Body Type</label>
                         <select asp-for="@Model.CarBody" class="form-control">
-                            <option value="">Select Car Body</option>
+                            <option value="">Any Car Body</option>
                             @foreach (var carBodyType in Model.CarBodyTypes)
                             {
-                                <option value="@carBodyType.Name">@carBodyType.Name</option>
-
+                                <option value="@carBodyType.Name">@carBodyType.Name</option>   
                             }
                         </select>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <input asp-for="Sorting" type="hidden" value="@((int)Model.Sorting)" />
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </div>
             </div>
         </div>
     </form>
+    <form>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <label asp-for="Sorting" class="form-label">Sort By</label>
+                <div class="input-group">
+                    <input asp-for="Brand" type="hidden" value="@Model.Brand" />
+                    <input asp-for="Model" type="hidden" value="@Model.Model" />
+                    <input asp-for="MinYear" type="hidden" value="@Model.MinYear" />
+                    <input asp-for="MaxYear" type="hidden" value="@Model.MaxYear" />
+                    <input asp-for="MinWhp" type="hidden" value="@Model.MinWhp" />
+                    <input asp-for="MaxWhp" type="hidden" value="@Model.MaxWhp" />
+                    <input asp-for="MinPrice" type="hidden" value="@Model.MinPrice" />
+                    <input asp-for="MaxPrice" type="hidden" value="@Model.MaxPrice" />
+                    <input asp-for="MinEngineDisplacement" type="hidden" value="@Model.MinEngineDisplacement" />
+                    <input asp-for="MaxEngineDisplacement" type="hidden" value="@Model.MaxEngineDisplacement" />
+                    <input asp-for="Mileage" type="hidden" value="@Model.Mileage" />
+                    <input asp-for="Fuel" type="hidden" value="@Model.Fuel" />
+                    <input asp-for="CarBody" type="hidden" value="@Model.CarBody" />
+                    <input asp-for="Gear" type="hidden" value="@Model.Gear" />
+                    <input asp-for="Drivetrain" type="hidden" value="@Model.Drivetrain" />
+                    <select asp-for="Sorting" class="form-select">
+                        <option value="0">Brand/Model/Year</option>
+                        <option value="1">Car Year Descending</option>
+                        <option value="2">Car Year Ascending</option>
+                        <option value="3">Price Ascending</option>
+                        <option value="4">Price Descending</option>
+                        <option value="5">Date Added Ascending</option>
+                        <option value="6">Date Added Descending</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Sort</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalCarsCount /
+        Model.CarsPerPage);
+}
+@{
+    var nextPage = Model.CurrentPage + 1 <= maxPage ? Model.CurrentPage + 1 : maxPage;
+}
+
+<div class="row mb-5 mt-5">
+    <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="RefinedSearch"
+           asp-action="Index"
+           asp-route-Brand="@Model.Brand"
+           asp-route-Model="@Model.Model"
+           asp-route-MinYear="@Model.MinYear"
+           asp-route-MaxYear="@Model.MaxYear"
+           asp-route-MinPrice="@Model.MinPrice"
+           asp-route-MaxPrice="@Model.MaxPrice"
+           asp-route-MinWhp="@Model.MinWhp"
+           asp-route-MaxWhp="@Model.MaxWhp"
+           asp-route-MinEngineDisplacement="@Model.MinEngineDisplacement"
+           asp-route-MaxEngineDisplacement="@Model.MaxEngineDisplacement"
+           asp-route-MaxMilleage="@Model.Mileage"
+           asp-route-Fuel="@Model.Fuel"
+           asp-route-CarBody="@Model.CarBody"
+           asp-route-Drivetrain="@Model.Drivetrain"
+           asp-route-Gear="@Model.Gear"
+           asp-route-Sorting="@((int)Model.Sorting)"
+           asp-route-CurrentPage="@previousPage">@ViewBag.BackArrow</a>
+    </div>
+
+    <div class="col-4 text-center">
+        @{
+            int currentPage = Model.CurrentPage;
+            List<int> pagesToShow = new List<int>();
+
+            if (currentPage == 1)
+            {
+                pagesToShow.Add(currentPage);
+                if (currentPage + 1 <= maxPage) pagesToShow.Add(currentPage + 1);
+                if (currentPage + 2 <= maxPage) pagesToShow.Add(currentPage + 2);
+            }
+            else if (currentPage == (int)maxPage)
+            {
+                if (currentPage - 2 > 0) pagesToShow.Add(currentPage - 2);
+                if (currentPage - 1 > 0) pagesToShow.Add(currentPage - 1);
+                pagesToShow.Add(currentPage);
+            }
+            else
+            {
+                if (currentPage - 1 > 0) pagesToShow.Add(currentPage - 1);
+                pagesToShow.Add(currentPage);
+                if (currentPage + 1 <= (int)maxPage) pagesToShow.Add(currentPage + 1);
+            }
+        }
+        @if (currentPage != 1 && 1 + currentPage > 3 && maxPage > 3)
+        {
+            <a class="btn btn-dark"
+               asp-controller="RefinedSearch"
+               asp-action="Index"
+               asp-route-Brand="@Model.Brand"
+               asp-route-Model="@Model.Model"
+               asp-route-MinYear="@Model.MinYear"
+               asp-route-MaxYear="@Model.MaxYear"
+               asp-route-MinPrice="@Model.MinPrice"
+               asp-route-MaxPrice="@Model.MaxPrice"
+               asp-route-MinWhp="@Model.MinWhp"
+               asp-route-MaxWhp="@Model.MaxWhp"
+               asp-route-MinEngineDisplacement="@Model.MinEngineDisplacement"
+               asp-route-MaxEngineDisplacement="@Model.MaxEngineDisplacement"
+               asp-route-MaxMilleage="@Model.Mileage"
+               asp-route-Fuel="@Model.Fuel"
+               asp-route-CarBody="@Model.CarBody"
+               asp-route-Drivetrain="@Model.Drivetrain"
+               asp-route-Gear="@Model.Gear"
+               asp-route-Sorting="@((int)Model.Sorting)"
+               asp-route-CurrentPage="1">
+                1
+            </a>
+        }
+        <div class="btn-group" role="group" aria-label="Pagination buttons">
+            @foreach (var listingPage in pagesToShow)
+            {
+                if (listingPage == currentPage)
+                {
+                    <span class="btn btn-primary disabled">@listingPage</span>
+                }
+                else
+                {
+                    <a class="btn btn-outline-primary"
+                       asp-controller="RefinedSearch"
+                       asp-action="Index"
+                       asp-route-Brand="@Model.Brand"
+                       asp-route-Model="@Model.Model"
+                       asp-route-MinYear="@Model.MinYear"
+                       asp-route-MaxYear="@Model.MaxYear"
+                       asp-route-MinPrice="@Model.MinPrice"
+                       asp-route-MaxPrice="@Model.MaxPrice"
+                       asp-route-MinWhp="@Model.MinWhp"
+                       asp-route-MaxWhp="@Model.MaxWhp"
+                       asp-route-MinEngineDisplacement="@Model.MinEngineDisplacement"
+                       asp-route-MaxEngineDisplacement="@Model.MaxEngineDisplacement"
+                       asp-route-MaxMilleage="@Model.Mileage"
+                       asp-route-Fuel="@Model.Fuel"
+                       asp-route-CarBody="@Model.CarBody"
+                       asp-route-Drivetrain="@Model.Drivetrain"
+                       asp-route-Gear="@Model.Gear"
+                       asp-route-Sorting="@((int)Model.Sorting)"
+                       asp-route-CurrentPage="@listingPage">
+                        @listingPage
+                    </a>
+                }
+            }
+        </div>
+        @if (currentPage != maxPage && maxPage - currentPage > 1 && maxPage > 3)
+        {
+            <a class="btn btn-dark"
+               asp-controller="RefinedSearch"
+               asp-action="Index"
+               asp-route-Brand="@Model.Brand"
+               asp-route-Model="@Model.Model"
+               asp-route-MinYear="@Model.MinYear"
+               asp-route-MaxYear="@Model.MaxYear"
+               asp-route-MinPrice="@Model.MinPrice"
+               asp-route-MaxPrice="@Model.MaxPrice"
+               asp-route-MinWhp="@Model.MinWhp"
+               asp-route-MaxWhp="@Model.MaxWhp"
+               asp-route-MinEngineDisplacement="@Model.MinEngineDisplacement"
+               asp-route-MaxEngineDisplacement="@Model.MaxEngineDisplacement"
+               asp-route-MaxMilleage="@Model.Mileage"
+               asp-route-Fuel="@Model.Fuel"
+               asp-route-CarBody="@Model.CarBody"
+               asp-route-Drivetrain="@Model.Drivetrain"
+               asp-route-Gear="@Model.Gear"
+               asp-route-Sorting="@((int)Model.Sorting)"
+               asp-route-CurrentPage="@maxPage">
+                @maxPage
+            </a>
+        }
+
+    </div>
+
+
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.CarListings.Any();
+    }
+
+    <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="RefinedSearch"
+           asp-action="Index"
+           asp-route-Brand="@Model.Brand"
+           asp-route-Model="@Model.Model"
+           asp-route-MinYear="@Model.MinYear"
+           asp-route-MaxYear="@Model.MaxYear"
+           asp-route-MinPrice="@Model.MinPrice"
+           asp-route-MaxPrice="@Model.MaxPrice"
+           asp-route-MinWhp="@Model.MinWhp"
+           asp-route-MaxWhp="@Model.MaxWhp"
+           asp-route-MinEngineDisplacement="@Model.MinEngineDisplacement"
+           asp-route-MaxEngineDisplacement="@Model.MaxEngineDisplacement"
+           asp-route-MaxMilleage="@Model.Mileage"
+           asp-route-Fuel="@Model.Fuel"
+           asp-route-CarBody="@Model.CarBody"
+           asp-route-Drivetrain="@Model.Drivetrain"
+           asp-route-Gear="@Model.Gear"
+           asp-route-CurrentPage="@nextPage"
+           asp-route-Sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>
+<div class="row text-center">
+    @foreach(var carListing in Model.CarListings)
+    {
+        <partial name="_CarListingPartial" model="@carListing" />
+    }
 </div>
 
 @section Scripts {
@@ -208,6 +424,21 @@
             </text>
         }
 
-            populateCarModelsIndex(modelsData);
+            populateCarModels(modelsData);
+
+        const selectedBrandName = "@Model.Brand";
+        const selectedModelName = "@Model.Model";
+
+        if (selectedBrandName) {
+            updateModels();
+
+            const modelSelect = document.getElementById("carModel");
+            const selectedOption = Array.from(modelSelect.options)
+            .find(option => option.value === selectedModelName);
+
+            if (selectedOption) {
+                selectedOption.selected = true;
+            }
+        }
     </script>
 }

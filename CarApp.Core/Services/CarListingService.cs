@@ -83,7 +83,9 @@ namespace CarApp.Core.Services
             int currentPage = 1, 
             int listingsPerPage = 1)
         {
-            var carListings = carListingRepository.GetAllAsReadOnly();
+            var carListings = carListingRepository
+                .GetAllAsReadOnly()
+                .Where(cl => cl.IsDeleted == false);
                 
 
             carListings = sorting switch

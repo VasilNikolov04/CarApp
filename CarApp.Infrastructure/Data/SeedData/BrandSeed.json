@@ -1,458 +1,157 @@
 [
   {
-    "make_id": "254",
-    "make": "Abarth"
+    "brand": "Seat",
+    "models": [ "Alhambra", "Altea", "Altea XL", "Arosa", "Cordoba", "Cordoba Vario", "Exeo", "Ibiza", "Ibiza ST", "Exeo ST", "Leon", "Leon ST", "Inca", "Mii", "Toledo" ]
   },
   {
-    "make_id": "1",
-    "make": "AC"
+    "brand": "Renault",
+    "models": [ "Captur", "Clio", "Clio Grandtour", "Espace", "Express", "Fluence", "Grand Espace", "Grand Modus", "Grand Scenic", "Kadjar", "Kangoo", "Kangoo Express", "Koleos", "Laguna", "Laguna Grandtour", "Latitude", "Mascott", "Mégane", "Mégane CC", "Mégane Combi", "Mégane Grandtour", "Mégane Coupé", "Mégane Scénic", "Scénic", "Talisman", "Talisman Grandtour", "Thalia", "Twingo", "Wind", "Zoé" ]
   },
   {
-    "make_id": "2",
-    "make": "Acura"
+    "brand": "Peugeot",
+    "models": [ "1007", "107", "106", "108", "2008", "205", "205 Cabrio", "206", "206 CC", "206 SW", "207", "207 CC", "207 SW", "306", "307", "307 CC", "307 SW", "308", "308 CC", "308 SW", "309", "4007", "4008", "405", "406", "407", "407 SW", "5008", "508", "508 SW", "605", "806", "607", "807", "Bipper", "RCZ" ]
   },
   {
-    "make_id": "3",
-    "make": "Alfa Romeo"
+    "brand": "Dacia",
+    "models": [ "Dokker", "Duster", "Lodgy", "Logan", "Logan MCV", "Logan Van", "Sandero", "Solenza" ]
   },
   {
-    "make_id": "4",
-    "make": "Alpina"
+    "brand": "Citroën",
+    "models": [ "Berlingo", "C-Crosser", "C-Elissée", "C-Zero", "C1", "C2", "C3", "C3 Picasso", "C4", "C4 Aircross", "C4 Cactus", "C4 Coupé", "C4 Grand Picasso", "C4 Sedan", "C5", "C5 Break", "C5 Tourer", "C6", "C8", "DS3", "DS4", "DS5", "Evasion", "Jumper", "Jumpy", "Saxo", "Nemo", "Xantia", "Xsara" ]
   },
   {
-    "make_id": "5",
-    "make": "Alpine"
+    "brand": "Opel",
+    "models": [ "Agila", "Ampera", "Antara", "Astra", "Astra cabrio", "Astra caravan", "Astra coupé", "Calibra", "Campo", "Cascada", "Corsa", "Frontera", "Insignia", "Insignia kombi", "Kadett", "Meriva", "Mokka", "Movano", "Omega", "Signum", "Vectra", "Vectra Caravan", "Vivaro", "Vivaro Kombi", "Zafira" ]
   },
   {
-    "make_id": "6",
-    "make": "Aro"
+    "brand": "Alfa Romeo",
+    "models": [ "145", "146", "147", "155", "156", "156 Sportwagon", "159", "159 Sportwagon", "164", "166", "4C", "Brera", "GTV", "MiTo", "Crosswagon", "Spider", "GT", "Giulietta", "Giulia" ]
   },
   {
-    "make_id": "7",
-    "make": "Asia"
+    "brand": "Škoda",
+    "models": [ "Favorit", "Felicia", "Citigo", "Fabia", "Fabia Combi", "Fabia Sedan", "Felicia Combi", "Octavia", "Octavia Combi", "Roomster", "Yeti", "Rapid", "Rapid Spaceback", "Superb", "Superb Combi" ]
   },
   {
-    "make_id": "8",
-    "make": "Aston Martin"
+    "brand": "Chevrolet",
+    "models": [ "Alero", "Aveo", "Camaro", "Captiva", "Corvette", "Cruze", "Cruze SW", "Epica", "Equinox", "Evanda", "HHR", "Kalos", "Lacetti", "Lacetti SW", "Lumina", "Malibu", "Matiz", "Monte Carlo", "Nubira", "Orlando", "Spark", "Suburban", "Tacuma", "Tahoe", "Trax" ]
   },
   {
-    "make_id": "9",
-    "make": "Audi"
+    "brand": "Porsche",
+    "models": [ "911 Carrera", "911 Carrera Cabrio", "911 Targa", "911 Turbo", "924", "944", "997", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera" ]
   },
   {
-    "make_id": "10",
-    "make": "Austin"
+    "brand": "Honda",
+    "models": [ "Accord", "Accord Coupé", "Accord Tourer", "City", "Civic", "Civic Aerodeck", "Civic Coupé", "Civic Tourer", "Civic Type R", "CR-V", "CR-X", "CR-Z", "FR-V", "HR-V", "Insight", "Integra", "Jazz", "Legend", "Prelude" ]
   },
   {
-    "make_id": "13",
-    "make": "Bentley"
+    "brand": "Subaru",
+    "models": [ "BRZ", "Forester", "Impreza", "Impreza Wagon", "Justy", "Legacy", "Legacy Wagon", "Legacy Outback", "Levorg", "Outback", "SVX", "Tribeca", "Tribeca B9", "XV" ]
   },
   {
-    "make_id": "16",
-    "make": "BMW"
+    "brand": "Mazda",
+    "models": [ "121", "2", "3", "323", "323 Combi", "323 Coupé", "323 F", "5", "6", "6 Combi", "626", "626 Combi", "B-Fighter", "B2500", "BT", "CX-3", "CX-5", "CX-7", "CX-9", "Demio", "MPV", "MX-3", "MX-5", "MX-6", "Premacy", "RX-7", "RX-8", "Xedox 6" ]
   },
   {
-    "make_id": "207",
-    "make": "Brabus"
+    "brand": "Mitsubishi",
+    "models": [ "3000 GT", "ASX", "Carisma", "Colt", "Colt CC", "Eclipse", "Fuso canter", "Galant", "Galant Combi", "Grandis", "L200", "L200 Pick up", "L200 Pick up Allrad", "L300", "Lancer", "Lancer Combi", "Lancer Evo", "Lancer Sportback", "Outlander", "Pajero", "Pajeto Pinin", "Pajero Pinin Wagon", "Pajero Sport", "Pajero Wagon", "Space Star" ]
   },
   {
-    "make_id": "18",
-    "make": "Bugatti"
+    "brand": "Lexus",
+    "models": [ "CT", "GS", "GS 300", "GX", "IS", "IS 200", "IS 250 C", "IS-F", "LS", "LX", "NX", "RC F", "RX", "RX 300", "RX 400h", "RX 450h", "SC 430" ]
   },
   {
-    "make_id": "19",
-    "make": "Buick"
+    "brand": "Toyota",
+    "models": [ "4-Runner", "Auris", "Avensis", "Avensis Combi", "Avensis Van Verso", "Aygo", "Camry", "Carina", "Celica", "Corolla", "Corolla Combi", "Corolla sedan", "Corolla Verso", "FJ Cruiser", "GT86", "GR86", "Hiace", "Hiace Van", "Highlander", "Hilux", "Land Cruiser", "MR2", "Paseo", "Picnic", "Prius", "RAV4", "Sequoia", "Starlet", "Supra", "Tundra", "Urban Cruiser", "Verso", "Yaris", "Yaris Verso" ]
   },
   {
-    "make_id": "20",
-    "make": "BYD"
+    "brand": "BMW",
+    "models": [ "1-Series (All)", "   114", "   116", "   118", "   120", "   123", "   125", "   128", "   130", "   135", "   140", "2-Series (All)", "   214", "   216", "   218", "   220", "   223", "   225", "   228", "   230", "   235", "   240", "3-Series (All)", "   315", "   316", "   318", "   320", "   323", "   325", "   328", "   330", "   335", "   340", "4-Series (All)", "   418", "   420", "   423", "   425", "   428", "   430", "   435", "   440", "5-Series (All)", "   518", "   520", "   523", "   524", "   525", "   528", "   530", "   535", "   540", "   545", "   550", "6-Series (All)", "   620", "   628", "   630", "   633", "   635", "   640", "   645", "   650", "7-Series (All)", "   725", "   728", "   730", "   732", "   735", "   740", "   745", "   750", "   760", "8-Series (All)", "   830", "   840", "   850", "   i3", "   i4", "   i5", "   i7", "   i8", "   iX", "   iX1", "   iX2", "   iX3", "M-Series (All)", "   M1", "   M2", "   M3", "   M4", "   M5", "   M6", "   M8", "X-Series (All)", "   X1", "   X2", "   X2 M", "   M3", "   X3 M", "   X4", "   X4 M", "   X5", "   X5 M", "   X6", "   X6 M", "   X7", "   X7 M", "   XM", "Z-Series (All)", "   Z1", "   Z3","   Z3 M", "   Z4", "   Z4 M", "   Z8" ]
   },
   {
-    "make_id": "21",
-    "make": "Cadillac"
+    "brand": "Volkswagen",
+    "models": [ "Amarok", "Beetle", "Bora", "Bora Variant", "Caddy", "Caddy Van", "Life", "California", "Caravelle", "CC", "Crafter", "Crafter Van", "Crafter Kombi", "CrossTouran", "Eos", "Fox", "Golf", "Golf Cabrio", "Golf Plus", "Golf Sportvan", "Golf Variant", "Jetta", "LT", "Lupo", "Multivan", "New Beetle", "New Beetle Cabrio", "Passat", "Passat Alltrack", "Passat CC", "Passat Variant", "Passat Variant Van", "Phaeton", "Polo", "Polo Van", "Polo Variant", "Scirocco", "Sharan", "T4", "T4 Caravelle", "T4 Multivan", "T5", "T5 Caravelle", "T5 Multivan", "T5 Transporter Shuttle", "Tiguan", "Touareg", "Touran" ]
   },
   {
-    "make_id": "25",
-    "make": "Chery"
+    "brand": "Suzuki",
+    "models": [ "Alto", "Baleno", "Baleno kombi", "Grand Vitara", "Grand Vitara XL-7", "Ignis", "Jimny", "Kizashi", "Liana", "Samurai", "Splash", "Swift", "SX4", "SX4 Sedan", "Vitara", "Wagon R+" ]
   },
   {
-    "make_id": "26",
-    "make": "Chevrolet"
+    "brand": "Mercedes-Benz",
+    "models": ["A-Class (All)","   A 160","   A 180","   A 200","   A 220","   A 250","   A 35 AMG","   A 45 AMG","B-Class (All)","   B 160","   B 180","   B 200","   B 220","   B 250", "C-Class (All)","   C 180","   C 200","   C 220","   C 250","   C 300","   C 350","   C 43 AMG","   C 63 AMG","CLA-Class (All)","   CLA 180","   CLA 200","   CLA 220","   CLA 250","   CLA 35 AMG","   CLA 45 AMG","CLS-Class (All)","   CLS 350","   CLS 400","   CLS 450","   CLS 500","   CLS 53 AMG","   CLS 63 AMG","E-Class (All)", "   E 200","   E 220","   E 250","   E 300","   E 350","   E 400","   E 450","   E 500","   E 53 AMG","   E 63 AMG","G-Class (All)","   G 350","   G 400","   G 500","   G 550","   G 63 AMG","GLA-Class (All)", "   GLA 180","   GLA 200","   GLA 220","   GLA 250","   GLA 35 AMG","   GLA 45 AMG", "GLB-Class (All)","   GLB 200","   GLB 220","   GLB 250", "   GLB 35 AMG","GLC-Class (All)","   GLC 200","   GLC 220","   GLC 250","   GLC 300","   GLC 43 AMG","   GLC 63 AMG","GLE-Class (All)","   GLE 300", "   GLE 350", "   GLE 400","   GLE 450","   GLE 500","   GLE 53 AMG","   GLE 63 AMG","GLS-Class (All)","   GLS 350","   GLS 400","   GLS 450","   GLS 500","   GLS 580","   GLS 63 AMG","S-Class (All)","   S 350","   S 400","   S 450","   S 500","   S 580","   S 63 AMG","   S 65 AMG","SL-Class (All)","   SL 350","   SL 400","   SL 450","   SL 500","   SL 550","   SL 63 AMG","   SL 65 AMG","SLC-Class (All)","   SLC 180","   SLC 200","   SLC 300","   SLC 43 AMG","EQ-Series (All)","   EQC","   EQE","   EQS","   EQA","   EQB","AMG GT-Series (All)","   AMG GT","   AMG GT 43","   AMG GT 53","   AMG GT 63","   AMG GT Black Series"]
   },
   {
-    "make_id": "27",
-    "make": "Chrysler"
+    "brand": "Saab",
+    "models": [ "9-3", "9-3 Cabriolet", "9-3 Coupé", "9-3 SportCombi", "9-5", "9-5 SportCombi", "900", "900 C", "900 C Turbo", "9000" ]
   },
   {
-    "make_id": "28",
-    "make": "Citroen"
+    "brand": "Audi",
+    "models": [ "100", "100 Avant", "80", "80 Avant", "80 Cabrio", "90", "A1", "A2", "A3", "A3 Cabriolet", "A3 Limuzina", "A3 Sportback", "A4", "A4 Allroad", "A4 Avant", "A4 Cabriolet", "A5", "A5 Cabriolet", "A5 Sportback", "A6", "A6 Allroad", "A6 Avant", "A7", "A8", "A8 Long", "Q3", "Q5", "Q7", "R8", "RS4 Cabriolet", "RS4/RS4 Avant", "RS5", "RS6 Avant", "RS7", "S3/S3 Sportback", "S4 Cabriolet", "S4/S4 Avant", "S5/S5 Cabriolet", "S6/RS6", "S7", "S8", "SQ5", "TT Coupé", "TT Roadster", "TTS" ]
   },
   {
-    "make_id": "283",
-    "make": "Cupra"
+    "brand": "Kia",
+    "models": [ "Avella", "Besta", "Carens", "Carnival", "Cee`d", "Cee`d SW", "Cerato", "K 2500", "Magentis", "Opirus", "Optima", "Picanto", "Pregio", "Pride", "Pro Cee`d", "Rio", "Rio Combi", "Rio sedan", "Sephia", "Shuma", "Sorento", "Soul", "Sportage", "Venga" ]
   },
   {
-    "make_id": "31",
-    "make": "Dacia"
+    "brand": "Land Rover",
+    "models": [ "109", "Defender", "Discovery", "Discovery Sport", "Freelander", "Range Rover", "Range Rover Evoque", "Range Rover Sport" ]
   },
   {
-    "make_id": "33",
-    "make": "Daewoo"
+    "brand": "Dodge",
+    "models": [ "Avenger", "Caliber", "Challenger", "Charger", "Grand Caravan", "Journey", "Magnum", "Nitro", "RAM", "Stealth", "Viper" ]
   },
   {
-    "make_id": "35",
-    "make": "Daihatsu"
+    "brand": "Chrysler",
+    "models": [ "300 C", "300 C Touring", "300 M", "Crossfire", "Grand Voyager", "LHS", "Neon", "Pacifica", "Plymouth", "PT Cruiser", "Sebring", "Sebring Convertible", "Stratus", "Stratus Cabrio", "Town & Country", "Voyager" ]
   },
   {
-    "make_id": "37",
-    "make": "Datsun"
+    "brand": "Ford",
+    "models": [ "Aerostar", "B-Max", "C-Max", "Cortina", "Cougar", "Edge", "Escort", "Escort Cabrio", "Escort kombi", "Explorer", "F-150", "F-250", "Fiesta", "Focus", "Focus C-Max", "Focus CC", "Focus kombi", "Fusion", "Galaxy", "Grand C-Max", "Ka", "Kuga", "Maverick", "Mondeo", "Mondeo Combi", "Mustang", "Orion", "Puma", "Ranger", "S-Max", "Sierra", "Street Ka", "Tourneo Connect", "Tourneo Custom", "Transit", "Transit", "Transit Bus", "Transit Connect LWB", "Transit Courier", "Transit Custom", "Transit kombi", "Transit Tourneo", "Transit Valnik", "Transit Van", "Transit Van 350", "Windstar" ]
   },
   {
-    "make_id": "38",
-    "make": "DeLorean"
+    "brand": "Hummer",
+    "models": [ "H2", "H3" ]
   },
   {
-    "make_id": "264",
-    "make": "DKW"
+    "brand": "Hyundai",
+    "models": [ "Accent", "Atos", "Atos Prime", "Coupé", "Elantra", "Galloper", "Genesis", "Getz", "Grandeur", "H 350", "H1", "H1 Bus", "H1 Van", "H200", "i10", "i20", "i30", "i30 CW", "i40", "i40 CW", "ix20", "ix35", "ix55", "Lantra", "Matrix", "Santa Fe", "Sonata", "Terracan", "Trajet", "Tucson", "Veloster" ]
   },
   {
-    "make_id": "41",
-    "make": "Dodge"
+    "brand": "Infiniti",
+    "models": [ "EX", "FX", "G", "G Coupé", "M", "Q", "QX" ]
   },
   {
-    "make_id": "169",
-    "make": "DongFeng"
+    "brand": "Jaguar",
+    "models": [ "Daimler", "F-Pace", "F-Type", "S-Type", "Sovereign", "X-Type", "X-type Estate", "XE", "XF", "XJ", "XJ12", "XJ6", "XJ8", "XJ8", "XJR", "XK", "XK8 Convertible", "XKR", "XKR Convertible" ]
   },
   {
-    "make_id": "46",
-    "make": "Ferrari"
+    "brand": "Jeep",
+    "models": [ "Cherokee", "Commander", "Compass", "Grand Cherokee", "Patriot", "Renegade", "Wrangler" ]
   },
   {
-    "make_id": "47",
-    "make": "Fiat"
+    "brand": "Nissan",
+    "models": [ "100 NX", "200 SX", "350 Z", "350 Z Roadster", "370 Z", "Almera", "Almera Tino", "Cabstar E - T", "Cabstar TL2 Valnik", "e-NV200", "GT-R", "Insterstar", "Juke", "King Cab", "Leaf", "Maxima", "Maxima QX", "Micra", "Murano", "Navara", "Note", "NP300 Pickup", "NV200", "NV400", "Pathfinder", "Patrol", "Patrol GR", "Pickup", "Pixo", "Primastar", "Primastar Combi", "Primera", "Primera Combi", "Pulsar", "Qashqai", "Serena", "Sunny", "Terrano", "Tiida", "Trade", "Vanette Cargo", "X-Trail" ]
   },
   {
-    "make_id": "48",
-    "make": "Ford"
+    "brand": "Volvo",
+    "models": [ "240", "340", "360", "460", "850", "850 kombi", "C30", "C70", "C70 Cabrio", "C70 Coupé", "S40", "S60", "S70", "S80", "S90", "V40", "V50", "V60", "V70", "V90", "XC60", "XC70", "XC90" ]
   },
   {
-    "make_id": "155",
-    "make": "GAZ"
+    "brand": "Daewoo",
+    "models": [ "Espero", "Kalos", "Lacetti", "Lanos", "Leganza", "Lublin", "Matiz", "Nexia", "Nubira", "Nubira kombi", "Racer", "Tacuma", "Tico" ]
   },
   {
-    "make_id": "232",
-    "make": "Genesis"
+    "brand": "Fiat",
+    "models": [ "1100", "126", "500", "500L", "500X", "850", "Barchetta", "Brava", "Cinquecento", "Coupé", "Croma", "Doblo", "Doblo Cargo", "Doblo Cargo Combi", "Ducato", "Ducato Van", "Ducato Kombi", "Ducato Podvozok", "Florino", "Florino Combi", "Freemont", "Grande Punto", "Idea", "Linea", "Marea", "Marea Weekend", "Multipla", "Palio Weekend", "Panda", "Panda Van", "Punto", "Punto Cabriolet", "Punto Evo", "Punto Van", "Qubo", "Scudo", "Scudo Van", "Scudo Kombi", "Sedici", "Seicento", "Stilo", "Stilo Multiwagon", "Strada", "Talento", "Tipo", "Ulysse", "Uno", "X1/9" ]
   },
   {
-    "make_id": "52",
-    "make": "GMC"
+    "brand": "MINI",
+    "models": [ "Cooper", "Cooper Cabrio", "Cooper Clubman", "Cooper D", "Cooper D Clubman", "Cooper S", "Cooper S Cabrio", "Cooper S Clubman", "Countryman", "Mini One", "One D" ]
   },
   {
-    "make_id": "180",
-    "make": "Gonow"
+    "brand": "Rover",
+    "models": [ "200", "214", "218", "25", "400", "414", "416", "620", "75" ]
   },
   {
-    "make_id": "53",
-    "make": "Great Wall"
-  },
-  {
-    "make_id": "212",
-    "make": "Haval"
-  },
-  {
-    "make_id": "56",
-    "make": "Honda"
-  },
-  {
-    "make_id": "292",
-    "make": "Hongqi"
-  },
-  {
-    "make_id": "229",
-    "make": "Hudson"
-  },
-  {
-    "make_id": "57",
-    "make": "Hummer"
-  },
-  {
-    "make_id": "58",
-    "make": "Hyundai"
-  },
-  {
-    "make_id": "60",
-    "make": "Infiniti"
-  },
-  {
-    "make_id": "64",
-    "make": "Isuzu"
-  },
-  {
-    "make_id": "65",
-    "make": "IVECO"
-  },
-  {
-    "make_id": "66",
-    "make": "JAC"
-  },
-  {
-    "make_id": "67",
-    "make": "Jaguar"
-  },
-  {
-    "make_id": "68",
-    "make": "Jeep"
-  },
-  {
-    "make_id": "182",
-    "make": "JMC"
-  },
-  {
-    "make_id": "70",
-    "make": "Kia"
-  },
-  {
-    "make_id": "71",
-    "make": "Koenigsegg"
-  },
-  {
-    "make_id": "72",
-    "make": "Lamborghini"
-  },
-  {
-    "make_id": "73",
-    "make": "Lancia"
-  },
-  {
-    "make_id": "74",
-    "make": "Land Rover"
-  },
-  {
-    "make_id": "75",
-    "make": "Landwind"
-  },
-  {
-    "make_id": "76",
-    "make": "Lexus"
-  },
-  {
-    "make_id": "77",
-    "make": "Lincoln"
-  },
-  {
-    "make_id": "78",
-    "make": "Lotus"
-  },
-  {
-    "make_id": "316",
-    "make": "Lynk & Co"
-  },
-  {
-    "make_id": "80",
-    "make": "Mahindra"
-  },
-  {
-    "make_id": "83",
-    "make": "Maserati"
-  },
-  {
-    "make_id": "84",
-    "make": "Maybach"
-  },
-  {
-    "make_id": "85",
-    "make": "Mazda"
-  },
-  {
-    "make_id": "86",
-    "make": "McLaren"
-  },
-  {
-    "make_id": "88",
-    "make": "Mercedes-Benz"
-  },
-  {
-    "make_id": "91",
-    "make": "MG"
-  },
-  {
-    "make_id": "92",
-    "make": "Microcar"
-  },
-  {
-    "make_id": "94",
-    "make": "MINI"
-  },
-  {
-    "make_id": "95",
-    "make": "Mitsubishi"
-  },
-  {
-    "make_id": "97",
-    "make": "Morgan"
-  },
-  {
-    "make_id": "160",
-    "make": "Moskvich"
-  },
-  {
-    "make_id": "99",
-    "make": "Nissan"
-  },
-  {
-    "make_id": "101",
-    "make": "Oldsmobile"
-  },
-  {
-    "make_id": "102",
-    "make": "Opel"
-  },
-  {
-    "make_id": "104",
-    "make": "Pagani"
-  },
-  {
-    "make_id": "106",
-    "make": "Perodua"
-  },
-  {
-    "make_id": "107",
-    "make": "Peugeot"
-  },
-  {
-    "make_id": "108",
-    "make": "Plymouth"
-  },
-  {
-    "make_id": "279",
-    "make": "Polestar"
-  },
-  {
-    "make_id": "109",
-    "make": "Pontiac"
-  },
-  {
-    "make_id": "110",
-    "make": "Porsche"
-  },
-  {
-    "make_id": "275",
-    "make": "RAM"
-  },
-  {
-    "make_id": "117",
-    "make": "Renault"
-  },
-  {
-    "make_id": "123",
-    "make": "Renault Samsung"
-  },
-  {
-    "make_id": "218",
-    "make": "Rimac"
-  },
-  {
-    "make_id": "118",
-    "make": "Rolls-Royce"
-  },
-  {
-    "make_id": "120",
-    "make": "Rover"
-  },
-  {
-    "make_id": "121",
-    "make": "Saab"
-  },
-  {
-    "make_id": "192",
-    "make": "Santana"
-  },
-  {
-    "make_id": "125",
-    "make": "Scion"
-  },
-  {
-    "make_id": "126",
-    "make": "Seat"
-  },
-  {
-    "make_id": "317",
-    "make": "Seres"
-  },
-  {
-    "make_id": "172",
-    "make": "ShuangHuan"
-  },
-  {
-    "make_id": "127",
-    "make": "Skoda"
-  },
-  {
-    "make_id": "128",
-    "make": "Smart"
-  },
-  {
-    "make_id": "131",
-    "make": "SsangYong"
-  },
-  {
-    "make_id": "132",
-    "make": "Subaru"
-  },
-  {
-    "make_id": "133",
-    "make": "Suzuki"
-  },
-  {
-    "make_id": "134",
-    "make": "Talbot"
-  },
-  {
-    "make_id": "187",
-    "make": "Tesla"
-  },
-  {
-    "make_id": "139",
-    "make": "Tofas"
-  },
-  {
-    "make_id": "140",
-    "make": "Toyota"
-  },
-  {
-    "make_id": "141",
-    "make": "Trabant"
-  },
-  {
-    "make_id": "161",
-    "make": "UAZ"
-  },
-  {
-    "make_id": "144",
-    "make": "Vauxhall"
-  },
-  {
-    "make_id": "154",
-    "make": "VAZ (Lada)"
-  },
-  {
-    "make_id": "147",
-    "make": "Volkswagen"
-  },
-  {
-    "make_id": "148",
-    "make": "Volvo"
-  },
-  {
-    "make_id": "298",
-    "make": "Voyah"
-  },
-  {
-    "make_id": "149",
-    "make": "Wartburg"
-  },
-  {
-    "make_id": "153",
-    "make": "Zastava"
+    "brand": "Smart",
+    "models": [ "Cabrio", "City-Coupé", "Compact Pulse", "Forfour", "Fortwo cabrio", "Fortwo coupé", "Roadster" ]
   }
-]

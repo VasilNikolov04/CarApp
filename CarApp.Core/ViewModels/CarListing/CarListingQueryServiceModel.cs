@@ -10,6 +10,7 @@ namespace CarApp.Core.ViewModels.CarListing
     {
         public int TotalListingsCount { get; set; }
 
-        public IEnumerable<CarInfoViewModel> CarListings { get; set; } = new List<CarInfoViewModel>();
+        public IEnumerable<CarInfoViewModel> CarListings { get; set; } 
+            = new List<CarInfoViewModel>();
     }
 }

@@ -1,0 +1,12 @@
+﻿@model (string CssClass, int TargetPage, string ButtonText,bool IsDisabled, int? BrandId, int? ModelId, int? PriceLimit, int Sorting)
+
+<a class="btn @Model.CssClass @(Model.IsDisabled ? "disabled" : "")"
+   asp-controller="CarListings"
+   asp-action="Index"
+   asp-route-BrandId="@Model.BrandId"
+   asp-route-ModelId="@Model.ModelId"
+   asp-route-PriceLimit="@Model.PriceLimit"
+   asp-route-Sorting="@Model.Sorting"
+   asp-route-CurrentPage="@Model.TargetPage">
+    @Model.ButtonText
+</a>

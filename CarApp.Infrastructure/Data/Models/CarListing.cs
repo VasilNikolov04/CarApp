@@ -24,10 +24,12 @@ namespace CarApp.Infrastructure.Data.Models
         [Required]
         public DateTime DatePosted { get; set; } = DateTime.Now;
 
-        //[Required]
-        //public int LocationId { get; set; }
-        //[ForeignKey(nameof(LocationId))]
-        //public CarLocation Location { get; set; }
+        [Required]
+        public int CityId { get; set; }
+        [ForeignKey(nameof(CityId))]
+        public CarLocationCity City { get; set; } = null!;
+
+
 
         [MaxLength(ImageUrlMaxLength)]
         [Required]
