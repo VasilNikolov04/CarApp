@@ -147,7 +147,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.CarLocationId">Location</label>
-                    <select asp-for="@Model.CarLocationId" class="form-control" asp-items="@(new SelectList(Model.CarLocations, "Id", "RegionName"))" required>
+                    <select asp-for="@Model.CarLocationId" id="carLocation" onchange="updateLocations()" class="form-control" asp-items="@(new SelectList(Model.CarLocations, "Id", "RegionName"))" required>
                         <option value="">Select Location</option>
                     </select>
                     <span asp-validation-for="@Model.CarLocationId" class="text-danger"></span>
@@ -156,7 +156,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.CityId">City</label>
-                    <select asp-for="@Model.CityId" class="form-control" asp-items="@(new SelectList(Model.Cities, "Id", "CityName"))" required>
+                    <select asp-for="@Model.CityId" class="form-control" id="carCity" asp-items="@(new SelectList(Model.Cities, "Id", "CityName"))" required>
                         <option value="">Select City</option>
                     </select>
                     <span asp-validation-for="@Model.CityId" class="text-danger"></span>
@@ -184,6 +184,7 @@
 
 @section Scripts {
     <script src="~/js/carSelection.js"></script>
+    <script src="~/js/carLocationDropdown.js"></script>
     
     <script>
         const modelsData = [];
@@ -200,5 +201,20 @@
         }
 
             populateCarModels(modelsData);
+
+        const citiesData = [];
+
+        @foreach (var carCity in Model.Cities)
+        {
+            <text>
+                    citiesData.push({
+                        LocationId: @carCity.LocationId,  
+                    CityId: @carCity.Id,
+                    CityName: "@Html.Raw(carCity.CityName)"
+                    });
+            </text>
+        }
+
+            populateCarCities(citiesData);
     </script>
 }
