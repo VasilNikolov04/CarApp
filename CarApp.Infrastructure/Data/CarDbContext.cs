@@ -6,7 +6,6 @@ using System.Reflection.Emit;
 using System.Reflection;
 using CarApp.Infrastructure.Data.Configurations;
 using Newtonsoft.Json;
-using static CarApp.Infrastructure.Data.Configurations.BrandConfiguration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CarApp.Infrastructure.Data
@@ -41,48 +40,6 @@ namespace CarApp.Infrastructure.Data
                 .Property(p => p.Price)
                 .HasConversion<decimal>();
         }
-
-        public void SeedModelsFromJson()
-        {
-            if (CarModels.IsNullOrEmpty())
-            {
-                string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                    @"..\..\..\..\CarApp.Infrastructure\Data\SeedData\BrandModelSeed.json");
-                string carBrandModelsJson = File.ReadAllText(jsonFilePath, System.Text.Encoding.UTF8);
-                var carBrandModels = JsonConvert.DeserializeObject<List<CarBrandModelData>>(carBrandModelsJson);
-
-                var brands = CarBrands.ToList();
-
-                var modelsToSeed = new List<CarModel>();
-
-                if (carBrandModels != null)
-                {
-                    foreach (var carBrandModel in carBrandModels)
-                    {
-                        var brand = brands.FirstOrDefault(b => b.BrandName.Equals(carBrandModel.Brand, StringComparison.OrdinalIgnoreCase));
-                        if (brand != null)
-                        {
-                            foreach (var modelName in carBrandModel.Models)
-                            {
-                                modelsToSeed.Add(new CarModel
-                                {
-                                    ModelName = modelName,
-                                    BrandId = brand.Id
-                                });
-                            }
-                        }
-                    }
-                    CarModels.AddRange(modelsToSeed);
-                    SaveChanges();
-                }
-            }
-        }
-        
     }
 
-    public class CarBrandModelData
-    {
-        public string? Brand { get; set; }
-        public List<string>? Models { get; set; }
-    }
 }

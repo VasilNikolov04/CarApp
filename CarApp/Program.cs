@@ -1,11 +1,19 @@
+using CarApp.Core.Services;
 using CarApp.Core.Services.Contracts;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddApplicationIdentity(builder.Configuration);
+
+builder.Services.AddMvc()
+    .AddViewOptions(options =>
+    {
+        options.HtmlHelperOptions.FormInputRenderMode = FormInputRenderMode.AlwaysUseCurrentCulture;
+    });
 
 builder.Services.AddControllersWithViews();
 
@@ -47,9 +55,8 @@ app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<CarDbContext>();
-    context.SeedModelsFromJson();
-    
+    var seedService = scope.ServiceProvider.GetRequiredService<IBrandAndModelSeedService>();
+    await seedService.SeedBrandsAndModelsFromJson();
 }
 
 await app.RunAsync();
