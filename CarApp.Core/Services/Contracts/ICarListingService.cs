@@ -7,8 +7,8 @@ namespace CarApp.Core.Services.Contracts
     public interface ICarListingService
     {
         Task<CarListingQueryServiceModel> GetAllCarListingsAsync(
-            int brandId = 0,
-            int modelId = 0,
+            string? brand = null,
+            string? model = null,
             int price = 0,
             CarListingSorting sorting = CarListingSorting.BrandModelYear,
             int currentPage = 1,

@@ -76,8 +76,8 @@ namespace CarApp.Core.Services
         }
 
         public async Task<CarListingQueryServiceModel> GetAllCarListingsAsync(
-            int brandId = 0,
-            int modelId = 0,
+            string? brand = null,
+            string? model = null,
             int price = 0, 
             CarListingSorting sorting = CarListingSorting.BrandModelYear, 
             int currentPage = 1, 
@@ -105,15 +105,15 @@ namespace CarApp.Core.Services
                 carListings = carListings
                     .Where(l => l.Price <= price);
             }
-            if (brandId != 0)
+            if (brand != null)
             {
                 carListings = carListings
-                    .Where(l => l.Car.Model.BrandId == brandId);
+                    .Where(l => l.Car.Model.CarBrand.BrandName == brand);
             }
-            if (modelId != 0)
+            if (model != null)
             {
                 carListings = carListings
-                    .Where(l => l.Car.ModelId == modelId);
+                    .Where(l => l.Car.Model.ModelName == model);
             }
 
             var listings = await carListings

@@ -25,15 +25,15 @@
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
-                <label asp-for="BrandId">Car Brand</label>
-                <select asp-for="BrandId" class="form-select" id="carBrand" onchange="updateModels()">
+                <label asp-for="Brand">Car Brand</label>
+                <select asp-for="Brand" class="form-select" id="carBrand" onchange="updateModels()">
                     <option value="">Select a Brand</option>
                     @foreach (var brandGroup in Model.Brands)
                     {
                         <optgroup label="@brandGroup.Key">
                             @foreach (var brand in brandGroup)
                             {
-                                <option value="@brand.Id">@brand.BrandName</option> 
+                                <option value="@brand.BrandName">@brand.BrandName</option> 
                                
                             }
                         </optgroup>
@@ -44,8 +44,8 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <label asp-for="ModelId">Car Model</label>
-                <select id="carModel" asp-for="ModelId" class="form-select">
+                <label asp-for="Model">Car Model</label>
+                <select id="carModel" asp-for="Model" class="form-select">
                     <option value="">Select a Model</option>
                 </select>
             </div>
@@ -81,8 +81,8 @@
         <div class="col-md-6">
             <label asp-for="Sorting" class="form-label">Sort By</label>
             <div class="input-group">
-                <input asp-for="BrandId" type="hidden" value="@Model.BrandId" />
-                <input asp-for="ModelId" type="hidden" value="@Model.ModelId" />
+                <input asp-for="Brand" type="hidden" value="@Model.Brand" />
+                <input asp-for="Model" type="hidden" value="@Model.Model" />
                 <input asp-for="PriceLimit" type="hidden" value="@Model.PriceLimit" />
                 <select asp-for="Sorting" class="form-select">
                     <option value="0">Brand/Model/Year</option>
@@ -118,8 +118,8 @@
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="CarListings"
            asp-action="Index"
-           asp-route-BrandId="@Model.BrandId"
-           asp-route-ModelId="@Model.ModelId"
+           asp-route-Brand="@Model.Brand"
+           asp-route-Model="@Model.Model"
            asp-route-PriceLimit="@Model.PriceLimit"
            asp-route-Sorting="@((int)Model.Sorting)"
            asp-route-CurrentPage="@previousPage">@ViewBag.BackArrow</a>
@@ -154,8 +154,8 @@
             <a class="btn btn-dark"
                asp-controller="CarListings"
                asp-action="Index"
-               asp-route-BrandId="@Model.BrandId"
-               asp-route-ModelId="@Model.ModelId"
+               asp-route-Brand="@Model.Brand"
+               asp-route-Model="@Model.Model"
                asp-route-PriceLimit="@Model.PriceLimit"
                asp-route-Sorting="@((int)Model.Sorting)"
                asp-route-CurrentPage="1">
@@ -174,8 +174,8 @@
                     <a class="btn btn-outline-primary"
                        asp-controller="CarListings"
                        asp-action="Index"
-                       asp-route-BrandId="@Model.BrandId"
-                       asp-route-ModelId="@Model.ModelId"
+                       asp-route-Brand="@Model.Brand"
+                       asp-route-Model="@Model.Model"
                        asp-route-PriceLimit="@Model.PriceLimit"
                        asp-route-Sorting="@((int)Model.Sorting)"
                        asp-route-CurrentPage="@listingPage">
@@ -189,8 +189,8 @@
             <a class="btn btn-dark"
                asp-controller="CarListings"
                asp-action="Index"
-               asp-route-BrandId="@Model.BrandId"
-               asp-route-ModelId="@Model.ModelId"
+               asp-route-Brand="@Model.Brand"
+               asp-route-Model="@Model.Model"
                asp-route-PriceLimit="@Model.PriceLimit"
                asp-route-Sorting="@((int)Model.Sorting)"
                asp-route-CurrentPage="@maxPage">
@@ -210,8 +210,8 @@
         <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
            asp-controller="CarListings"
            asp-action="Index"
-           asp-route-BrandId="@Model.BrandId"
-           asp-route-ModelId="@Model.ModelId"
+           asp-route-Brand="@Model.Brand"
+           asp-route-Model="@Model.Model"
            asp-route-PriceLimit="@Model.PriceLimit"
            asp-route-Sorting="@((int)Model.Sorting)"
            asp-route-CurrentPage="@(Model.CurrentPage + 1)">>></a>
@@ -224,7 +224,7 @@
     }
 </div>
 
-@section Scripts {
+@* @section Scripts {
     <script src="~/js/carSelection.js"></script>
 
     <script>
@@ -250,11 +250,46 @@
             updateModels();
  
             const modelSelect = document.getElementById("carModel");
-            const selectedOption = Array.from(modelSelect.options).find(option => option.value == selectedModelId.toString());
+            const selectedOption = Array.from(modelSelect.options)
+            .find(option => option.value == selectedModelId.toString());
             if (selectedOption) {
                 selectedOption.selected = true;
             }
         }
 
+    </script>
+}*@
+
+@section Scripts {
+    <script src="~/js/carSelectionIndex.js"></script>
+
+    <script>
+        const modelsData = [];
+
+        @foreach (var carModel in Model.Models)
+        {
+            <text>
+                    modelsData.push({
+                        BrandName: "@Html.Raw(@carModel.CarBrand.BrandName)",
+                    ModelName: "@Html.Raw(@carModel.ModelName)"
+                                        });
+            </text>
+        }
+
+            populateCarModels(modelsData);
+
+        const selectedBrandName = "@Model.Brand";
+        const selectedModelName = "@Model.Model";
+
+        if (selectedBrandName) {
+            updateModels();
+
+            const modelSelect = document.getElementById("carModel");
+            const selectedOption = Array.from(modelSelect.options)
+                .find(option => option.value === selectedModelName);
+            if (selectedOption) {
+                selectedOption.selected = true;
+            }
+        }
     </script>
 }

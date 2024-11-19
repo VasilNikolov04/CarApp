@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarApp.Controllers
 {
-    public class RefinedSearch : Controller
+    public class RefinedSearchController : Controller
     {
         private readonly IUtilityService utilityService;
         private readonly IRefinedSearchService refinedSearchService;
 
-        public RefinedSearch(IUtilityService _utilityService, IRefinedSearchService _refinedSearchService)
+        public RefinedSearchController(IUtilityService _utilityService, IRefinedSearchService _refinedSearchService)
         {
             utilityService = _utilityService;
             refinedSearchService = _refinedSearchService;
@@ -25,13 +25,13 @@ namespace CarApp.Controllers
             var cars = await refinedSearchService.GetAllCarListingsAsync(
                 viewModel.Brand,
                 viewModel.Model,
+                viewModel.Fuel, viewModel.Gear, viewModel.CarBody,
+                viewModel.Drivetrain,
                 viewModel.MinPrice, viewModel.MaxPrice,
                 viewModel.MinYear, viewModel.MaxYear,
                 viewModel.MinWhp, viewModel.MaxWhp,
                 viewModel.MinEngineDisplacement, viewModel.MaxEngineDisplacement,
                 viewModel.Mileage,
-                viewModel.Fuel, viewModel.Gear, viewModel.CarBody,
-                viewModel.Drivetrain,
                 viewModel.CurrentPage,
                 viewModel.CarsPerPage,
                 viewModel.Sorting);

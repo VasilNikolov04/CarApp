@@ -18,6 +18,8 @@ namespace CarApp.Core.Services.Contracts
         Task<List<CarGear>> GetGearsAsync();
         Task<List<CarDrivetrain>> GetDrivetrainAsync();
         Task<List<CarBodyType>> GetBodyTypesAsync();
+        Task<List<CarLocation>> GetLocationsAsync();
+        Task<List<CarLocationCity>> GetCitiesAsync();
         List<int> GetPriceDropdown();
         List<int> GetMileageDropdown();
 

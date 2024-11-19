@@ -22,24 +22,24 @@ namespace CarApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromQuery]AllCarsQueryModel model)
+        public async Task<IActionResult> Index([FromQuery]AllCarsQueryModel viewModel)
         {
             var cars = await carListingService.GetAllCarListingsAsync(
-                model.BrandId,
-                model.ModelId,
-                model.PriceLimit,
-                model.Sorting, 
-                model.CurrentPage, 
-                model.CarsPerPage);
+                viewModel.Brand,
+                viewModel.Model,
+                viewModel.PriceLimit,
+                viewModel.Sorting,
+                viewModel.CurrentPage,
+                viewModel.CarsPerPage);
 
-            model.Brands = await utilityService.GetBrandsAsync();
-            model.Models = await utilityService.GetModelsAsync();
-            model.PriceList = utilityService.GetPriceDropdown();
+            viewModel.Brands = await utilityService.GetBrandsAsync();
+            viewModel.Models = await utilityService.GetModelsAsync();
+            viewModel.PriceList = utilityService.GetPriceDropdown();
 
 
-            model.TotalCarsCount = cars.TotalListingsCount;
-            model.CarListings = cars.CarListings;
-            return View(model);
+            viewModel.TotalCarsCount = cars.TotalListingsCount;
+            viewModel.CarListings = cars.CarListings;
+            return View(viewModel);
         }
 
         [HttpGet]

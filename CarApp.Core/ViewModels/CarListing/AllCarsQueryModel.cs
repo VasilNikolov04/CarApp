@@ -14,11 +14,11 @@ namespace CarApp.Core.ViewModels.CarListing
 
         public int TotalCarsCount { get; set; }
          
-        public int BrandId { get; set; }
+        public string? Brand { get; set; }
         public List<IGrouping<string, CarBrand>> Brands { get; set; } 
             = new List<IGrouping<string, CarBrand>>();
 
-        public int ModelId { get; set; }
+        public string? Model { get; set; }
         public ICollection<CarModel> Models { get; set; } 
             = new List<CarModel>();
 

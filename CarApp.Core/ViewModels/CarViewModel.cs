@@ -103,31 +103,18 @@ namespace CarApp.Core.ViewModels
         public List<CarDrivetrain> Drivetrains { get; set; } = new List<CarDrivetrain>();
 
 
+        /// <summary>
+        /// Car Locations
+        /// </summary>
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        public int CarLocationId { get; set; }
+        public List<CarLocation> CarLocations { get; set; } = new List<CarLocation>();
 
+        /// <summary>
+        /// Location City
+        /// </summary>
 
-
-        ///// <summary>
-        ///// Car Location City
-        ///// </summary>
-        //[Required(ErrorMessage = RequiredErrorMessage)]
-        //[StringLength(CityNameMaxLength,
-        //    MinimumLength = CityNameMinLength,
-        //    ErrorMessage = LengthErrorMessage)]
-        //public string City { get; set; } = string.Empty;
-
-        ///// <summary>
-        ///// Car Location Regionv
-        ///// </summary>
-        //public string? Region { get; set; }
-
-        //[Required(ErrorMessage = RequiredErrorMessage)]
-        //[StringLength(CountryNameMaxLength, 
-        //    MinimumLength = CountryNameMinLength,
-        //    ErrorMessage = LengthErrorMessage)]
-
-        ///// <summary>
-        ///// Car Location Country
-        ///// </summary>
-        //public string Country { get; set; } = string.Empty;
+        public int CityId { get; set; }
+        public List<CarLocationCity> Cities { get; set; } = new List<CarLocationCity>();
     }
 }

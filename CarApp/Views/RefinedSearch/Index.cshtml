@@ -69,7 +69,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="MinWhp">Min Horsepower</label>
-                        <input asp-for="MinWhp" type="number" class="form-control">
+                    <input asp-for="MinWhp" type="number" class="form-control" />
                     </div>
                 </div>
             <div class="col-md-3">
@@ -198,7 +198,7 @@
                     <input asp-for="MinYear" type="hidden" value="@Model.MinYear" />
                     <input asp-for="MaxYear" type="hidden" value="@Model.MaxYear" />
                     <input asp-for="MinWhp" type="hidden" value="@Model.MinWhp" />
-                    <input asp-for="MaxWhp" type="hidden" value="@Model.MaxWhp" />
+                    <input asp-for="MaxWhp" type="hidden" value="@Model.MaxWhp" /> 
                     <input asp-for="MinPrice" type="hidden" value="@Model.MinPrice" />
                     <input asp-for="MaxPrice" type="hidden" value="@Model.MaxPrice" />
                     <input asp-for="MinEngineDisplacement" type="hidden" value="@Model.MinEngineDisplacement" />
@@ -435,7 +435,6 @@
             const modelSelect = document.getElementById("carModel");
             const selectedOption = Array.from(modelSelect.options)
             .find(option => option.value === selectedModelName);
-
             if (selectedOption) {
                 selectedOption.selected = true;
             }

@@ -32,7 +32,9 @@ namespace CarApp.Core.Services
                 Models = await GetModelsAsync(),
                 Gears = await GetGearsAsync(),
                 Drivetrains = await GetDrivetrainAsync(),
-                CarBodyTypes = await GetBodyTypesAsync()
+                CarBodyTypes = await GetBodyTypesAsync(),
+                CarLocations = await GetLocationsAsync(),
+                Cities = await GetCitiesAsync()
             };
 
             return model;
@@ -43,9 +45,7 @@ namespace CarApp.Core.Services
         }
         public async Task<List<CarModel>> GetModelsAsync()
         {
-            return await context.CarModels
-                .OrderBy(b => b.ModelName)
-                .ToListAsync();
+            return await context.CarModels.ToListAsync();
         }
         public async Task<List<IGrouping<string, CarBrand>>> GetBrandsAsync()
         {
@@ -123,6 +123,16 @@ namespace CarApp.Core.Services
             mileage.Add(300000);
 
             return mileage;
+        }
+
+        public async Task<List<CarLocation>> GetLocationsAsync()
+        {
+            return await context.CarLocations.ToListAsync();
+        }
+
+        public async Task<List<CarLocationCity>> GetCitiesAsync()
+        {
+            return await context.CarLocationCities.OrderBy(c => c.CityName).ToListAsync();
         }
     }
 

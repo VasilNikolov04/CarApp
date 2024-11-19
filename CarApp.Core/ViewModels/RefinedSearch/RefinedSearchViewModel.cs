@@ -26,10 +26,8 @@ namespace CarApp.Core.ViewModels.RefinedSearch
         public string? Model { get; set; }
         public List<CarModel> Models { get; set; } = new List<CarModel>();
 
-
-        public int MinWhp { get; set; }
-        public int MaxWhp { get; set; }
-
+        public int MinWhp { get; set; } = 0;
+        public int MaxWhp { get; set; } = 0;
 
         public int MinPrice { get; set; }
         public int MaxPrice { get; set; }
