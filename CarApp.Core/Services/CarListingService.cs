@@ -47,7 +47,8 @@ namespace CarApp.Core.Services
                 Price = model.Price,
                 DatePosted = DateTime.Now,
                 Description = model.Description ?? string.Empty,
-                SellerId = userId ?? string.Empty
+                SellerId = userId ?? string.Empty,
+                CityId = model.CityId
             };
 
             if (model.CarImages != null && model.CarImages.Count > 0)
@@ -109,11 +110,20 @@ namespace CarApp.Core.Services
             {
                 carListings = carListings
                     .Where(l => l.Car.Model.CarBrand.BrandName == brand);
-            }
-            if (model != null)
-            {
-                carListings = carListings
-                    .Where(l => l.Car.Model.ModelName == model);
+
+                if (model != null)
+                {
+                    if (model.Contains("(All)"))
+                    {
+                        carListings = carListings
+                           .Where(l => l.Car.Model.ModelName.StartsWith(model.Substring(0, model.IndexOf("-"))));
+                    }
+                    else
+                    {
+                        carListings = carListings
+                            .Where(l => l.Car.Model.ModelName == model);
+                    }
+                }
             }
 
             var listings = await carListings

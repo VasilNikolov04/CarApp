@@ -89,8 +89,16 @@ namespace CarApp.Core.Services
 
                 if (model != null)
                 {
-                    carListings = carListings
-                        .Where(l => l.Car.Model.ModelName == model);
+                    if (model.Contains("(All)"))
+                    {
+                        carListings = carListings
+                           .Where(l => l.Car.Model.ModelName.StartsWith(model.Substring(0, model.IndexOf("-"))));
+                    }
+                    else
+                    {
+                        carListings = carListings
+                            .Where(l => l.Car.Model.ModelName == model);
+                    }
                 }
             }
 

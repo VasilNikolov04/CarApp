@@ -11,7 +11,7 @@ namespace CarApp.Infrastructure.Data.Models
 
         [Required]
         [MaxLength(CityNameMaxLength)]
-        public required string CityName { get; set; }
+        public string CityName { get; set; } = null!;
 
         public int LocationId { get; set; }
         [ForeignKey(nameof(LocationId))]
