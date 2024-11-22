@@ -15,7 +15,7 @@ namespace CarApp.Infrastructure.Data.Configurations
         {
             builder.HasData(SeedLocationCities());
         }
-        private IEnumerable<CarLocationCity> SeedLocationCities()
+        private static IEnumerable<CarLocationCity> SeedLocationCities()
         {
             IEnumerable<CarLocationCity> cities = new List<CarLocationCity>()
             {

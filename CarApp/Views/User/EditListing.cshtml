@@ -37,10 +37,31 @@
                 </div>
             </div>
 
-            @foreach(var image in Model.CarImages)
-            {
-                <img class="card-img mt-3" src="~/images/@image.ImageUrl" alt="Car Image">
-            }
+            <div class="row justify-content-md-center">
+                <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.CarImages.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="~/images/@Model.CarImages.ElementAt(i).ImageUrl" class="d-block w-100" alt="Car Image @(i + 1)">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-sm" onclick="openManageTicketsModal('@Model.Id')">
+                <i class="bi bi-ticket-perforated"></i> Manage Car Images
+            </button>
+
             <div class="form-group m-2">
                 <label asp-for="@Model.NewCarImages">Insert More Images</label>
                 <input asp-for="@Model.NewCarImages" type="file" class="form-control-file" id="NewCarImages" name="NewCarImages" multiple>

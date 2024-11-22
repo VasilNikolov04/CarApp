@@ -3,8 +3,11 @@ using CarApp.Core.ViewModels;
 using CarApp.Core.ViewModels.CarListing;
 using CarApp.Extensions;
 using CarApp.Infrastructure.Data;
+using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarApp.Controllers
 {

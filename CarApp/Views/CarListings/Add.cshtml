@@ -10,7 +10,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="BrandId">Car Brand</label>
-                    <select asp-for="BrandId" class="form-select" id="carBrand" onchange="updateModels()" required>
+                    <select asp-for="BrandId" onchange="updateModels()" class="form-select" id="carBrand" required>
                         <option value="">Select a Brand</option>
                         @foreach (var brandGroup in Model.Brands)
                         {
@@ -147,19 +147,23 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.CarLocationId">Location</label>
-                    <select asp-for="@Model.CarLocationId" id="carLocation" onchange="updateLocations()" class="form-control" asp-items="@(new SelectList(Model.CarLocations, "Id", "RegionName"))" required>
+                    <select asp-for="@Model.CarLocationId" id="carLocation" onchange="updateCities()" class="form-control" required>
                         <option value="">Select Location</option>
+                        @foreach (var location in Model.CarLocations)
+                        {
+                            <option value="@location.Id">@location.RegionName</option>
+                        }
                     </select>
                     <span asp-validation-for="@Model.CarLocationId" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="@Model.CityId">City</label>
-                    <select asp-for="@Model.CityId" class="form-control" id="carCity" asp-items="@(new SelectList(Model.Cities, "Id", "CityName"))" required>
-                        <option value="">Select City</option>
+                    <label asp-for="CityId">Car City</label>
+                    <select id="carCity" asp-for="CityId" class="form-control" required>
+                        <option value="">Select a City</option>
                     </select>
-                    <span asp-validation-for="@Model.CityId" class="text-danger"></span>
+                    <span asp-validation-for="CityId" class="text-danger"></span>
                 </div>
             </div>
         </row>
@@ -178,43 +182,40 @@
                 <button type="submit" class="btn btn-primary w-100">Submit</button>
             </div>
         </div>
-        
+
     </form>
 </div>
 
 @section Scripts {
     <script src="~/js/carSelection.js"></script>
-    <script src="~/js/carLocationDropdown.js"></script>
-    
+
     <script>
         const modelsData = [];
-
+        const cityData = [];
         @foreach (var carModel in Model.Models)
         {
             <text>
                     modelsData.push({
-                        BrandId: @carModel.BrandId,
+                    BrandId: @carModel.BrandId,
                     ModelId: @carModel.Id,
-                    ModelName: "@Html.Raw(@carModel.ModelName)"
-                           });
+                    ModelName: "@Html.Raw(carModel.ModelName)"
+                        });
             </text>
         }
-
-            populateCarModels(modelsData);
-
-        const citiesData = [];
-
-        @foreach (var carCity in Model.Cities)
+           
+        @foreach (var city in Model.Cities)
         {
             <text>
-                    citiesData.push({
-                        LocationId: @carCity.LocationId,  
-                    CityId: @carCity.Id,
-                    CityName: "@Html.Raw(carCity.CityName)"
-                    });
+                    cityData.push({
+                    LocationId: @city.LocationId,
+                    CityId: @city.Id,
+                    CityName: "@Html.Raw(city.CityName)"
+                        });
             </text>
         }
 
-            populateCarCities(citiesData);
+
+            populateCarModels(modelsData);
+            populateCarCities(cityData);
     </script>
 }

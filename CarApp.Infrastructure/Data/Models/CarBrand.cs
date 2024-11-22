@@ -12,6 +12,7 @@ namespace CarApp.Infrastructure.Data.Models
         [MaxLength(CarBrandNameMaxLength)]
         public required string BrandName { get; set; }
 
-        public ICollection<CarModel> CarModels { get; set; } = new List<CarModel>();
+        public ICollection<CarModel> CarModels { get; set; } 
+            = new List<CarModel>();
     }
 }

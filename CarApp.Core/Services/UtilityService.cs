@@ -70,17 +70,17 @@ namespace CarApp.Core.Services
         public List<int> GetPriceDropdown()
         {
             List<int> prices = new List<int>();
-            for (int i = 500; i <= 3000; i = i + 500)
+            for (int i = 500; i <= 3000; i += 500)
             {
                 prices.Add(i);
             }
 
-            for(int i = 4000; i <= 10000; i = i + 1000)
+            for(int i = 4000; i <= 10000; i += 1000)
             {
                 prices.Add(i);
             }
 
-            for(int i = 12500; i <= 20000; i = i + 2500)
+            for(int i = 12500; i <= 20000; i += 2500)
             {
                 prices.Add(i);
             }
@@ -90,7 +90,6 @@ namespace CarApp.Core.Services
             prices.Add(50000);
             prices.Add(75000);
             prices.Add(100000);
-            prices.Order();
 
             return prices;
         }
@@ -111,12 +110,12 @@ namespace CarApp.Core.Services
         { 
             List<int> mileage = new List<int>();
 
-            for (int i = 10000; i <= 100000; i = i + 10000)
+            for (int i = 10000; i <= 100000; i += 10000)
             {
                 mileage.Add(i);
             }
 
-            for (int i = 125000; i <= 250000; i = i + 25000)
+            for (int i = 125000; i <= 250000; i += 25000)
             {
                 mileage.Add(i);
             }
