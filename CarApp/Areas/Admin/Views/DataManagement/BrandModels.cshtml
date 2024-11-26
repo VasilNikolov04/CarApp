@@ -1,0 +1,43 @@
+﻿@using CarApp.Core.ViewModels.Admin.DataManagement
+@model BrandModelsViewModel
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Models Management</h1>
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center align-items-center">
+            <a asp-area="Admin" asp-controller="Home" asp-action="AdminPanel" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Id</th>
+                <th>Model</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carModel in Model.CarModels)
+            {
+                <tr>
+                    <td>@carModel.ModelId</td>
+                    <td>
+                        <form method="post" asp-action="EditBrand" asp-controller="DataManagement" asp-area="Admin" class="d-inline">
+                            <input type="hidden" name="modelId" value="@carModel.ModelId" />
+                            <input type="text" name="modelName" value="@carModel.ModelName" />
+                            <button type="submit" class="btn btn-warning btn-sm">Save</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" asp-action="DeleteModel" asp-controller="DataManagement" asp-area="Admin" class="d-inline ms-2">
+                            <input type="hidden" name="modelId" value="@carModel.ModelId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
