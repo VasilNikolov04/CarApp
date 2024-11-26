@@ -24,5 +24,6 @@ namespace CarApp.Core.Services.Contracts
         List<int> GetMileageDropdown();
 
         Task<T> PopulateAllDropdownsAsync<T>(T viewModel) where T : DropDownViewModel, new();
+        bool BrandExist(int brandId);
     }
 }

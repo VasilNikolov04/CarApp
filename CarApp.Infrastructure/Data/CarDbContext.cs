@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CarApp.Infrastructure.Data
 {
-    public class CarDbContext : IdentityDbContext<ApplicationUser>
+    public class CarDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarListing> CarListings { get; set; }

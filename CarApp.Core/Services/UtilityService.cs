@@ -133,6 +133,16 @@ namespace CarApp.Core.Services
         {
             return await context.CarLocationCities.OrderBy(c => c.CityName).ToListAsync();
         }
+
+        public bool BrandExist(int brandId)
+        {
+            var brand = context.CarBrands.Where(b => b.Id == brandId);
+            if(brand == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 
 }

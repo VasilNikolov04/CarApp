@@ -1,0 +1,48 @@
+﻿@using CarApp.Core.ViewModels.Admin.DataManagement
+@model IEnumerable<AllBrandsViewModel>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Brands Management</h1>
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center align-items-center">
+            <a asp-area="Admin" asp-controller="Home" asp-action="AdminPanel" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Id</th>
+                <th>Brand</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var brand in Model)
+            {
+                <tr>
+                    <td>@brand.BrandId</td>
+                    <td>
+                        <form method="post" asp-action="EditBrand" asp-controller="DataManagement" asp-area="Admin" class="d-inline">
+                            <input type="hidden" name="brandId" value="@brand.BrandId" />
+                            <input type="text" name="brandName" value="@brand.BrandName" />
+                            <button type="submit" class="btn btn-warning btn-sm">Save</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" asp-area="Admin" asp-action="BrandModels" asp-controller="DataManagement" asp-route-brandId="@brand.BrandId" class="d-inline ms-2">
+                            <input type="hidden" name="brandId" value="@brand.BrandId" />
+                            <button type="submit" class="btn btn-warning btn-sm">Models</button>
+                        </form>
+
+                        <form method="post" asp-action="DeleteBrand" asp-controller="DataManagement" asp-area="Admin" class="d-inline ms-2">
+                            <input type="hidden" name="brandId" value="@brand.BrandId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

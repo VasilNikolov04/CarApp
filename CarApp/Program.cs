@@ -8,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddApplicationIdentity(builder.Configuration);
+string adminEmail = builder.Configuration.GetValue<string>("Administrator:Email")!;
+string adminUsername = builder.Configuration.GetValue<string>("Administrator:Email")!;
+string adminPassword = builder.Configuration.GetValue<string>("Administrator:Password")!;
+string adminFName = builder.Configuration.GetValue<string>("Administrator:FirstName")!;
+string adminLName = builder.Configuration.GetValue<string>("Administrator:LastName")!;
 
 builder.Services.AddMvc()
     .AddViewOptions(options =>
@@ -18,11 +23,6 @@ builder.Services.AddMvc()
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
-
-builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
-
-builder.Services.RegisterUserDefinedServices(typeof(ICarListingService).Assembly);
-
 
 var app = builder.Build();
 
@@ -44,14 +44,21 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapDefaultControllerRoute(); <- if I don't want to change the default route
+await app.SeedAdministrator(adminEmail, adminUsername, adminPassword, adminFName, adminLName);
+
+app.MapRazorPages();
+
+app.MapControllerRoute(
+    name: "Areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
 
 using (var scope = app.Services.CreateScope())
 {

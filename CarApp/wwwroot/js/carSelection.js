@@ -53,6 +53,7 @@ function updateCities() {
             option.value = city.CityId;
             option.textContent = city.CityName;
             citySelect.appendChild(option);
+
         });
     }
 }

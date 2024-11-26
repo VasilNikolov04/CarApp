@@ -1,5 +1,6 @@
 ﻿@using CarApp.Infrastructure.Data.Models
 @using Microsoft.AspNetCore.Identity
+@using static CarApp.Infrastructure.Constants.ApplicationConstants;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -9,8 +10,12 @@
         <li class="nav-item dropdown">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
             <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" asp-controller="User" asp-action="UserListings">Favourites</a></li>
-                <li><a class="dropdown-item" asp-controller="User" asp-action="UserListings">My Listings</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserListings">Favourites</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserListings">My Listings</a></li>
+                @if(User.IsInRole(AdminRoleName))
+                {
+                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="AdminPanel">Admin Panel</a></li>
+                }
                 <li>
                     <form class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button type="submit" class="nav-link btn btn-link p-0 text-black">Logout</button>

@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using CarApp.Infrastructure.Data.Models;
+using static CarApp.Infrastructure.Constants.ApplicationConstants;
 
 namespace CarApp.Areas.Identity.Pages.Account
 {
@@ -21,6 +22,7 @@ namespace CarApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -28,6 +30,7 @@ namespace CarApp.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -35,6 +38,7 @@ namespace CarApp.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = (IUserEmailStore<ApplicationUser>)GetEmailStore();
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -132,11 +136,29 @@ namespace CarApp.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                bool roleExists = await _roleManager.RoleExistsAsync(UserRoleName);
+                if (!roleExists)
+                {
+                    IdentityRole userRole = new IdentityRole(UserRoleName);
+
+                    IdentityResult roleResult = await _roleManager.CreateAsync(userRole);
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException($"Error occurred while creating the {UserRoleName} role!");
+                    }
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    IdentityResult userResult = await _userManager.AddToRoleAsync(user, UserRoleName);
+                    if (!userResult.Succeeded)
+                    {
+                        throw new InvalidOperationException($"Error occurred while adding the user {user.UserName} to the {UserRoleName} role!");
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

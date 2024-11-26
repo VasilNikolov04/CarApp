@@ -1,8 +1,8 @@
-﻿ using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CarApp.Components
+namespace CarApp.Areas.Admin.Components
 {
-    public class MainMenuComponent : ViewComponent
+    public class AdminMenuComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
