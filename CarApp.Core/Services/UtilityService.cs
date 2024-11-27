@@ -45,7 +45,13 @@ namespace CarApp.Core.Services
         }
         public async Task<List<CarModel>> GetModelsAsync()
         {
-            return await context.CarModels.ToListAsync();
+            var models = await context.CarModels.ToListAsync();
+            return models
+                .OrderBy(m => ExtractModelSeries(m.ModelName))
+                .ThenByDescending(m => m.ModelName.Contains("(All)"))
+                .ThenBy(m => m.ModelName)
+                .ToList();
+            
         }
         public async Task<List<IGrouping<string, CarBrand>>> GetBrandsAsync()
         {
@@ -142,6 +148,12 @@ namespace CarApp.Core.Services
                 return false;
             }
             return true;
+        }
+
+        public static string ExtractModelSeries(string modelName)
+        {
+            var parts = modelName.Split(' ');
+            return parts[0];
         }
     }
 

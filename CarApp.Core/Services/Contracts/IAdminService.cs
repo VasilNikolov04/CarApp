@@ -17,5 +17,9 @@ namespace CarApp.Core.Services.Contracts
         Task<bool> DeleteUserAsync(string userId);
         Task<IEnumerable<AllBrandsViewModel>> GetAllBrandsAsync();
         Task<BrandModelsViewModel?> GetModelsByBrandIdAsync(int brandId);
+        Task<bool> EditBrandNameAsync(int brandId, string brandName);
+        Task<bool> EditModelNameAsync(int modelId, string modelName);
+        Task<bool> AddNewModelAsync(int brandId, string newModelName);
+        Task<bool> DeleteModelByIdAsync(int modelId);
     }
 }

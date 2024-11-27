@@ -22,7 +22,8 @@ namespace CarApp.Core.Services
         private readonly IRepository<CarModel, int> modelRepository;
 
         public AdminService(UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager,
-            IRepository<CarBrand, int> _brandRepository, IRepository<CarModel, int> _modelRepository)
+            IRepository<CarBrand, int> _brandRepository, IRepository<CarModel, int> _modelRepository,
+            IUtilityService _utilityService)
         {
             userManager = _userManager;
             roleManager = _roleManager;
@@ -72,6 +73,48 @@ namespace CarApp.Core.Services
             return true;
         }
 
+        public async Task<bool> EditBrandNameAsync(int brandId, string brandName)
+        {
+            var brand = await brandRepository
+                .GetAllAttached()
+                .Where(b => b.Id == brandId)
+                .FirstOrDefaultAsync();
+
+            if(brand == null)
+            {
+                return false;
+            }
+
+            if(brand.BrandName != brandName)
+            {
+                brand.BrandName = brandName;
+                bool result = await brandRepository.UpdateAsync(brand);
+            }
+
+            return true;
+        }
+
+        public async Task<bool> EditModelNameAsync(int modelId, string modelName)
+        {
+            var model = await modelRepository
+               .GetAllAttached()
+               .Where(b => b.Id == modelId)
+               .FirstOrDefaultAsync();
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            if (model.ModelName != modelName)
+            {
+                model.ModelName = modelName;
+                bool result = await modelRepository.UpdateAsync(model);
+            }
+
+            return true;
+        }
+
         public async Task<IEnumerable<AllBrandsViewModel>> GetAllBrandsAsync()
         {
 
@@ -82,6 +125,7 @@ namespace CarApp.Core.Services
                     BrandId = b.Id,
                     BrandName = b.BrandName
                 })
+                .OrderBy(b => b.BrandName)
                 .ToListAsync();
             return allBrands;
         }
@@ -120,7 +164,7 @@ namespace CarApp.Core.Services
                     BrandId = bm.BrandId,
                     BrandName = bm.CarBrand.BrandName,
                     CarModels = bm.CarBrand.CarModels
-                        .Select(m => new AllModelsViewModel()
+                        .Select(m =>  new AllModelsViewModel()
                         {
                             ModelId = m.Id,
                             ModelName = m.ModelName
@@ -128,6 +172,13 @@ namespace CarApp.Core.Services
                         .ToList()
                 })
                 .FirstOrDefaultAsync();
+            if (brandModels != null)
+            {
+                brandModels.CarModels = brandModels.CarModels
+                .OrderBy(m => ExtractModelSeries(m.ModelName))
+                .ThenByDescending(m => m.ModelName.Contains("(All)"))
+                .ThenBy(m => m.ModelName);
+            }
 
 
             return brandModels;
@@ -163,5 +214,55 @@ namespace CarApp.Core.Services
 
             return user != null;
         }
+
+        public async Task<bool> AddNewModelAsync(int brandId, string newModelName)
+        {
+            CarBrand? brand = await brandRepository.GetByIdAsync(brandId);
+            if(brand == null)
+            {
+                return false;
+            }
+            CarModel? model = await modelRepository
+                .GetAllAttached()
+                .Where(m => m.BrandId == brandId && m.ModelName == newModelName)
+                .FirstOrDefaultAsync();
+
+            if (model == null)
+            {
+                var newModel = new CarModel
+                {
+                    BrandId = brandId,
+                    ModelName = newModelName
+                };
+
+                await modelRepository.AddAsync(newModel);
+            }
+            return true;
+        }
+        public static string ExtractModelSeries(string modelName)
+        {
+            var parts = modelName.Split(' ');
+            return parts[0];
+        }
+
+        public async Task<bool> DeleteModelByIdAsync(int modelId)
+        {
+            CarModel? model = await modelRepository.GetByIdAsync(modelId);
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            bool result = await modelRepository.DeleteAsync(model);
+
+            if (result == false)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
+
 }

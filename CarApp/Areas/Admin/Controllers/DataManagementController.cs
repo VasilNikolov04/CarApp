@@ -1,7 +1,9 @@
 ﻿using CarApp.Core.Services;
 using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels.Admin.DataManagement;
+using CarApp.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarApp.Areas.Admin.Controllers
 {
@@ -32,6 +34,66 @@ namespace CarApp.Areas.Admin.Controllers
                 return BadRequest();
             }
             return View(models);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditBrand(int brandId, string brandName)
+        {
+            bool result = await adminService.EditBrandNameAsync(brandId, brandName);
+
+            if(result == false)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditModel(int modelId, string modelName, int brandId)
+        {
+            bool result = await adminService.EditModelNameAsync(modelId, modelName);
+
+            if (result == false)
+            {
+                return RedirectToAction(nameof(BrandModels), new { brandId });
+            }
+
+            return RedirectToAction(nameof(BrandModels), new { brandId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateModel(int brandId, string newModelName)
+        {
+            if (string.IsNullOrWhiteSpace(newModelName))
+            {
+                ModelState.AddModelError("newModelName", "Model name is required.");
+                return RedirectToAction("BrandModels", new { brandId });
+            }
+
+            bool result = await adminService.AddNewModelAsync(brandId, newModelName);
+
+            if(result == false)
+            {
+                return RedirectToAction(nameof(BrandModels), new { brandId });
+            }
+
+            return RedirectToAction(nameof(BrandModels), new { brandId });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteModel(int modelId, int brandId)
+        { 
+
+            bool result = await adminService.DeleteModelByIdAsync(modelId);
+            if(result == false)
+            {
+                return RedirectToAction(nameof(BrandModels), new {brandId});
+            }
+
+            return RedirectToAction(nameof(BrandModels), new { brandId });
         }
     }
 }

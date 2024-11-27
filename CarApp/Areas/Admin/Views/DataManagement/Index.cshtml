@@ -9,11 +9,12 @@
             <a asp-area="Admin" asp-controller="Home" asp-action="AdminPanel" class="btn btn-secondary">Go Back</a>
         </div>
     </div>
+    <a asp-area="Admin" asp-controller="DataManagement" asp-action="CreateBrand" class="btn btn-success mb-3">Add New Brand</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-light">
             <tr>
                 <th>Id</th>
-                <th>Brand</th>
+                <th>Brand Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,7 +24,7 @@
                 <tr>
                     <td>@brand.BrandId</td>
                     <td>
-                        <form method="post" asp-action="EditBrand" asp-controller="DataManagement" asp-area="Admin" class="d-inline">
+                        <form method="post" asp-action="EditBrand" asp-controller="DataManagement" asp-route-brandId="@brand.BrandId" asp-route-brandName="@brand.BrandName" asp-area="Admin" class="d-inline">
                             <input type="hidden" name="brandId" value="@brand.BrandId" />
                             <input type="text" name="brandName" value="@brand.BrandName" />
                             <button type="submit" class="btn btn-warning btn-sm">Save</button>
