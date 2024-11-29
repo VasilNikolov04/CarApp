@@ -131,8 +131,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddScoped(serviceInterfaceType, serviceType);
             }
         }
-        
-        public async static Task<IApplicationBuilder> SeedAdministrator(this IApplicationBuilder app,
+
+        public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app,
             string email, string username, string password, string fname, string lname)
         {
             using IServiceScope serviceScope = app.ApplicationServices.CreateAsyncScope();

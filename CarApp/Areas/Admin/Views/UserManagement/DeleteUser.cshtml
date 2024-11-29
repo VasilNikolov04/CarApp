@@ -1,0 +1,44 @@
+﻿@using CarApp.Core.ViewModels.Admin.UserManagement;
+@model DeleteUserViewModel
+
+<div class="container mt-5 text-center">
+    <div class="d-flex justify-content-center align-items-center flex-column">
+        <h1>Are you sure you want to <strong style="color:red">delete</strong> this user?</h1>
+        <hr />
+        <div>
+            <h2>User EMail: <strong>@Model.UserEmail</strong></h2>
+            <h3>User Name: <strong>@Model.UserFirstName @Model.UserLastName</strong></h3>
+                @if (Model.CarListings?.Count > 0)
+                {
+                    <h3> and<strong style="color:red;"> @Model.CarListings.Count </strong>models will be deleted</h3>
+                }
+        </div>
+        <hr />
+        <form asp-action="DeleteUser" method="post">
+            <button type="submit" class="btn btn-warning">Confirm Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+</style>
+<div class="row text-center">
+    @if(Model.CarListings != null && Model.CarListings?.Count > 0)
+    {
+    @foreach (var carListing in Model.CarListings)
+    {
+        <div class="card border-3 border-dark m-3 justify-content-center" style="width: 18rem;">
+                <img class="card-img-top mt-2" src="~/images/@carListing.Image" alt="Car Image">
+                <div class="card-body">
+                    <h5 class="card-title">@carListing.BrandName <strong>@carListing.ModelName</strong></h5>
+                </div>
+        </div>
+    }
+    }
+</div>

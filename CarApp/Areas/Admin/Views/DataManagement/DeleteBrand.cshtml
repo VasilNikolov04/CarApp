@@ -1,0 +1,31 @@
+﻿@using CarApp.Core.ViewModels.Admin.DataManagement;
+@model BrandDeleteViewModel
+
+@{
+    ViewData["Title"] = "Confirm Delete";
+}
+
+<div class="container mt-5 text-center">
+    <div class="d-flex justify-content-center align-items-center">
+        <h2>Delete Car Brand</h2>
+    </div>
+
+<div>
+    <h3>Are you sure you want to delete this car brand?</h3>
+    <div>
+        <h3><strong>@Model.BrandName</strong>
+        @if(Model.ModelCount > 0)
+        {
+                <span> and <strong style="color:red;">@Model.ModelCount</strong> models</span>
+        }
+        will be deleted</h3>
+    </div>
+    <div>
+        <form asp-action="DeleteBrand" method="post">
+            <input type="hidden" asp-for="BrandId" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+</div>

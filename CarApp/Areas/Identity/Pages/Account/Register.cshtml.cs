@@ -131,7 +131,6 @@ namespace CarApp.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName
-
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

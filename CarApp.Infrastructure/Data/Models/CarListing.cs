@@ -33,7 +33,7 @@ namespace CarApp.Infrastructure.Data.Models
 
         [MaxLength(ImageUrlMaxLength)]
         [Required]
-        public string? MainImageUrl { get; set; }
+        public string MainImageUrl { get; set; } = null!;
         public ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
 
         public ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();

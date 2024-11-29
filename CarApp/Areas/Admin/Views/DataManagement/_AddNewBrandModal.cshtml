@@ -1,0 +1,33 @@
+﻿<div class="modal fade" id="addBrandModal" tabindex="-1" aria-labelledby="addBrandModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBrandModalLabel">Add New Car Brand</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addBrandForm">
+                    <div class="mb-3">
+                        <label for="brandName" class="form-label">Brand Name</label>
+                        <input type="text" class="form-control" id="brandName" name="BrandName" placeholder="Enter Brand name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelName" class="form-label">Add Models</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="modelName" placeholder="Enter model name">
+                            <button type="button" class="btn btn-success" id="addModelButton">Add Model</button>
+                        </div>
+                        <ul class="list-group" id="modelList">
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveBrandButton">Save Brand</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/addBrandModal.js"></script>

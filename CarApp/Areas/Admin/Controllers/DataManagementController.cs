@@ -2,19 +2,22 @@
 using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels.Admin.DataManagement;
 using CarApp.Infrastructure.Data.Models;
+using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using static CarApp.Infrastructure.Constants.ApplicationConstants;
 
 namespace CarApp.Areas.Admin.Controllers
 {
     public class DataManagementController : AdminBaseController
     {
         private readonly IAdminService adminService;
-        private readonly IUtilityService utilityService;
+        private readonly IRepository<CarBrand, int> brandRepository;
 
-        public DataManagementController(IAdminService _adminService)
+        public DataManagementController(IAdminService _adminService, IRepository<CarBrand, int> _brandRepository)
         {
             adminService = _adminService;   
+            brandRepository = _brandRepository;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -31,7 +34,7 @@ namespace CarApp.Areas.Admin.Controllers
 
             if (models == null)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Index));
             }
             return View(models);
         }
@@ -84,16 +87,71 @@ namespace CarApp.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteModel(int modelId, int brandId)
-        { 
+        public async Task<IActionResult> DeleteModel(int modelId, int brandId, int modelCount)
+        {
+            CarBrand? brand = await brandRepository.GetByIdAsync(brandId);
+            if(brand == null)
+            {
+                return BadRequest();
+            }
 
-            bool result = await adminService.DeleteModelByIdAsync(modelId);
+            bool result = await adminService.DeleteModelByIdAsync(modelId, modelCount);
             if(result == false)
             {
                 return RedirectToAction(nameof(BrandModels), new {brandId});
             }
-
+            
             return RedirectToAction(nameof(BrandModels), new { brandId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBrandWithModels([FromBody]  BrandAddInputViewModel input)
+        {
+            if (String.IsNullOrEmpty(input.BrandName) || input.Models == null || input.Models.Count == 0)
+            {
+                return BadRequest("Brand name and at least one model are required.");
+            }
+            if (input.Models == null || input.Models.Count == 0)
+            {
+                return BadRequest("At least one model are required.");
+            }
+
+            bool result = await adminService.AddNewBrandWithModelsAsync(input.BrandName, input.Models);
+
+            if(result == false)
+            {
+                return UnprocessableEntity("Brand name already exists.");
+            }
+            
+
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteBrand(int brandId)
+        {
+            
+            BrandDeleteViewModel? brand = await adminService.GetBrandForDeleteAsync(brandId);
+            
+            if(brand == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(brand);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBrand(BrandDeleteViewModel brandAndModelsToDelete)
+        {
+            bool IsDeleted = await adminService.DeleteBrandAndModelsAsync(brandAndModelsToDelete);
+
+            if (IsDeleted == false)
+            {
+                return View(nameof(DeleteBrand));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

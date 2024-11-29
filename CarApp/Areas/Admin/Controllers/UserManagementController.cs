@@ -1,5 +1,4 @@
-﻿using CarApp.Core.Services;
-using CarApp.Core.Services.Contracts;
+﻿using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels.Admin.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -68,6 +67,7 @@ namespace CarApp.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public async Task<IActionResult> DeleteUser(string userId)
         {
             bool userExists = await adminService
@@ -76,9 +76,22 @@ namespace CarApp.Areas.Admin.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+            DeleteUserViewModel? model = await adminService.GetUserForDelete(userId);
+
+            if(model == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel user)
+        {
 
             bool deleteResult = await adminService
-                .DeleteUserAsync(userId);
+                .DeleteUserAsync(user);
 
             if (!deleteResult)
             {

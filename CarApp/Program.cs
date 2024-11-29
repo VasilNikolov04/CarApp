@@ -47,7 +47,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-await app.SeedAdministrator(adminEmail, adminUsername, adminPassword, adminFName, adminLName);
+app.SeedAdministrator(adminEmail, adminUsername, adminPassword, adminFName, adminLName);
 
 app.MapRazorPages();
 

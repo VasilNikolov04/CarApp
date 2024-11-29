@@ -9,7 +9,7 @@ using static CarApp.Infrastructure.Constants.DataConstants;
 
 namespace CarApp.Infrastructure.Data.Models
 {
-    public class ApplicationUser : IdentityUser<string>
+    public class ApplicationUser : IdentityUser
     { 
 
         [MaxLength(UserFirstNameMaxLength)]

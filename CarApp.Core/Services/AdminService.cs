@@ -20,15 +20,17 @@ namespace CarApp.Core.Services
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IRepository<CarBrand, int> brandRepository;
         private readonly IRepository<CarModel, int> modelRepository;
+        private readonly IRepository<CarListing, int> carListingRepository;
 
         public AdminService(UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager,
             IRepository<CarBrand, int> _brandRepository, IRepository<CarModel, int> _modelRepository,
-            IUtilityService _utilityService)
+            IUtilityService _utilityService, IRepository<CarListing, int> _carListingRepository)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             brandRepository = _brandRepository;
             modelRepository = _modelRepository;
+            carListingRepository = _carListingRepository;
         }
 
         public async Task<bool> AssignUserToRoleAsync(string userId, string roleName)
@@ -54,16 +56,21 @@ namespace CarApp.Core.Services
             return true;
         }
 
-        public async Task<bool> DeleteUserAsync(string userId)
+        public async Task<bool> DeleteUserAsync(DeleteUserViewModel user)
         {
-            ApplicationUser? user = await userManager.FindByIdAsync(userId);
-
-            if (user == null)
+            if(user.UserId == null)
             {
                 return false;
             }
 
-            IdentityResult result = await userManager.DeleteAsync(user);
+            ApplicationUser? userExist = await userManager.FindByIdAsync(user.UserId);
+
+            if (userExist == null)
+            {
+                return false;
+            }
+
+            IdentityResult result = await userManager.DeleteAsync(userExist);
 
             if (!result.Succeeded)
             {
@@ -245,7 +252,7 @@ namespace CarApp.Core.Services
             return parts[0];
         }
 
-        public async Task<bool> DeleteModelByIdAsync(int modelId)
+        public async Task<bool> DeleteModelByIdAsync(int modelId, int modelCount)
         {
             CarModel? model = await modelRepository.GetByIdAsync(modelId);
 
@@ -253,15 +260,125 @@ namespace CarApp.Core.Services
             {
                 return false;
             }
-
+            CarBrand? brand = await brandRepository.GetByIdAsync(model.BrandId);
+            if (brand == null)
+            {
+                return false;
+            }
             bool result = await modelRepository.DeleteAsync(model);
 
             if (result == false)
             {
                 return false;
             }
+            modelCount--;
+            
+
+            if (modelCount <= 0)
+            {
+               await brandRepository.DeleteAsync(brand);
+            }
 
             return true;
+        }
+
+        public async Task<bool> AddNewBrandWithModelsAsync(string brandName, List<string> models)
+        {
+            CarBrand? carBrand = await brandRepository
+                .GetAllAttached()
+                .Where(b => b.BrandName == brandName) 
+                .FirstOrDefaultAsync();
+
+            if (carBrand != null)
+            {
+                return false;
+            }
+
+            var newBrand = new CarBrand
+            {
+                BrandName = brandName,
+                CarModels = new List<CarModel>()
+            };
+
+            foreach (var modelName in models)
+            {
+                newBrand.CarModels.Add(new CarModel { ModelName = modelName });
+            }
+
+            await brandRepository.AddAsync(newBrand);
+            
+            return true;
+        }
+
+        public async Task<BrandDeleteViewModel?> GetBrandForDeleteAsync(int brandId)
+        {
+            BrandDeleteViewModel? carBrand = await brandRepository
+                .GetAllAttached()
+                .Where(b => b.Id == brandId)
+                .Select(b => new BrandDeleteViewModel()
+                {
+                    BrandId = brandId,
+                    BrandName = b.BrandName,
+                    ModelCount = b.CarModels.Count()
+                })
+                .FirstOrDefaultAsync();
+
+            return carBrand;
+        }
+
+        public async Task<bool> DeleteBrandAndModelsAsync(BrandDeleteViewModel brandAndModelsToDelete)
+        {
+            CarBrand? carBrand = await brandRepository
+                .GetAllAttached()
+                .Where(b => b.Id == brandAndModelsToDelete.BrandId)
+                .FirstOrDefaultAsync();
+
+            if (carBrand == null)
+            {
+                return false;
+            }
+            bool isDeleted = await brandRepository.DeleteAsync(carBrand);
+
+            if (isDeleted == false)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<DeleteUserViewModel?> GetUserForDelete(string userId)
+        {
+
+            ApplicationUser? user = await userManager
+                .FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            List<DeleteUserCarListingsViewModel>? userCarListings = await carListingRepository
+                .GetAllAttached()
+                .Where(cl => cl.SellerId == user.Id)
+                .Select(cl => new DeleteUserCarListingsViewModel()
+                {
+                    BrandName = cl.Car.Model.CarBrand.BrandName,
+                    ModelName = cl.Car.Model.ModelName,
+                    Image =cl.MainImageUrl ?? string.Empty
+                })
+                .ToListAsync();
+
+            DeleteUserViewModel? model = new DeleteUserViewModel()
+            {
+                UserId = user.Id,
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName,
+                UserEmail = user.Email,
+                CarListings = userCarListings
+            };
+
+            return model;
         }
     }
 
