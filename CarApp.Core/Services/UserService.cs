@@ -92,14 +92,23 @@ namespace CarApp.Core.Services
                 .Where(cl => cl.SellerId == userId && cl.IsDeleted == false)
                 .Select(cl => new CarInfoViewModel()
                 {
-                    id = cl.Id,
+                    Id = cl.Id,
                     Brand = cl.Car.Model.CarBrand.BrandName,
                     Model = cl.Car.Model.ModelName,
                     Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.Car.Fuel.FuelName,
                     GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                     ImageUrl = cl.MainImageUrl,
-                    whp = cl.Car.Whp
+                    Whp = cl.Car.Whp,
+                    Trim = cl.Car.Trim,
+                    EngineDisplacement = cl.Car.EngineDisplacement,
+                    LocationRegion = cl.City.CarLocation.RegionName,
+                    LocationTown = cl.City.CityName,
+                    Milleage = cl.Car.Mileage,
+                    BodyType = cl.Car.CarBodyType.Name,
+                    Description = cl.Description ?? string.Empty
+
+
                 })
                 .AsNoTracking()
                 .ToListAsync();

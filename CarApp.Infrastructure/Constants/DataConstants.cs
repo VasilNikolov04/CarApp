@@ -15,7 +15,7 @@ namespace CarApp.Infrastructure.Constants
 
         public static class Car
         {
-            public const int CarListingDescriptionMaxLength = 500;
+            public const int CarListingDescriptionMaxLength = 1500;
 
             public const int CarBrandNameMaxLength = 50;
             public const int CarModelNameMaxLength = 50;

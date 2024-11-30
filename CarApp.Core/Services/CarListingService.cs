@@ -131,7 +131,7 @@ namespace CarApp.Core.Services
             .Take(listingsPerPage)
             .Select(cl => new CarInfoViewModel()
             {
-                id = cl.Id,
+                Id = cl.Id,
                 Brand = cl.Car.Model.CarBrand.BrandName,
                 Model = cl.Car.Model.ModelName,
                 Trim = cl.Car.Trim,
@@ -140,9 +140,15 @@ namespace CarApp.Core.Services
                 Year = cl.Car.Year,
                 GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                 ImageUrl = cl.MainImageUrl,
-                whp = cl.Car.Whp,
+                Whp = cl.Car.Whp,             
                 DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
-                SellerId = cl.SellerId.ToString()
+                SellerId = cl.SellerId.ToString(),
+                EngineDisplacement = cl.Car.EngineDisplacement,
+                LocationRegion = cl.City.CarLocation.RegionName,
+                LocationTown = cl.City.CityName,
+                Milleage = cl.Car.Mileage,
+                BodyType = cl.Car.CarBodyType.Name,
+                Description = cl.Description ?? string.Empty,
             })
             .ToListAsync();
 
@@ -162,6 +168,7 @@ namespace CarApp.Core.Services
                     .Where(car => car.Id == listingId && car.IsDeleted == false)
                     .Select(cl => new CarDetailsViewModel()
                     {
+                        Id = cl.Id,
                         Brand = cl.Car.Model.CarBrand.BrandName,
                         Model = cl.Car.Model.ModelName,
                         Trim = cl.Car.Trim,

@@ -14,5 +14,7 @@ namespace CarApp.Core.Services.Contracts
         Task<bool> AddCarListingToFavouritesAsync(int carListingId, string userId);
 
         Task<bool> RemoveCarListingFromFavouritesAsync(int carListingId, string userId);
+
+        Task<bool> IsCarListingInFavourites(int carListingId, string userId);
     }
 }

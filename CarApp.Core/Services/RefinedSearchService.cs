@@ -109,7 +109,7 @@ namespace CarApp.Core.Services
             .Take(listingsPerPage)
             .Select(cl => new CarInfoViewModel()
             {
-                id = cl.Id,
+                Id = cl.Id,
                 Brand = cl.Car.Model.CarBrand.BrandName,
                 Model = cl.Car.Model.ModelName,
                 Trim = cl.Car.Trim,
@@ -118,7 +118,7 @@ namespace CarApp.Core.Services
                 Year = cl.Car.Year,
                 GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                 ImageUrl = cl.MainImageUrl,
-                whp = cl.Car.Whp,
+                Whp = cl.Car.Whp,
                 DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
                 SellerId = cl.SellerId.ToString()
             })

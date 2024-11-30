@@ -9,7 +9,7 @@ namespace CarApp.Core.ViewModels
 {
     public class CarDetailsViewModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Model { get; set; } = null!;
 
         public string Brand { get; set; } = null!;

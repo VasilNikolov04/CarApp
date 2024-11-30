@@ -9,7 +9,7 @@ namespace CarApp.Core.ViewModels
 {
     public class CarInfoViewModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Model { get; set; } = null!;
 
         public string Brand { get; set; } = null!;
@@ -18,9 +18,15 @@ namespace CarApp.Core.ViewModels
 
         public string Price { get; set; } = null!;
 
-        public int whp { get; set; }
+        public string Description { get; set; } = null!;
+
+        public int Whp { get; set; }
 
         public int Year { get; set; }
+
+        public int Milleage { get; set; }
+
+        public string BodyType { get; set; } = null!;
 
         public string FuelType { get; set; } = null!;
 
@@ -28,8 +34,14 @@ namespace CarApp.Core.ViewModels
 
         public string SellerId { get; set; } = null!;
 
-        public string? GearType { get; set; }
+        public string GearType { get; set; } = null!;
 
         public string ImageUrl { get; set; } = null!;
+
+        public string LocationRegion { get; set; } = null!;
+
+        public string LocationTown { get; set; } = null!;
+
+        public int EngineDisplacement { get; set; }
     }
 }

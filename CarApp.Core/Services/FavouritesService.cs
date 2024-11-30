@@ -58,19 +58,39 @@ namespace CarApp.Core.Services
                 .Where(cl => cl.UserId == userId && cl.CarListing.IsDeleted == false)
                 .Select(cl => new CarInfoViewModel()
                 {
-                    id = cl.CarListing.Id,
+                    Id = cl.CarListing.Id,
                     Brand = cl.CarListing.Car.Model.CarBrand.BrandName,
                     Model = cl.CarListing.Car.Model.ModelName,
                     Price = cl.CarListing.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.CarListing.Car.Fuel.FuelName,
                     GearType = cl.CarListing.Car.Gear.GearName,
                     ImageUrl = cl.CarListing.MainImageUrl,
-                    whp = cl.CarListing.Car.Whp
+                    Whp = cl.CarListing.Car.Whp,
+                    EngineDisplacement = cl.CarListing.Car.EngineDisplacement,
+                    LocationRegion = cl.CarListing.City.CarLocation.RegionName,
+                    LocationTown = cl.CarListing.City.CityName,
+                    Milleage = cl.CarListing.Car.Mileage,
+                    BodyType = cl.CarListing.Car.CarBodyType.Name
+
                 })
                 .AsNoTracking()
                 .ToListAsync();
 
             return model;
+        }
+
+        public async Task<bool> IsCarListingInFavourites(int carListingId, string userId)
+        {
+
+            Favourite? favourite = await context.Favourites
+                .FirstOrDefaultAsync(f => f.UserId == userId && f.CarListingId == carListingId);
+
+            if(favourite == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<bool> RemoveCarListingFromFavouritesAsync(int carListingId, string? userId)

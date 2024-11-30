@@ -132,7 +132,13 @@ namespace CarApp.Controllers
             {
                 return BadRequest();
             }
+            var referer = Request.Headers["Referer"].ToString();
 
+            // If Referer is not empty, redirect to the previous page
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
             return RedirectToAction(nameof(Favourites));
         }
 
@@ -152,7 +158,16 @@ namespace CarApp.Controllers
                 return BadRequest();
             }
 
+            var referer = Request.Headers["Referer"].ToString();
+
+            // If Referer is not empty, redirect to the previous page
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
+
             return RedirectToAction(nameof(Favourites));
         }
+
     }
 }

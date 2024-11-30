@@ -18,29 +18,11 @@
 <div class="row text-center">
     @foreach (var carListing in Model)
     {
-        <div class="card border-3 border-dark m-3 justify-content-center" style="width: 18rem;">
-            <a asp-controller="CarListings" asp-action="Details" asp-route-id="@carListing.id" class="text-reset text-decoration-none">
-            <img class="card-img-top mt-2" src="~/images/@carListing.ImageUrl" alt="Car Image">
-            <div class="card-body">
-                <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">@carListing.FuelType</li>
-                <li class="list-group-item">@carListing.GearType</li>
-                @if (carListing.whp > 0)
-                {
-                    <li class="list-group-item">@carListing.whp whp</li>
-                }
-                <li class="list-group-item">€@carListing.Price</li>
-            </ul>
-            </a>
-            <a asp-controller="User" asp-action="EditListing" asp-route-id="@carListing.id" class="btn btn-primary m-1 w-100">
-                <i class="fas fa-plus"></i>Edit
-            </a>
-            <a asp-controller="User" asp-action="Delete" asp-route-id="@carListing.id" class="btn btn-danger m-1 w-100"
-               onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
-        </div>
-
-
+        <partial name="_CarListingPartial" model="@carListing" />
+        <a asp-controller="User" asp-action="EditListing" asp-route-id="@carListing.Id" class="btn btn-primary m-1 w-100">
+            <i class="fas fa-plus"></i>Edit
+        </a>
+        <a asp-controller="User" asp-action="Delete" asp-route-id="@carListing.Id" class="btn btn-danger m-1 w-100"
+           onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
     }
 </div>

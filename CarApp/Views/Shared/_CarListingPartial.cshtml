@@ -1,42 +1,110 @@
 ﻿@model CarInfoViewModel
 @using CarApp.Extensions;
+@using CarApp.Infrastructure.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using CarApp.Core.Services.Contracts;
+@inject IFavouritesService favouriteService
+@inject SignInManager<ApplicationUser> SignInManager
 @{
+
+    
 }
-<style>
-    .card-img-top{
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }
-</style>
-<div class="card border-3 border-dark m-3" style="width: 18rem;">
-    <a asp-controller="CarListings" asp-action="Details" asp-route-id="@Model.id" class="text-reset text-decoration-none">
-        <img class="card-img-top mt-2" src="~/images/@Model.ImageUrl" alt="Car Image">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Brand <strong>@Model.Model</strong> @Model.Trim</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">@Model.FuelType</li>
-            <li class="list-group-item">@Model.GearType</li>
-            <li class="list-group-item">@Model.Year</li>
-            @if (Model.whp > 0)
+
+<div class="car-listing d-flex">
+    <a asp-controller="CarListings" asp-action="Details" asp-route-id="@Model.Id" class="text-reset text-decoration-none">
+    <div class="car-image-container">
+            <img src="~/images/@Model.ImageUrl" alt="Car Image" class="car-image"
+                 style="width: 100%;height: 100%;object-fit:cover; object-position: center; border-radius:inherit;">
+    </div>
+</a>
+    <div class="ms-2 flex-grow-1 car-content">
+        <div class="title">
+            <div>
+                <a asp-controller="CarListings" asp-action="Details" asp-route-id="@Model.Id" class="text-reset text-decoration-none">
+                <div class="car-title">@Model.Brand @Model.Model @Model.Trim</div>
+                </a>
+            </div>
+            <div class="title-price">
+                <div class="car-price">@Model.Price</div>
+            </div>
+            @if (Model.SellerId != User?.GetUserId()?.ToString() && User != null)
             {
-                <li class="list-group-item">@Model.whp whp</li>
+                @if (await favouriteService.IsCarListingInFavourites(Model.Id, User.GetUserId()) == false)
+                {
+                    <div class="title-fav">
+                        <span class="favorite-star text-primary">
+                        <form method="post" asp-action="AddToFavourites" asp-controller="User">
+                            <input type="hidden" name="carListingId" value="@Model.Id" />
+                            <button type="submit" class="fav-button">
+                            <i class="bi bi-star star" id="star"></i>
+                            </button>
+                        </form>
+                    </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="title-fav">
+                        <span class="favorite-star text-primary">
+                            <form method="post" asp-action="RemoveFromFavourites" asp-controller="User">
+                                <input type="hidden" name="carListingId" value="@Model.Id" />
+                                <button type="submit" class="fav-button">
+                                    <i class="bi bi-star-fill clicked star" id="star"></i>
+                                </button>
+                            </form>
+                        </span>
+                    </div>
+                }
             }
-            <li class="list-group-item">@Model.Price</li>
-            <span class="list-group-item">@Model.DatePosted</span>
-        </ul>
-        @if (Model.SellerId == User?.GetUserId()?.ToString())
-        {
-            <a class="btn btn-primary m-2" asp-controller="User" asp-action="EditListing"
-               asp-route-id="@Model.id">Edit Listing</a>
-        }
-        @if (Model.SellerId != User?.GetUserId()?.ToString())
-        {
-            <form asp-action="AddToFavourite" method="post">
-                <input type="hidden" name="carListingId" value="@Model.id" />
-                <button class="btn btn-primary m-2" asp-controller="User" asp-action="AddToFavourites">Add to Favourite</button>
-            </form>
-        }
-    </a>
+        </div>
+        <div class="car-details mt-2 text-muted">
+            <span>@Model.Year year</span>
+            <span>@Model.Milleage км</span>
+            <span>@Model.FuelType</span>
+            <span>@Model.Whp hp</span>
+            <span>@Model.EngineDisplacement куб.см</span>
+            <span>@Model.GearType</span>
+            <span>@Model.BodyType</span>
+        </div>
+        <div class="car-description">
+            @Model.Description
+        </div>
+        <div class="car-region">
+                @if (@Model.LocationRegion == "Out of Bulgaria")
+                {
+                    <span>Location: @Model.LocationTown</span>
+                }
+                else {
+                    <span>Location: @Model.LocationRegion, @Model.LocationTown</span>
+                }
+        </div>
+    </div>
 </div>
+
+<script>
+    var stars = document.querySelectorAll('.star');
+
+    stars.forEach(function (star) {
+        star.addEventListener("mouseenter", function () {
+            if (!this.classList.contains('clicked')) {
+                this.classList.remove("bi-star");
+                this.classList.add("bi-star-fill");
+            }
+        });
+
+        star.addEventListener("mouseleave", function () {
+            if (!this.classList.contains('clicked')) {
+                this.classList.remove("bi-star-fill");
+                this.classList.add("bi-star");
+            }
+        });
+
+        star.addEventListener("click", function () {
+            if (!this.classList.contains('clicked')) {
+                this.classList.remove("bi-star");
+                this.classList.add("bi-star-fill");
+                this.classList.add("clicked");
+            }
+        });
+    });
+</script>
