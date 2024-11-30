@@ -8,6 +8,7 @@ using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Collections.Generic;
@@ -21,12 +22,14 @@ namespace CarApp.Controllers
         private readonly CarDbContext context;
         private readonly IUserService userService;
         private readonly IRepository<CarListing, int> carListingRepository;
+        private readonly IFavouritesService favouritesService;
         public UserController(CarDbContext _context, IUserService _userService, 
-            IRepository<CarListing, int> _carListingRepository)
+            IRepository<CarListing, int> _carListingRepository, IFavouritesService _favouritesService)
         {
             context = _context;
             userService = _userService;
             carListingRepository = _carListingRepository;
+            favouritesService = _favouritesService;
         }
 
         [HttpGet]
@@ -72,7 +75,6 @@ namespace CarApp.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             string userId = User.GetUserId()!;
@@ -86,7 +88,6 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
-        [Authorize] 
         public async Task<IActionResult> Delete(CarListingDeleteViewModel modelToDelete)
         {
             string userId = User.GetUserId()!;
@@ -100,6 +101,58 @@ namespace CarApp.Controllers
             }
 
             return RedirectToAction(nameof(UserListings));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Favourites()
+        {
+            string? userId = User?.GetUserId();
+            if (String.IsNullOrWhiteSpace(userId))
+            {
+                return RedirectToPage("/Identity/Account/Login");
+            }
+            var models = await favouritesService.GetAllUserFavouritesAsync(userId);
+
+            return View(models);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToFavourites(int carListingId)
+        {
+            string? userId = User?.GetUserId();
+            if (String.IsNullOrWhiteSpace(userId))
+            {
+                return RedirectToPage("/Identity/Account/Login");
+            }
+            bool result = await favouritesService
+                .AddCarListingToFavouritesAsync(carListingId, userId);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Favourites));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromFavourites(int carListingId)
+        {
+            string? userId = User?.GetUserId();
+            if (String.IsNullOrWhiteSpace(userId))
+            {
+                return RedirectToPage("/Identity/Account/Login");
+            }
+            bool result = await favouritesService
+                .RemoveCarListingFromFavouritesAsync(carListingId, userId);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Favourites));
         }
     }
 }

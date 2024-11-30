@@ -90,8 +90,8 @@
                     <option value="2">Car Year Ascending</option>
                     <option value="3">Price Ascending</option>
                     <option value="4">Price Descending</option>
-                    <option value="5">Date Added Ascending</option>
-                    <option value="6">Date Added Descending</option>
+                    <option value="5">Show Oldest First</option>
+                    <option value="6">Show Newest First</option>
                 </select>
                 <button type="submit" class="btn btn-primary">Sort</button>
             </div>
@@ -223,42 +223,6 @@
         <partial name="_CarListingPartial" model="@carListing" />
     }
 </div>
-
-@* @section Scripts {
-    <script src="~/js/carSelection.js"></script>
-
-    <script>
-        const modelsData = [];
-
-        @foreach (var carModel in Model.Models)
-        {
-            <text>
-               modelsData.push({
-                    BrandId: @carModel.BrandId,
-                    ModelId: @carModel.Id,
-                    ModelName: "@Html.Raw(@carModel.ModelName)"
-               });
-            </text>
-        }
-
-        populateCarModels(modelsData);
-
-        const selectedBrandId = @Model.BrandId;
-        const selectedModelId = @Model.ModelId;
-        if (selectedBrandId) {
-            
-            updateModels();
- 
-            const modelSelect = document.getElementById("carModel");
-            const selectedOption = Array.from(modelSelect.options)
-            .find(option => option.value == selectedModelId.toString());
-            if (selectedOption) {
-                selectedOption.selected = true;
-            }
-        }
-
-    </script>
-}*@
 
 @section Scripts {
     <script src="~/js/carSelectionIndex.js"></script>

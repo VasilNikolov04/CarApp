@@ -42,7 +42,7 @@ namespace CarApp.Infrastructure.Data.Models
 
         public int GearId { get; set; }
         [ForeignKey(nameof(GearId))]
-        public CarGear? Gear { get; set; }
+        public CarGear Gear { get; set; } = null!;
 
         public int DrivetrainId { get; set; }
         [ForeignKey(nameof(DrivetrainId))]

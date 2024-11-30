@@ -18,7 +18,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.RegisterUserDefinedServices(typeof(ICarListingService).Assembly);
 
-
             return services;
         }
 

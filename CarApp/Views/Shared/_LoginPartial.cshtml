@@ -10,7 +10,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
             <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserListings">Favourites</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Favourites">Favourites</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserListings">My Listings</a></li>
                 @if(User.IsInRole(AdminRoleName))
                 {

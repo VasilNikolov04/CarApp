@@ -31,5 +31,12 @@
             <a class="btn btn-primary m-2" asp-controller="User" asp-action="EditListing"
                asp-route-id="@Model.id">Edit Listing</a>
         }
+        @if (Model.SellerId != User?.GetUserId()?.ToString())
+        {
+            <form asp-action="AddToFavourite" method="post">
+                <input type="hidden" name="carListingId" value="@Model.id" />
+                <button class="btn btn-primary m-2" asp-controller="User" asp-action="AddToFavourites">Add to Favourite</button>
+            </form>
+        }
     </a>
 </div>

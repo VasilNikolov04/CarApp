@@ -19,6 +19,6 @@ namespace CarApp.Infrastructure.Data.Models
         public string? LastName { get; set; }
         public ICollection<CarListing>? CarListings { get; set; } = new HashSet<CarListing>();
 
-        public ICollection<Favourite>? Favourites { get; set; } = new HashSet<Favourite>();
+        public ICollection<Favourite>? Favourites { get; set; } = new List<Favourite>();
     }
 }
