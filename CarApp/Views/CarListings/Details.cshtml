@@ -63,13 +63,13 @@
     <div class="row">
         <!-- Car Image Container with Object-Fit -->
         <div class="col-lg-8">
-            <div class="car-image-container align-content-center">
+            <div class="car-image-container align-content-lg-center">
                 <div id="carImagesCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" >
                         @for (int i = 0; i < Model.Images.Count; i++)
                         {
                             <div class="carousel-item @(i == 0 ? "active" : "")">
-                                <img src="~/images/@Model.Images.ElementAt(i).ImageUrl" class="d-block w-100" alt="Car Image @(i + 1)">
+                                <img src="~/images/@Model.Images.ElementAt(i).ImageUrl" class="d-block w-100 image" alt="Car Image @(i + 1)">
                             </div>
                         }
                     </div>

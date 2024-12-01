@@ -12,9 +12,10 @@
 .carousel-inner {
     width: 100%;
     height: 100%;
+    align-content: center;
 }
 
-.car-image-container img {
+.carousel-inner .image {
     width: 100%;
     height: 100%;
     object-fit: cover;
