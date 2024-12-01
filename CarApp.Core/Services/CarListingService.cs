@@ -178,6 +178,13 @@ namespace CarApp.Core.Services
                         GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                         BodyType = cl.Car.CarBodyType.Name,
                         Images = cl.CarImages,
+                        Year = cl.Car.Year,
+                        Seller = new SellerViewModel()
+                        {
+                            SellerFullName = $"{cl.Seller.FirstName} {cl.Seller.LastName}",
+                            SellerEmail = cl.Seller.Email ?? string.Empty,
+                            SellerPhoneNumber = cl.Seller.PhoneNumber ?? string.Empty
+                        },
                         Whp = cl.Car.Whp,
                         Milleage = cl.Car.Mileage,
                         Description = cl.Description,

@@ -3,13 +3,32 @@
 @using static CarApp.Infrastructure.Constants.ApplicationConstants;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var firstName = user?.FirstName ?? "Guest";
+}
+<style>
+    .logout-button {
+        visibility: hidden;
+    }
 
+    .logout-text {
+        visibility: visible;
+        color: black;
+    }
+
+    .logout-text:active {
+        visibility: visible;
+        color: white;
+    }
+</style>
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
         <li class="nav-item dropdown">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-            <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdown">
+            <a class="nav-link text-dark me-4" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @firstName!</a>
+            <ul class="dropdown-menu p-0" style="margin-left:-1.5rem; text-align:center;" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Profile</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Favourites">Favourites</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserListings">My Listings</a></li>
                 @if(User.IsInRole(AdminRoleName))
@@ -17,8 +36,8 @@
                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="AdminPanel">Admin Panel</a></li>
                 }
                 <li>
-                    <form class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="nav-link btn btn-link p-0 text-black">Logout</button>
+                    <form class="dropdown-item d-flex justify-content-center" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="logout-button p-0"><span class="logout-text">Logout</span></button>
                     </form>
                 </li>
             </ul>

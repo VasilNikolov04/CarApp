@@ -14,5 +14,10 @@ namespace CarApp.Infrastructure.Constants
 
             public const string LengthErrorMessage = "The {0} field must be between {2} and {1} characters long";
         }
+
+        public static class User
+        {
+            public const string PhoneNumberErrorMessage = "Please enter a valid phone number.";
+        }
     }
 }

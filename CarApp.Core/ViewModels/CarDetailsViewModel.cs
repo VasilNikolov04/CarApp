@@ -1,4 +1,5 @@
-﻿using CarApp.Infrastructure.Data.Models;
+﻿using CarApp.Core.ViewModels.CarListing;
+using CarApp.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +27,16 @@ namespace CarApp.Core.ViewModels
 
         public int Whp { get; set; }
 
+        public int Year { get; set; }
+
         public string FuelType { get; set; } = null!;
         public string BodyType { get; set; } = null!;
 
         public string? GearType { get; set; }
 
         public string DatePosted { get; set; } = null!;
+
+        public SellerViewModel Seller { get; set; } = null!;
 
         public ICollection<CarImage> Images { get; set; } = new List<CarImage>();
     }

@@ -2,7 +2,9 @@
 using CarApp.Core.ViewModels;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using static CarApp.Infrastructure.Constants.ApplicationConstants;
 
 namespace CarApp.Core.Services
 {
@@ -10,18 +12,25 @@ namespace CarApp.Core.Services
     {
         private readonly IRepository<CarListing, int> carListingRepository;
         private readonly IRepository<Car, int> carRepository;
+        private readonly UserManager<ApplicationUser> userManager;
         public UserService(IRepository<CarListing, int> _carListingRepository,
-             IRepository<Car, int> _carRepository)
+             IRepository<Car, int> _carRepository, UserManager<ApplicationUser> _userManager)
         {
             carListingRepository = _carListingRepository;
             carRepository = _carRepository;
+            userManager = _userManager;
         }
 
         public async Task<bool> DeleteCarListingAsync(CarListingDeleteViewModel model, string? userId)
         {
+            var user = await userManager.FindByIdAsync(userId);
+
+            var userRoles = await userManager.GetRolesAsync(user);
+
             CarListing? carListing = await carListingRepository
                 .GetAllAttached()
-                .Where(cl => cl.Id == model.Id && cl.IsDeleted == false && cl.SellerId == userId)
+                .Where(cl => cl.Id == model.Id && cl.IsDeleted == false 
+                && (cl.SellerId == userId || userRoles.Contains(AdminRoleName)))
                 .FirstOrDefaultAsync();
 
             if (carListing == null)
@@ -106,7 +115,8 @@ namespace CarApp.Core.Services
                     LocationTown = cl.City.CityName,
                     Milleage = cl.Car.Mileage,
                     BodyType = cl.Car.CarBodyType.Name,
-                    Description = cl.Description ?? string.Empty
+                    Description = cl.Description ?? string.Empty,
+                    SellerId = cl.SellerId
 
 
                 })
@@ -118,9 +128,14 @@ namespace CarApp.Core.Services
 
         public async Task<CarListingDeleteViewModel?> GetCarListingForDeleteAsync(int id, string? userId)
         {
+            var user = await userManager.FindByIdAsync(userId);
+
+            var userRoles = await userManager.GetRolesAsync(user);
+
             CarListingDeleteViewModel? model = await carListingRepository
                     .GetAllAttached()
-                    .Where(cl => cl.Id == id && cl.IsDeleted == false && cl.SellerId == userId)
+                    .Where(cl => cl.Id == id && cl.IsDeleted == false && 
+                    (cl.SellerId == userId || userRoles.Contains(AdminRoleName)))
                     .Select(cl => new CarListingDeleteViewModel
                     {
                         Id = cl.Id,

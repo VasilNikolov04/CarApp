@@ -3,6 +3,7 @@
 @using CarApp.Infrastructure.Data.Models
 @using Microsoft.AspNetCore.Identity
 @using CarApp.Core.Services.Contracts;
+@using static CarApp.Infrastructure.Constants.ApplicationConstants;
 @inject IFavouritesService favouriteService
 @inject SignInManager<ApplicationUser> SignInManager
 @{
@@ -21,13 +22,13 @@
         <div class="title">
             <div>
                 <a asp-controller="CarListings" asp-action="Details" asp-route-id="@Model.Id" class="text-reset text-decoration-none">
-                <div class="car-title">@Model.Brand @Model.Model @Model.Trim</div>
+                <div class="car-title">@Model.Brand @Model.Model @Model.Trim </div>
                 </a>
             </div>
             <div class="title-price">
                 <div class="car-price">@Model.Price</div>
             </div>
-            @if (Model.SellerId != User?.GetUserId()?.ToString() && User != null)
+            @if (Model.SellerId != User?.GetUserId()?.ToString() && User?.Identity?.IsAuthenticated == true)
             {
                 @if (await favouriteService.IsCarListingInFavourites(Model.Id, User.GetUserId()) == false)
                 {
@@ -59,16 +60,17 @@
         </div>
         <div class="car-details mt-2 text-muted">
             <span>@Model.Year year</span>
-            <span>@Model.Milleage км</span>
+            <span>@Model.Milleage km</span>
             <span>@Model.FuelType</span>
             <span>@Model.Whp hp</span>
-            <span>@Model.EngineDisplacement куб.см</span>
+            <span>@Model.EngineDisplacement cc</span>
             <span>@Model.GearType</span>
             <span>@Model.BodyType</span>
         </div>
         <div class="car-description">
             @Model.Description
         </div>
+        <div class="car-bottom-container">
         <div class="car-region">
                 @if (@Model.LocationRegion == "Out of Bulgaria")
                 {
@@ -77,6 +79,31 @@
                 else {
                     <span>Location: @Model.LocationRegion, @Model.LocationTown</span>
                 }
+        </div>
+        @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <div class="options">
+                    <div class="btn-group">
+                        <button type="button" class="button-options" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical options-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @if (Model.SellerId == User?.GetUserId())
+                            {
+                                <li><a class="dropdown-item" asp-controller="User" asp-action="EditListing" asp-route-Id="@Model.Id">Edit</a></li>
+                            }
+                            @if (Model.SellerId == User?.GetUserId() || User?.IsInRole(AdminRoleName) == true)
+                            {
+                                <li><a class="dropdown-item" asp-controller="User" asp-action="Delete" asp-route-Id="@Model.Id">Delete</a></li>
+                            }
+                            @if (Model.SellerId != User?.GetUserId())
+                            {
+                                <li><a class="dropdown-item">Report</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>

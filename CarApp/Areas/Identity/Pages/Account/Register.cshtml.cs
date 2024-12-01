@@ -13,6 +13,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using CarApp.Infrastructure.Data.Models;
 using static CarApp.Infrastructure.Constants.ApplicationConstants;
+using static CarApp.Infrastructure.Constants.DataErrorMessages.User;
+using System.Configuration;
 
 namespace CarApp.Areas.Identity.Pages.Account
 {
@@ -103,6 +105,13 @@ namespace CarApp.Areas.Identity.Pages.Account
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
+            /// <summary>
+            /// Phone number of the User
+            /// </summary>
+            [RegularExpression(PhoneNumberRegex, ErrorMessage = PhoneNumberErrorMessage)]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
 
             /// <summary>
             /// Last Name of the User
@@ -130,7 +139,8 @@ namespace CarApp.Areas.Identity.Pages.Account
                     UserName = Input.Email, 
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    PhoneNumber = Input.PhoneNumber
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

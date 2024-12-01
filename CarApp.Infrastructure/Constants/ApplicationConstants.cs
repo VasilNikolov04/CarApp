@@ -7,5 +7,7 @@
 
         public const string UserRoleName = "User";
 
+        public const string PhoneNumberRegex = @"^\+?(\d{1,3})?[-.\s]?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$";
+
     }
 }

@@ -6,6 +6,7 @@ using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -55,7 +56,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditListing(CarListingEditViewModel model)
         {
             string userId = User.GetUserId()!;
@@ -99,6 +100,12 @@ namespace CarApp.Controllers
                 ModelState.AddModelError(string.Empty, "Unexpected error while deleting the car listing!");
                 return View(nameof(Delete));
             }
+            var referer = Request.Headers["Referer"].ToString();
+
+            if (!string.IsNullOrEmpty(referer) )
+            {
+                return Redirect(referer);
+            }
 
             return RedirectToAction(nameof(UserListings));
         }
@@ -134,7 +141,6 @@ namespace CarApp.Controllers
             }
             var referer = Request.Headers["Referer"].ToString();
 
-            // If Referer is not empty, redirect to the previous page
             if (!string.IsNullOrEmpty(referer))
             {
                 return Redirect(referer);
