@@ -24,7 +24,7 @@ namespace CarApp.Core.ViewModels
 
         public int Year { get; set; }
 
-        public int Milleage { get; set; }
+        public string Milleage { get; set; } = null!;
 
         public string BodyType { get; set; } = null!;
 

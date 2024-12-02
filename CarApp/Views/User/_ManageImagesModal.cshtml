@@ -1,21 +1,41 @@
-﻿@model IEnumerable<string>
+﻿@model CarListingEditViewModel
 
-<div id="manageTicketsModal" class="modal fade" tabindex="-1" aria-labelledby="manageTicketsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="addImagesModal" data-car-id="@Model.Id" tabindex="-1" role="dialog" aria-labelledby="addImagesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="manageTicketsModalLabel">Manage Tickets</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="addImagesModalLabel">Manage Images</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="moviesList">
-                    <p>Loading Images...</p>
+                <!-- Existing images display in a grid or carousel -->
+                <h6>Existing Images</h6>
+                <div class="row">
+                    @foreach (var image in Model.CarImages)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="image-container">
+                                <img src="~/images/@image.ImageUrl" class="img-fluid img-thumbnail" alt="Car Image">
+                                <!-- You could add a button to delete or manage images here -->
+                                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeImage('@image.Id')">Remove</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- New images input -->
+                <h6>Upload New Images</h6>
+                <div class="form-group">
+                    <label for="NewCarImages">Choose Images</label>
+                    <input asp-for="NewCarImages" type="file" class="form-control-file" id="NewCarImages" name="NewCarImages" multiple>
+                    <span asp-validation-for="NewCarImages" class="text-danger"></span>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
         </div>
     </div>

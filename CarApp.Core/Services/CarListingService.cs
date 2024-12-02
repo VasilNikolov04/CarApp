@@ -146,7 +146,7 @@ namespace CarApp.Core.Services
                 EngineDisplacement = cl.Car.EngineDisplacement,
                 LocationRegion = cl.City.CarLocation.RegionName,
                 LocationTown = cl.City.CityName,
-                Milleage = cl.Car.Mileage,
+                Milleage = cl.Car.Mileage.ToString("N0"),
                 BodyType = cl.Car.CarBodyType.Name,
                 Description = cl.Description ?? string.Empty,
             })
@@ -186,7 +186,7 @@ namespace CarApp.Core.Services
                             SellerPhoneNumber = cl.Seller.PhoneNumber ?? string.Empty
                         },
                         Whp = cl.Car.Whp,
-                        Milleage = cl.Car.Mileage,
+                        Milleage = cl.Car.Mileage.ToString("N0"),
                         Description = cl.Description,
                         DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture)
                     })

@@ -21,7 +21,7 @@ namespace CarApp.Core.ViewModels
 
         public int EngineDisplacement { get; set; }
 
-        public int Milleage { get; set; }
+        public string Milleage { get; set; } = null!;
 
         public string Price { get; set; } = null!;
 

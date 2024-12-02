@@ -1,7 +1,24 @@
 ﻿@model CarListingEditViewModel
 @{
 }
+<style>
+    .car-image-container{
+        width:100%;
+        height: 500px;
+        background-color:black;  
+        align-content:center;
+    }
 
+    img {
+       width:100%;
+       height:100%;
+    }
+
+    .car-image-row{
+        width:100%;
+        height:500px;
+    }
+</style>
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="EditListing" method="post" enctype="multipart/form-data">
@@ -37,7 +54,8 @@
                 </div>
             </div>
 
-            <div class="row justify-content-md-center">
+            <div class="row car-image-row justify-content-md-center">
+                <div class="car-image-container">
                 <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         @for (int i = 0; i < Model.CarImages.Count; i++)
@@ -56,13 +74,15 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+                </div>
             </div>
 
             <div class="row mt-3">
-            <button type="button" class="btn btn-primary btn-sm" onclick="openManageTicketsModal('@Model.Id')">
-                <i class="bi bi-ticket-perforated"></i> Manage Car Images
-            </button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addImagesModal">
+                    Manage Images
+                </button>
             </div>
+            @await Html.PartialAsync("_ManageImagesModal")
 
             <div class="form-group m-2">
                 <label asp-for="@Model.NewCarImages">Insert More Images</label>
@@ -78,3 +98,6 @@
         </form>
     </div>
 </div>
+
+
+<script src="~/js/manageImagesModal.js"></script>

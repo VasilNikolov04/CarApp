@@ -69,7 +69,7 @@ namespace CarApp.Core.Services
                     EngineDisplacement = cl.CarListing.Car.EngineDisplacement,
                     LocationRegion = cl.CarListing.City.CarLocation.RegionName,
                     LocationTown = cl.CarListing.City.CityName,
-                    Milleage = cl.CarListing.Car.Mileage,
+                    Milleage = cl.CarListing.Car.Mileage.ToString("N0"),
                     BodyType = cl.CarListing.Car.CarBodyType.Name
 
                 })

@@ -118,7 +118,7 @@ namespace CarApp.Core.Services
                 LocationRegion = cl.City.CarLocation.RegionName,
                 LocationTown = cl.City.CityName,
                 BodyType = cl.Car.CarBodyType.Name,
-                Milleage = cl.Car.Mileage,
+                Milleage = cl.Car.Mileage.ToString("N0"),
                 EngineDisplacement = cl.Car.EngineDisplacement,
                 FuelType = cl.Car.Fuel.FuelName,
                 Year = cl.Car.Year,

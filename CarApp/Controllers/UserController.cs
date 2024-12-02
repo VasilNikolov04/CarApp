@@ -23,14 +23,17 @@ namespace CarApp.Controllers
         private readonly CarDbContext context;
         private readonly IUserService userService;
         private readonly IRepository<CarListing, int> carListingRepository;
+        private readonly IRepository<CarImage, int> imageRepository;
         private readonly IFavouritesService favouritesService;
         public UserController(CarDbContext _context, IUserService _userService, 
-            IRepository<CarListing, int> _carListingRepository, IFavouritesService _favouritesService)
+            IRepository<CarListing, int> _carListingRepository, IFavouritesService _favouritesService,
+            IRepository<CarImage, int> _imageRepository)
         {
             context = _context;
             userService = _userService;
             carListingRepository = _carListingRepository;
             favouritesService = _favouritesService;
+            imageRepository = _imageRepository;
         }
 
         [HttpGet]
@@ -55,6 +58,7 @@ namespace CarApp.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditListing(CarListingEditViewModel model)
@@ -74,6 +78,34 @@ namespace CarApp.Controllers
 
             return RedirectToAction(nameof(Details),"CarListings", new {id = model.Id});
         }
+
+        public async Task<IActionResult> RemoveImage(int carId, int imageId)
+        {
+            var car = await carListingRepository
+                .GetAllAttached()
+                .Include(c => c.CarImages)
+                .Where(c => c.Id == carId)
+                .FirstOrDefaultAsync();
+
+            if (car == null)
+            {
+                return Json(new { success = false, message = "Car not found" });
+            }
+
+            var image = car.CarImages.FirstOrDefault(i => i.Id == imageId);
+            if (image != null)
+            {
+                car.CarImages.Remove(image);
+                await carListingRepository.UpdateAsync(car);
+
+                var images = car.CarImages.Select(i => new { i.Id, i.ImageUrl }).ToList();
+
+                return Json(new { success = true, images});
+            }
+
+            return Json(new { success = false, message = "Image not found" });
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
