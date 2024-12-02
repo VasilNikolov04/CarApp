@@ -77,18 +77,18 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-3 mb-3">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addImagesModal">
                     Manage Images
                 </button>
             </div>
             @await Html.PartialAsync("_ManageImagesModal")
 
-            <div class="form-group m-2">
+            @* <div class="form-group m-2">
                 <label asp-for="@Model.NewCarImages">Insert More Images</label>
                 <input asp-for="@Model.NewCarImages" type="file" class="form-control-file" id="NewCarImages" name="NewCarImages" multiple>
                 <span asp-validation-for="@Model.NewCarImages" class="text-danger"></span>
-            </div>
+            </div> *@
 
             <div class="mb-2">
                 <input class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Save" />
