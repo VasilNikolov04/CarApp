@@ -41,5 +41,10 @@ namespace CarApp.Infrastructure.Constants
 
             public const int DrivetrainNameMaxLength = 25;
         }
+
+        public static class Reports
+        {
+            public const int ReportCommentMaxLength = 500;
+        }
     }
 }

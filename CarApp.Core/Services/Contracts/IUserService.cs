@@ -18,6 +18,5 @@ namespace CarApp.Core.Services.Contracts
         Task<CarListingDeleteViewModel?> GetCarListingForDeleteAsync(int id, string? userId);
 
         Task<bool> DeleteCarListingAsync(CarListingDeleteViewModel model, string? userId);
-
     }
 }

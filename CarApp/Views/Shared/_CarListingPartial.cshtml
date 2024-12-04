@@ -1,9 +1,4 @@
 ﻿@model CarInfoViewModel
-@using CarApp.Extensions;
-@using CarApp.Infrastructure.Data.Models
-@using Microsoft.AspNetCore.Identity
-@using CarApp.Core.Services.Contracts;
-@using static CarApp.Infrastructure.Constants.ApplicationConstants;
 @inject IFavouritesService favouriteService
 @inject SignInManager<ApplicationUser> SignInManager
 @{
@@ -98,7 +93,7 @@
                             }
                             @if (Model.SellerId != User?.GetUserId())
                             {
-                                <li><a class="dropdown-item">Report</a></li>
+                                <li><a class="dropdown-item" asp-controller="User" asp-action="Report" asp-route-carListingId="@Model.Id">Report</a></li>
                             }
                         </ul>
                     </div>

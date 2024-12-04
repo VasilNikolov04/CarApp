@@ -59,7 +59,14 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="Year">Year</label>
-                    <input asp-for="Year" type="number" class="form-control" min="1930" max="@DateTime.Now.Year" placeholder="Enter Year" required>
+                    <select asp-for="@Model.Year" class="form-control" required>
+                        <option value="">Select Year</option>
+                        @foreach (int year in Model.YearList)
+                        {
+                            <option value="@year">@year</option>
+                            
+                        }
+                    </select>
                     <span asp-validation-for="Year" class="text-danger"></span>
                 </div>
             </div>

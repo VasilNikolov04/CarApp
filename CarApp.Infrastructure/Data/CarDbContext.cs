@@ -24,6 +24,7 @@ namespace CarApp.Infrastructure.Data
         public DbSet<CarLocation> CarLocations { get; set; }
         public DbSet<CarLocationCity> CarLocationCities { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         public CarDbContext(DbContextOptions<CarDbContext> options)
         : base(options)

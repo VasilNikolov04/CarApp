@@ -25,10 +25,10 @@ namespace CarApp.Core.ViewModels
         /// </summary>
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
+        public IList<CarImage> CarImages { get; set; } = new List<CarImage>();
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public ICollection<IFormFile>? NewCarImages { get; set; } = new List<IFormFile>();
+        public IList<IFormFile>? NewCarImages { get; set; } = new List<IFormFile>();
         /// <summary>
         /// Car Price
         /// </summary>

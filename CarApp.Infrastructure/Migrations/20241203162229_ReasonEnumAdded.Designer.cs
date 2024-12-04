@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241203162229_ReasonEnumAdded")]
+    partial class ReasonEnumAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -613,11 +616,11 @@ namespace CarApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.Report", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ReportedListingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportedListingId"));
 
                     b.Property<string>("Comment")
                         .HasMaxLength(500)
@@ -640,7 +643,7 @@ namespace CarApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ReportedListingId");
 
                     b.HasIndex("ListingId");
 

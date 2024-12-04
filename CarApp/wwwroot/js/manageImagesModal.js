@@ -1,6 +1,7 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     const addImagesButton = document.querySelector('.btn-success[data-toggle="modal"]');
 
+    // Open modal on button click
     addImagesButton.addEventListener('click', function () {
         const modal = new bootstrap.Modal(document.getElementById('addImagesModal'));
         modal.show();
@@ -8,7 +9,6 @@
 
     window.removeImage = function (imageId) {
         const carId = document.getElementById('addImagesModal').getAttribute('data-car-id');
-
         if (confirm('Are you sure you want to remove this image?')) {
             fetch(`/User/RemoveImage?carId=${carId}&imageId=${imageId}`, {
                 method: 'DELETE'
@@ -26,6 +26,87 @@
                     console.error('Error removing image:', error);
                 });
         }
+    };
+
+    let draggedImage = null;
+
+    document.querySelectorAll('.draggable-image-container').forEach(item => {
+        item.addEventListener('dragstart', dragStart);
+        item.addEventListener('dragover', dragOver);
+        item.addEventListener('drop', drop);
+    });
+
+    function dragStart(event) {
+        draggedImage = event.target.closest('.draggable-image-container'); // Ensure correct element
+        event.dataTransfer.setData('text', draggedImage.dataset.id);
+        event.dataTransfer.effectAllowed = 'move';
+    }
+
+    function dragOver(event) {
+        event.preventDefault(); // Prevent default to allow drop
+        const target = event.target.closest('.draggable-image-container');
+        if (target && target !== draggedImage) {
+            target.classList.add('drag-over');
+        }
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        const target = event.target.closest('.draggable-image-container'); // Drop only on containers
+
+        if (!target || target === draggedImage) return;
+
+        target.classList.remove('drag-over');
+
+        const draggedImageIndex = Array.from(target.parentElement.children).indexOf(draggedImage);
+        const droppedImageIndex = Array.from(target.parentElement.children).indexOf(target);
+
+        if (draggedImageIndex < droppedImageIndex) {
+            target.parentElement.insertBefore(draggedImage, target.nextSibling);
+        } else {
+            target.parentElement.insertBefore(draggedImage, target);
+        }
+
+        updateImageOrder();
+    }
+
+    function updateImageOrder() {
+        const imageOrder = [];
+        document.querySelectorAll('.draggable-image-container').forEach(imageElement => {
+            imageOrder.push(imageElement.dataset.id);
+        });
+
+        document.getElementById('saveOrderButton').onclick = function () {
+            saveImageOrder(imageOrder);
+        };
+    }
+
+    function saveImageOrder(imageOrder) {
+        const carId = document.getElementById('addImagesModal').getAttribute('data-car-id');
+
+        fetch(`/User/UpdateImageOrder`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                carId: carId,
+                orderedImageIds: imageOrder
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Image order saved successfully');
+                    // Reload the page to reflect the updated order
+                    window.location.reload(true);
+                } else {
+                    alert('Failed to save image order: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving image order:', error);
+            });
     }
 
     function refreshModalImages(images) {
@@ -33,11 +114,11 @@
         imageContainer.innerHTML = '';
 
         images.forEach((image, index) => {
-
             const colDiv = document.createElement('div');
-            colDiv.classList.add('col-md-4', 'mb-3');
-            const imageContainerDiv = document.createElement('div');
-            imageContainerDiv.classList.add('image-container');
+            colDiv.classList.add('col-md-4', 'mb-3', 'draggable-image-container');
+            colDiv.setAttribute('data-id', image.id);
+            const imageWrapperDiv = document.createElement('div');
+            imageWrapperDiv.classList.add('image-wrapper');
 
             const imgElement = document.createElement('img');
             imgElement.src = `/images/${image.imageUrl}`;
@@ -52,9 +133,9 @@
                 removeImage(image.id);
             };
 
-            imageContainerDiv.appendChild(imgElement);
-            imageContainerDiv.appendChild(removeButton);
-            colDiv.appendChild(imageContainerDiv);
+            imageWrapperDiv.appendChild(imgElement);
+            imageWrapperDiv.appendChild(removeButton);
+            colDiv.appendChild(imageWrapperDiv);
             imageContainer.appendChild(colDiv);
         });
     }

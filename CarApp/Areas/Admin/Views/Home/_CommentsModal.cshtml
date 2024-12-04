@@ -1,0 +1,29 @@
+﻿@model AllReportedListingViewModel
+
+<div class="modal fade" id="commentsModal-@Model.CarListingId" tabindex="-1" aria-labelledby="commentsModalLabel-@Model.CarListingId" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentsModalLabel-@Model.CarListingId">Comments for Car Listing @Model.CarListingId</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Comment != null && Model.CommentAuthors != null && Model.Comment.Any() && Model.CommentAuthors.Any())
+                {
+                    <ul class="list-group">
+                        @for (var i = 0; i < Model.Comment.Count && i < Model.CommentAuthors.Count; i++)
+                        {
+                            <li class="list-group-item">
+                                <strong>@Model.CommentAuthors[i]:</strong> @Model.Comment[i]
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No comments available for this listing.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

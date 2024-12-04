@@ -34,7 +34,8 @@ namespace CarApp.Core.Services
                 Drivetrains = await GetDrivetrainAsync(),
                 CarBodyTypes = await GetBodyTypesAsync(),
                 CarLocations = await GetLocationsAsync(),
-                Cities = await GetCitiesAsync()
+                Cities = await GetCitiesAsync(),
+                YearList = GetYears()
             };
 
             return model;
@@ -140,6 +141,16 @@ namespace CarApp.Core.Services
             return await context.CarLocationCities.OrderBy(c => c.CityName).ToListAsync();
         }
 
+        public List<int> GetYears()
+        {
+            List<int> years = new List<int>();
+            for (int i = DateTime.Now.Year; i >= 1930; i--)
+            {
+                years.Add(i);
+            }
+            return years;
+        }
+
         public bool BrandExist(int brandId)
         {
             var brand = context.CarBrands.Where(b => b.Id == brandId);
@@ -154,6 +165,12 @@ namespace CarApp.Core.Services
         {
             var parts = modelName.Split(' ');
             return parts[0];
+        }
+
+        public string SplitEnum(Enum value)
+        {
+            var enumValue = value.ToString();
+            return string.Concat(enumValue.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
         }
     }
 

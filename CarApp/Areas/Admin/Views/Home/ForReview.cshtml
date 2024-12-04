@@ -1,0 +1,76 @@
+﻿@model IEnumerable<AllReportedListingViewModel>
+@inject IUtilityService utilityService
+@{
+    ViewData["Title"] = "Reported Listings";
+}
+<style>
+    .comments{
+        font-size:1.2rem;
+    }
+</style>
+
+<h2>Reported Car Listings</h2>
+
+<div class="row">
+    @if(Model.Any() && Model != null)
+    {
+    @foreach (var report in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <a asp-action="Details" asp-area="" asp-controller="CarListings" asp-route-id="@report.CarListingId">
+                <img src="~/images/@report.CarImage" class="card-img-top" alt="Car Image" style="height: 250px; object-fit: cover;">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">Reported Car Listing</h5>
+                    <p class="card-text">
+                        <strong>Report Reason:</strong><br />
+                        @if (report.ReportReason != null && report.ReportReason.Any())
+                        {
+                            @foreach (var reason in report.ReportReason)
+                            {
+                                <span class="badge bg-primary mx-1">@utilityService.SplitEnum(reason)</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>No Report Reasons</span>
+                        }
+                    </p>
+                    <p class="card-text">
+                        
+                        @if (report.Comment != null && report.Comment.Any())
+                        {
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentsModal-@report.CarListingId">
+                                View @report.Comment.Count() Comments
+                            </button>
+                        }
+                        else
+                        {
+                            <span>No comments</span>
+                        }
+                    </p>
+                    <p class="card-text">
+                        <strong>Reported On:</strong> @report.ReportedAt
+                    </p>
+                    <div class="footer d-flex justify-content-between">
+                        
+                        <form method="post" asp-action="Approve">
+                            <input type="hidden" name="carListingId" value="@report.CarListingId" />
+                            <button class="btn btn-success">Approve</button>
+                        </form>
+                        <a class="btn btn-danger" asp-area="" asp-controller="User" asp-action="Delete" asp-route-Id="@report.CarListingId">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @await Html.PartialAsync("_CommentsModal", report)
+        }
+    }
+    else
+    {
+        <span>No Report Car listings</span>
+    }
+
+</div>

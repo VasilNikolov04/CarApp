@@ -66,6 +66,7 @@ namespace CarApp.Core.ViewModels
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int Year { get; set; }
+        public List<int> YearList { get; set; } = new List<int>();
 
         /// <summary>
         /// Car Milleage

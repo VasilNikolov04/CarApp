@@ -4,6 +4,7 @@ using CarApp.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,8 +23,9 @@ namespace CarApp.Core.Services.Contracts
         Task<List<CarLocationCity>> GetCitiesAsync();
         List<int> GetPriceDropdown();
         List<int> GetMileageDropdown();
-
         Task<T> PopulateAllDropdownsAsync<T>(T viewModel) where T : DropDownViewModel, new();
         bool BrandExist(int brandId);
+
+        string SplitEnum(Enum value);
     }
 }

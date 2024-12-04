@@ -1,4 +1,5 @@
 ﻿using CarApp.Core.Services.Contracts;
+using CarApp.Infrastructure.Constants.Enum;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories;
@@ -60,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
         public static void RegisterRepositories(this IServiceCollection services, Assembly modelsAssembly)
         {
-            Type[] typesToExclude = new Type[] { typeof(ApplicationUser) };
+            Type[] typesToExclude = new Type[] { typeof(ApplicationUser), typeof(ReportReason) };
 
             Type[] modelsType = modelsAssembly
                 .GetTypes()

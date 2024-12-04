@@ -1,0 +1,56 @@
+﻿@inject IUtilityService utilityService
+@model ReportListingViewModel
+
+@{
+    ViewData["Title"] = "Report"; 
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Report a Problem</h5>
+        <p class="card-text">
+            You're reporting a listing. Please provide a reason and additional comments if necessary.
+        </p>
+
+        <form asp-action="Report" method="post">
+            @Html.AntiForgeryToken()
+            <div class="row text-center">
+                <h3><strong>Reported listing: </strong>@Model.CarListingTitle</h3>
+                <h3><strong>From User: </strong>@Model.SellerFullName</h3>
+            </div>
+            <input type="hidden" asp-for="ListingId" />
+            <input type="hidden" asp-for="SellerId" />
+            <input type="hidden" asp-for="CarListingTitle"/>
+            <input type="hidden" asp-for="SellerEmail"/>
+            <input type="hidden" asp-for="SellerFullName"/>
+
+            <div class="form-group">
+                <label>Reasons</label>
+                <div>
+                    @foreach (var reason in Model.Reasons)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="SelectedReason" value="@reason"/>
+                            <label class="form-check-label">@utilityService.SplitEnum(reason)</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="SelectedReason" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Comment">Comment (optional)</label>
+                <textarea asp-for="Comment" class="form-control" rows="4" maxlength="500" placeholder="provide additional details..."></textarea>
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div> 
+            <button type="submit" class="btn btn-primary">Submit Report</button>
+            <a asp-action="Index" asp-controller="CarListings" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

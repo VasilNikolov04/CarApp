@@ -34,7 +34,7 @@ namespace CarApp.Infrastructure.Data.Models
         [MaxLength(ImageUrlMaxLength)]
         [Required]
         public string MainImageUrl { get; set; } = null!;
-        public ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
+        public IList<CarImage> CarImages { get; set; } = new List<CarImage>();
 
         public ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();
 
@@ -44,5 +44,8 @@ namespace CarApp.Infrastructure.Data.Models
         public required string SellerId { get; set; }
         [ForeignKey(nameof(SellerId))]
         public ApplicationUser Seller { get; set; } = null!;
+
+        public virtual ICollection<Report> ReportedListings { get; set; } 
+            = new List<Report>();
     }
 }
