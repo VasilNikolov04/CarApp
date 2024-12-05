@@ -115,7 +115,7 @@ namespace CarApp.Core.Services
                 Trim = cl.Car.Trim,
                 Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                 Description = cl.Description ?? string.Empty,
-                LocationRegion = cl.City.CarLocation.RegionName,
+                LocationRegion = cl.City.CarLocationRegion.RegionName,
                 LocationTown = cl.City.CityName,
                 BodyType = cl.Car.CarBodyType.Name,
                 Milleage = cl.Car.Mileage.ToString("N0"),

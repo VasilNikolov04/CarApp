@@ -15,7 +15,7 @@ namespace CarApp.Infrastructure.Data.Models
 
         public int LocationId { get; set; }
         [ForeignKey(nameof(LocationId))]
-        public CarLocation CarLocation { get; set; } = null!;
+        public CarLocationRegion CarLocationRegion { get; set; } = null!;
 
         public ICollection<CarListing> CarListings { get; set; } 
             = new List<CarListing>();

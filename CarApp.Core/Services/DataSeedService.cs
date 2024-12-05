@@ -18,12 +18,12 @@ namespace CarApp.Core.Services
     {
         private readonly IRepository<CarModel, int> modelRepository;
         private readonly IRepository<CarBrand, int> brandRepository;
-        private readonly IRepository<CarLocation, int> locationRepository;
+        private readonly IRepository<CarLocationRegion, int> locationRepository;
         private readonly IRepository<CarLocationCity, int> cityRepository;
         private readonly HttpClient client;
         public DataSeedService(IRepository<CarModel, int> _modelRepository,
             IRepository<CarBrand, int> _brandRepository,
-            IRepository<CarLocation, int> _locationRepository,
+            IRepository<CarLocationRegion, int> _locationRepository,
             IRepository<CarLocationCity, int> _cityRepository,
             HttpClient _client)
         {
@@ -107,76 +107,91 @@ namespace CarApp.Core.Services
 
         public async Task SeedCitiesAndRegionsFromApi()
         {
-
-            var regionsRequest = new HttpRequestMessage(HttpMethod.Post, "https://countriesnow.space/api/v0.1/countries/states");
-            var regionsContent = new StringContent("{\"country\": \"Bulgaria\"}", Encoding.UTF8, "application/json");
-            regionsRequest.Content = regionsContent;
-
-            try
+            var regions = locationRepository.GetAll();
+            if (regions == null)
             {
-                var regionsResponse = await client.SendAsync(regionsRequest);
-                regionsResponse.EnsureSuccessStatusCode();
+                var regionsRequest = new HttpRequestMessage(HttpMethod.Post, "https://countriesnow.space/api/v0.1/countries/states");
+                var regionsContent = new StringContent("{\"country\": \"Bulgaria\"}", Encoding.UTF8, "application/json");
+                regionsRequest.Content = regionsContent;
 
-                var regionsResponseContent = await regionsResponse.Content.ReadAsStringAsync();
-                var regionsJson = JsonDocument.Parse(regionsResponseContent);
-
-                if (regionsJson.RootElement.TryGetProperty("data", out var data) && data.ValueKind == JsonValueKind.Object)
+                try
                 {
-                    var states = data.GetProperty("states").EnumerateArray();
+                    var regionsResponse = await client.SendAsync(regionsRequest);
+                    regionsResponse.EnsureSuccessStatusCode();
 
-                    foreach (var state in states)
+                    var regionsResponseContent = await regionsResponse.Content.ReadAsStringAsync();
+                    var regionsJson = JsonDocument.Parse(regionsResponseContent);
+
+                    if (regionsJson.RootElement.TryGetProperty("data", out var data) && data.ValueKind == JsonValueKind.Object)
                     {
-                        string regionName = state.GetProperty("name").GetString();
-                        string formattedRegion = regionName.Replace(" Province", "");
+                        var states = data.GetProperty("states").EnumerateArray();
 
-                        var region = new CarLocation { RegionName = formattedRegion };
-                        await locationRepository.AddAsync(region);
-                        await locationRepository.SaveChangesAsync();
-
-                        var citiesRequest = new HttpRequestMessage(HttpMethod.Post, "https://countriesnow.space/api/v0.1/countries/state/cities");
-                        var citiesContent = new StringContent($"{{\"country\": \"Bulgaria\",\"state\": \"{regionName}\"}}", Encoding.UTF8, "application/json");
-                        citiesRequest.Content = citiesContent;
-
-                        var citiesResponse = await client.SendAsync(citiesRequest);
-                        citiesResponse.EnsureSuccessStatusCode();
-
-                        var citiesResponseContent = await citiesResponse.Content.ReadAsStringAsync();
-                        var citiesJson = JsonDocument.Parse(citiesResponseContent);
-
-                        if (citiesJson.RootElement.GetProperty("error").GetBoolean() == false)
+                        foreach (var state in states)
                         {
-                            var cities = citiesJson.RootElement.GetProperty("data").EnumerateArray();
+                            string regionName = state.GetProperty("name").GetString();
+                            string formattedRegion = regionName.Replace(" Province", "");
 
-                            foreach (var city in cities)
+                            var existRegion = await locationRepository
+                                .GetAllAttached()
+                                .FirstOrDefaultAsync(r => r.RegionName == formattedRegion);
+                            var region = new CarLocationRegion { RegionName = formattedRegion };
+                            if (existRegion == null)
                             {
-                                if (!city.ToString().Contains("Obshtina"))
-                                {
-                                    string cityName = city.GetString();
+                                await locationRepository.AddAsync(region);
+                            }
 
-                                    var cityEntity = new CarLocationCity { CityName = cityName, LocationId = region.Id };
-                                    await cityRepository.AddAsync(cityEntity);
+
+
+                            var citiesRequest = new HttpRequestMessage(HttpMethod.Post, "https://countriesnow.space/api/v0.1/countries/state/cities");
+                            var citiesContent = new StringContent($"{{\"country\": \"Bulgaria\",\"state\": \"{regionName}\"}}", Encoding.UTF8, "application/json");
+                            citiesRequest.Content = citiesContent;
+
+                            var citiesResponse = await client.SendAsync(citiesRequest);
+                            citiesResponse.EnsureSuccessStatusCode();
+
+                            var citiesResponseContent = await citiesResponse.Content.ReadAsStringAsync();
+                            var citiesJson = JsonDocument.Parse(citiesResponseContent);
+
+                            if (citiesJson.RootElement.GetProperty("error").GetBoolean() == false)
+                            {
+                                var cities = citiesJson.RootElement.GetProperty("data").EnumerateArray();
+
+                                foreach (var city in cities)
+                                {
+                                    if (!city.ToString().Contains("Obshtina"))
+                                    {
+                                        string cityName = city.GetString();
+
+                                        var existCity = await cityRepository
+                                            .GetAllAttached()
+                                            .FirstOrDefaultAsync(r => r.CityName == cityName);
+                                        if (existCity == null)
+                                        {
+                                            var cityEntity = new CarLocationCity { CityName = cityName, LocationId = region.Id };
+                                            await cityRepository.AddAsync(cityEntity);
+                                        }
+                                    }
                                 }
                             }
-                            await cityRepository.SaveChangesAsync();
-                        }
-                        else
-                        {
-                            throw new ArgumentNullException("No cities found or error occurred.");
+                            else
+                            {
+                                throw new ArgumentNullException("No cities found or error occurred.");
+                            }
                         }
                     }
+                    else
+                    {
+                        throw new ArgumentException("Error: Could not find 'data' as an object with 'states' in the regions response.");
+                    }
                 }
-                else
+                catch (HttpRequestException e)
                 {
-                    throw new ArgumentException("Error: Could not find 'data' as an object with 'states' in the regions response.");
+                    throw new ArgumentException($"Request error: {e.Message}");
                 }
-            }
-            catch (HttpRequestException e)
-            {
-                throw new ArgumentException($"Request error: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException($"An error occurred: {e.Message}");
+                catch (Exception e)
+                {
+                    throw new ArgumentException($"An error occurred: {e.Message}");
+                }
             }
         }
 

@@ -67,7 +67,7 @@ namespace CarApp.Core.Services
                     ImageUrl = cl.CarListing.MainImageUrl,
                     Whp = cl.CarListing.Car.Whp,
                     EngineDisplacement = cl.CarListing.Car.EngineDisplacement,
-                    LocationRegion = cl.CarListing.City.CarLocation.RegionName,
+                    LocationRegion = cl.CarListing.City.CarLocationRegion.RegionName,
                     LocationTown = cl.CarListing.City.CityName,
                     Milleage = cl.CarListing.Car.Mileage.ToString("N0"),
                     BodyType = cl.CarListing.Car.CarBodyType.Name

@@ -131,9 +131,9 @@ namespace CarApp.Core.Services
             return mileage;
         }
 
-        public async Task<List<CarLocation>> GetLocationsAsync()
+        public async Task<List<CarLocationRegion>> GetLocationsAsync()
         {
-            return await context.CarLocations.ToListAsync();
+            return await context.CarLocationRegions.ToListAsync();
         }
 
         public async Task<List<CarLocationCity>> GetCitiesAsync()

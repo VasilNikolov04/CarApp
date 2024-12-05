@@ -21,7 +21,7 @@ namespace CarApp.Infrastructure.Data
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<CarGear> CarGears { get; set; }
         public DbSet<CarDrivetrain> CarDrivetrains { get; set; }
-        public DbSet<CarLocation> CarLocations { get; set; }
+        public DbSet<CarLocationRegion> CarLocationRegions { get; set; }
         public DbSet<CarLocationCity> CarLocationCities { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Report> Reports { get; set; }

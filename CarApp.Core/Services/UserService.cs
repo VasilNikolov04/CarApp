@@ -134,7 +134,7 @@ namespace CarApp.Core.Services
                     Whp = cl.Car.Whp,
                     Trim = cl.Car.Trim,
                     EngineDisplacement = cl.Car.EngineDisplacement,
-                    LocationRegion = cl.City.CarLocation.RegionName,
+                    LocationRegion = cl.City.CarLocationRegion.RegionName,
                     LocationTown = cl.City.CityName,
                     Milleage = cl.Car.Mileage.ToString("N0"),
                     BodyType = cl.Car.CarBodyType.Name,

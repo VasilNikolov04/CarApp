@@ -109,7 +109,7 @@ namespace CarApp.Core.ViewModels
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int CarLocationId { get; set; }
-        public List<CarLocation> CarLocations { get; set; } = new List<CarLocation>();
+        public List<CarLocationRegion> CarLocations { get; set; } = new List<CarLocationRegion>();
 
         /// <summary>
         /// Location City

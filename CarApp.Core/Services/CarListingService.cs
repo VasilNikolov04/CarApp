@@ -152,7 +152,7 @@ namespace CarApp.Core.Services
                 DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
                 SellerId = cl.SellerId.ToString(),
                 EngineDisplacement = cl.Car.EngineDisplacement,
-                LocationRegion = cl.City.CarLocation.RegionName,
+                LocationRegion = cl.City.CarLocationRegion.RegionName,
                 LocationTown = cl.City.CityName,
                 Milleage = cl.Car.Mileage.ToString("N0"),
                 BodyType = cl.Car.CarBodyType.Name,
