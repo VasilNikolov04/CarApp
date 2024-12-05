@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using static CarApp.Infrastructure.Constants.DataErrorMessages.Car;
 using static CarApp.Infrastructure.Constants.DataConstants.Car;
+using CarApp.Core.ViewModels.CarListing;
 
 namespace CarApp.Core.ViewModels
 {
@@ -25,7 +26,7 @@ namespace CarApp.Core.ViewModels
         /// </summary>
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public IList<CarImage> CarImages { get; set; } = new List<CarImage>();
+        public IList<CarImageViewModel> CarImages { get; set; } = new List<CarImageViewModel>();
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         public IList<IFormFile>? NewCarImages { get; set; } = new List<IFormFile>();

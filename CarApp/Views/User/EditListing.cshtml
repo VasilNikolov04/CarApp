@@ -76,6 +76,13 @@
                 </div>
                 </div>
             </div>
+            @for (int i = 0; i < Model.CarImages.Count; i++)
+            {
+                <input type="hidden" name="CarImages[@i].Id" value="@Model.CarImages[i].Id" />
+                <input type="hidden" name="CarImages[@i].ImageUrl" value="@Model.CarImages[i].ImageUrl" />
+                <input type="hidden" name="CarImages[@i].CarListingId" value="@Model.CarImages[i].CarListingId" />
+                <input type="hidden" name="CarImages[@i].Order" value="@Model.CarImages[i].Order" />
+            }
 
             <div class="row mt-3 mb-3">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addImagesModal">

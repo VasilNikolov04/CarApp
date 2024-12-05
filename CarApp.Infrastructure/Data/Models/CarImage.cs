@@ -17,5 +17,6 @@ namespace CarApp.Infrastructure.Data.Models
         public int CarListingId { get; set; }
         [ForeignKey(nameof(CarListingId))]
         public CarListing CarListing { get; set; } = null!;
+        public int Order { get; set; }
     }
 }

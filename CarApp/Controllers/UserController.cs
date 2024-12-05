@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Newtonsoft.Json;
 
 namespace CarApp.Controllers
 {
@@ -58,7 +59,6 @@ namespace CarApp.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditListing(CarListingEditViewModel model)
         {
             string userId = User.GetUserId()!;
@@ -74,16 +74,16 @@ namespace CarApp.Controllers
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Details),"CarListings", new {id = model.Id});
+            return RedirectToAction(nameof(Details), "CarListings", new {id = model.Id});
         }
 
+        [HttpDelete]
         public async Task<IActionResult> RemoveImage(int carId, int imageId)
         {
             var car = await carListingRepository
                 .GetAllAttached()
                 .Include(c => c.CarImages)
-                .Where(c => c.Id == carId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.Id == carId);
 
             if (car == null)
             {
@@ -94,56 +94,72 @@ namespace CarApp.Controllers
             if (image != null)
             {
                 car.CarImages.Remove(image);
-                await carListingRepository.UpdateAsync(car);
-
-                var images = car.CarImages.Select(i => new { i.Id, i.ImageUrl }).ToList();
-
-                return Json(new { success = true, images});
+                await carListingRepository.SaveChangesAsync();
             }
 
-            return Json(new { success = false, message = "Image not found" });
+            var updatedImages = car.CarImages.OrderBy(img => img.Order).ToList();
+            for (int i = 0; i < updatedImages.Count; i++)
+            {
+                updatedImages[i].Order = i; 
+            }
+
+            await carListingRepository.SaveChangesAsync();
+
+            return Json(new
+            {
+                success = true,
+                images = updatedImages.Select(img => new { img.Id, img.ImageUrl, img.Order })
+            });
         }
 
         [HttpPost]
-        //TO FIX ASAP
         public async Task<IActionResult> UpdateImageOrder([FromBody] UpdateImageOrderModel request)
         {
-            if (request == null || request.OrderedImageIds == null || !request.OrderedImageIds.Any())
+            if (request == null || request.OrderedImages == null || !request.OrderedImages.Any())
             {
-                return Json(new { success = false, message = "Invalid request" });
+                return Json(new { success = false, message = "Invalid image order data." });
             }
 
-            // Fetch the car and its images
-            var car = context.CarListings.Include(c => c.CarImages)
-                                      .FirstOrDefault(c => c.Id == request.CarId);
+            var carListing = await carListingRepository
+                .GetAllAttached()
+                .Include(cl => cl.CarImages)
+                .FirstOrDefaultAsync(cl => cl.Id == request.CarId);
 
-            if (car == null)
+            if (carListing == null)
             {
-                return Json(new { success = false, message = "Car not found" });
+                return Json(new { success = false, message = "Car listing not found." });
             }
 
-            // Get the images in the current order
-            var imageList = car.CarImages.ToList();
+            var images = carListing.CarImages.ToList();
 
-            // Reorder the images based on the OrderedImageIds
-            var reorderedImages = request.OrderedImageIds
-                .Select(id => imageList.FirstOrDefault(img => img.Id == id))
-                .Where(img => img != null)
-                .ToList();
+            bool orderUpdated = false;
 
-            // Update the car's main image (first image in the reordered list)
-            if (reorderedImages.Any())
+            foreach (var image in images)
             {
-                car.MainImageUrl = reorderedImages.First().ImageUrl;
+                var newOrder = request.OrderedImages.FirstOrDefault(o => o.Id == image.Id)?.Order;
+                if (newOrder.HasValue && image.Order != newOrder.Value)
+                {
+                    image.Order = newOrder.Value;
+                    orderUpdated = true;
+                }
+            }
+            if (orderUpdated)
+            {
+                await carListingRepository.SaveChangesAsync();
             }
 
-            // Reassign the CarImages to maintain the correct order in the database
-            car.CarImages = reorderedImages;
-
-            // Save changes to the car's image order
-            await context.SaveChangesAsync();
-
-            return Json(new { success = true });
+            // Return the updated images with their new order
+            return Json(new
+            {
+                success = true,
+                message = "Image order updated successfully.",
+                images = images.OrderBy(img => img.Order).Select(img => new
+                {
+                    img.Id,
+                    img.ImageUrl,
+                    img.Order
+                })
+            });
         }
 
 
@@ -283,7 +299,14 @@ namespace CarApp.Controllers
         public class UpdateImageOrderModel
         {
             public int CarId { get; set; }
-            public List<int> OrderedImageIds { get; set; }
+
+            [JsonProperty("OrderedImages")]
+            public List<ImageOrder> OrderedImages { get; set; } = new List<ImageOrder>();
+        }
+        public class ImageOrder
+        {
+            public int Id { get; set; }
+            public int Order { get; set; }
         }
 
     }

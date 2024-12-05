@@ -53,6 +53,7 @@ namespace CarApp.Core.Services
 
             if (model.CarImages != null && model.CarImages.Count > 0)
             {
+                int imageOrder = 0;
                 foreach (var image in model.CarImages)
                 {
                     if (image.Length > 0)
@@ -64,7 +65,14 @@ namespace CarApp.Core.Services
                         {
                             await image.CopyToAsync(stream);
                         }
-                        newCarListing.CarImages.Add(new CarImage { ImageUrl = fileName });
+                        newCarListing.CarImages.Add(new CarImage 
+                        { 
+                            ImageUrl = fileName,
+                            Order = imageOrder,
+                            CarListingId = newCarListing.Id
+                        
+                        });
+                        imageOrder++;
                     }
                 }
             }
@@ -139,7 +147,7 @@ namespace CarApp.Core.Services
                 FuelType = cl.Car.Fuel.FuelName,
                 Year = cl.Car.Year,
                 GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
-                ImageUrl = cl.MainImageUrl,
+                ImageUrl = cl.CarImages.OrderBy(i => i.Order).Select(i => i.ImageUrl).FirstOrDefault(),
                 Whp = cl.Car.Whp,             
                 DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
                 SellerId = cl.SellerId.ToString(),
@@ -177,7 +185,7 @@ namespace CarApp.Core.Services
                         FuelType = cl.Car.Fuel.FuelName,
                         GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                         BodyType = cl.Car.CarBodyType.Name,
-                        Images = cl.CarImages,
+                        Images = cl.CarImages.OrderBy(im => im.Order).ToList(),
                         Year = cl.Car.Year,
                         Seller = new SellerViewModel()
                         {

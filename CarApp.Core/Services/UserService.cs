@@ -1,5 +1,6 @@
 ﻿using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels;
+using CarApp.Core.ViewModels.CarListing;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -53,10 +54,12 @@ namespace CarApp.Core.Services
             }
             Car? car = await carRepository
                 .GetAllAttached()
-                .Where(c => c.CarListing.Id == model.Id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.CarListing.Id == model.Id);
+
             CarListing? carListing = await carListingRepository
-                .GetByIdAsync(model.Id);
+                .GetAllAttached()
+                .Include(cl => cl.CarImages)
+                .FirstOrDefaultAsync(cl => cl.Id == model.Id);
             if (car == null || carListing == null)
             {
                 return false;
@@ -70,14 +73,29 @@ namespace CarApp.Core.Services
             car.Whp = model.Whp;
             car.Mileage = model.Milleage;
             carListing.Description = model.Description;
-            carListing.CarImages = model.CarImages;
             carListing.Price = model.Price;
+
+
+            var imageIdsFromModel = model.CarImages.Select(i => i.Id).ToList();
+            carListing.CarImages = carListing.CarImages
+                .Where(i => imageIdsFromModel.Contains(i.Id))
+                .ToList();
+            foreach (var image in carListing.CarImages)
+            {
+                var updatedImage = model.CarImages.FirstOrDefault(i => i.Id == image.Id);
+                if (updatedImage != null)
+                {
+                    image.Order = updatedImage.Order;
+                }
+            }
 
             if (model.NewCarImages != null && model.NewCarImages.Count > 0)
             {
+                int displayIndex = carListing.CarImages.Max(img => img.Order);
+
                 foreach (var image in model.NewCarImages)
                 {
-                    if (image != null)
+                    if (image.Length > 0)
                     {
                         var fileName = Path.GetFileName(image.FileName);
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
@@ -86,7 +104,12 @@ namespace CarApp.Core.Services
                         {
                             await image.CopyToAsync(stream);
                         }
-                        carListing.CarImages.Add(new CarImage { ImageUrl = fileName });
+                        carListing.CarImages.Add(new CarImage 
+                        { 
+                            ImageUrl = fileName,
+                            Order = ++displayIndex,
+                            CarListingId = carListing.Id
+                        });
                     }
                 }
             }
@@ -157,7 +180,16 @@ namespace CarApp.Core.Services
                         Id = cl.Id,
                         Description = cl.Description,
                         Whp = cl.Car.Whp,
-                        CarImages = cl.CarImages,
+                        CarImages = cl.CarImages
+                        .Select(im => new CarImageViewModel
+                        {
+                            Id = im.Id,
+                            ImageUrl = im.ImageUrl,
+                            CarListingId = im.CarListingId,
+                            Order = im.Order
+                        })
+                        .OrderBy(im => im.Order)
+                        .ToList(),
                         Milleage = cl.Car.Mileage,
                         Price = cl.Price,
                         IsDeleted = cl.IsDeleted

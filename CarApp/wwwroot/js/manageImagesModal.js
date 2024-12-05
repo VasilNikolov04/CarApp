@@ -18,6 +18,7 @@
                     if (data.success) {
                         alert('Image removed successfully');
                         refreshModalImages(data.images);
+                        updateImageOrder();
                     } else {
                         alert('Failed to remove image: ' + data.message);
                     }
@@ -72,34 +73,40 @@
 
     function updateImageOrder() {
         const imageOrder = [];
-        document.querySelectorAll('.draggable-image-container').forEach(imageElement => {
-            imageOrder.push(imageElement.dataset.id);
+        document.querySelectorAll('.draggable-image-container').forEach((imageElement, index) => {
+            const imageId = imageElement.dataset.id;
+            imageOrder.push({ Id: parseInt(imageId), Order: index });
         });
 
-        document.getElementById('saveOrderButton').onclick = function () {
+        console.log("Image Order: ", imageOrder);
+
+        saveOrderButton.onclick = function () {
             saveImageOrder(imageOrder);
         };
     }
 
     function saveImageOrder(imageOrder) {
         const carId = document.getElementById('addImagesModal').getAttribute('data-car-id');
+        const payload = {
+            CarId: parseInt(carId),
+            OrderedImages: imageOrder
+        };
+
+        console.log('Payload:', payload);
 
         fetch(`/User/UpdateImageOrder`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                carId: carId,
-                orderedImageIds: imageOrder
-            }),
+            body: JSON.stringify(payload),
         })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     alert('Image order saved successfully');
-                    // Reload the page to reflect the updated order
-                    window.location.reload(true);
+                    // Reload the page or modal to reflect the updated order
+                    refreshModalImages(data.images);
                 } else {
                     alert('Failed to save image order: ' + data.message);
                 }
@@ -110,6 +117,9 @@
     }
 
     function refreshModalImages(images) {
+
+        images.sort((a, b) => a.Order - b.Order);
+
         const imageContainer = document.querySelector('#addImagesModal .modal-body .row');
         imageContainer.innerHTML = '';
 
