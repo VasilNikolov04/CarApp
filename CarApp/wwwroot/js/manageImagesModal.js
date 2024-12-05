@@ -17,8 +17,8 @@
                 .then(data => {
                     if (data.success) {
                         alert('Image removed successfully');
-                        refreshModalImages(data.images);
                         updateImageOrder();
+                        refreshModalImages(data.images);
                     } else {
                         alert('Failed to remove image: ' + data.message);
                     }
@@ -154,7 +154,10 @@
             imageWrapperDiv.appendChild(removeButton);
             colDiv.appendChild(imageWrapperDiv);
             imageContainer.appendChild(colDiv);
+
+            colDiv.addEventListener('dragstart', dragStart);
+            colDiv.addEventListener('dragover', dragOver);
+            colDiv.addEventListener('drop', drop);
         });
-        imageContainer.offsetHeight;
     }
 });

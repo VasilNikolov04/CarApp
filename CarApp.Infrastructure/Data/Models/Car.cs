@@ -46,7 +46,7 @@ namespace CarApp.Infrastructure.Data.Models
 
         public int DrivetrainId { get; set; }
         [ForeignKey(nameof(DrivetrainId))]
-        public CarDrivetrain? Drivetrain { get; set; }
+        public CarDrivetrain Drivetrain { get; set; } = null!;
 
         public CarListing CarListing { get; set; } = null!;
 

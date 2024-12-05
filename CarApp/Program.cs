@@ -62,8 +62,10 @@ app.MapControllerRoute(
 
 using (var scope = app.Services.CreateScope())
 {
-    var seedService = scope.ServiceProvider.GetRequiredService<IBrandAndModelSeedService>();
+    var seedService = scope.ServiceProvider.GetRequiredService<IDataSeedService>();
     await seedService.SeedBrandsAndModelsFromJson();
+    await seedService.SeedCitiesAndRegionsFromApi();
+
 }
 
 await app.RunAsync();

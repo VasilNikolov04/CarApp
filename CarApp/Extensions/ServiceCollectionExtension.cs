@@ -19,6 +19,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.RegisterUserDefinedServices(typeof(ICarListingService).Assembly);
 
+            services.AddHttpClient();
+
             return services;
         }
 
