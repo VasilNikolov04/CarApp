@@ -53,7 +53,7 @@
 
     function drop(event) {
         event.preventDefault();
-        const target = event.target.closest('.draggable-image-container'); // Drop only on containers
+        const target = event.target.closest('.draggable-image-container');
 
         if (!target || target === draggedImage) return;
 
@@ -67,32 +67,31 @@
         } else {
             target.parentElement.insertBefore(draggedImage, target);
         }
-
         updateImageOrder();
     }
 
     function updateImageOrder() {
         const imageOrder = [];
-        document.querySelectorAll('.draggable-image-container').forEach((imageElement, index) => {
-            const imageId = imageElement.dataset.id;
-            imageOrder.push({ Id: parseInt(imageId), Order: index });
-        });
 
-        console.log("Image Order: ", imageOrder);
-
-        saveOrderButton.onclick = function () {
-            saveImageOrder(imageOrder);
-        };
+            document.querySelectorAll('.draggable-image-container').forEach((imageElement, index) => {
+                const imageId = imageElement.dataset.id;
+                imageOrder.push({ Id: parseInt(imageId), Order: index });
+            });
+            console.log('Updated Image Order:', imageOrder)
+            document.getElementById('saveOrderButton').onclick = function () {
+                saveImageOrder(imageOrder);
+            };
     }
 
-    function saveImageOrder(imageOrder) {
+    function saveImageOrder(imageOrder)
+    {
         const carId = document.getElementById('addImagesModal').getAttribute('data-car-id');
+
         const payload = {
             CarId: parseInt(carId),
             OrderedImages: imageOrder
         };
 
-        console.log('Payload:', payload);
 
         fetch(`/User/UpdateImageOrder`, {
             method: 'POST',
@@ -105,8 +104,14 @@
             .then(data => {
                 if (data.success) {
                     alert('Image order saved successfully');
-                    // Reload the page or modal to reflect the updated order
                     refreshModalImages(data.images);
+
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addImagesModal'));
+                    modal.hide();
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 300);
                 } else {
                     alert('Failed to save image order: ' + data.message);
                 }
@@ -127,6 +132,8 @@
             const colDiv = document.createElement('div');
             colDiv.classList.add('col-md-4', 'mb-3', 'draggable-image-container');
             colDiv.setAttribute('data-id', image.id);
+            colDiv.draggable = true;
+
             const imageWrapperDiv = document.createElement('div');
             imageWrapperDiv.classList.add('image-wrapper');
 
@@ -148,5 +155,6 @@
             colDiv.appendChild(imageWrapperDiv);
             imageContainer.appendChild(colDiv);
         });
+        imageContainer.offsetHeight;
     }
 });

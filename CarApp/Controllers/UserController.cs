@@ -130,9 +130,7 @@ namespace CarApp.Controllers
                 return Json(new { success = false, message = "Car listing not found." });
             }
 
-            var images = carListing.CarImages.ToList();
-
-            bool orderUpdated = false;
+            var images = carListing.CarImages.OrderBy(i => i.Order).ToList();
 
             foreach (var image in images)
             {
@@ -140,15 +138,13 @@ namespace CarApp.Controllers
                 if (newOrder.HasValue && image.Order != newOrder.Value)
                 {
                     image.Order = newOrder.Value;
-                    orderUpdated = true;
                 }
             }
-            if (orderUpdated)
-            {
-                await carListingRepository.SaveChangesAsync();
-            }
+            await carListingRepository.SaveChangesAsync();
+            await imageRepository.SaveChangesAsync();
 
-            // Return the updated images with their new order
+            images = carListing.CarImages.OrderBy(i => i.Order).ToList();
+
             return Json(new
             {
                 success = true,

@@ -33,11 +33,10 @@
                 {
                     <input type="hidden" name="OrderedImages[@i].Id" value="@Model.CarImages[i].Id" />
                     <input type="hidden" name="OrderedImages[@i].Order" value="@Model.CarImages[i].Order" />
-                }
-                <button id="saveOrderButton" class="btn btn-primary mt-3">Save Order</button>
+                }    
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" id="saveOrderButton" class="btn btn-primary">Save Order</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
