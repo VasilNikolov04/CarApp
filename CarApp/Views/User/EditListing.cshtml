@@ -1,7 +1,211 @@
 ﻿@model CarListingEditViewModel
 @{
+    ViewData["Title"] = "Edit Listing";
 }
 <style>
+    .edit-container {
+        background-color: #f2f2f2;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 80%;
+        min-width: 700px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    textarea.form-control, 
+    input.form-control {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 1.1rem;
+        padding: 10px;
+        border: 1px solid black;
+    }
+
+    .input-group-text {
+        border-radius: 8px 0 0 8px;
+        border: 1px solid black;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn {
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .row-content {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .form-container {
+        flex: 1;
+    }
+
+    .carousel-container {
+        flex: 1;
+        text-align: center;
+        position: relative;
+    }
+
+    .carousel {
+        margin-top: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 100%;
+        max-height: 320px;
+    }
+
+    .carousel img {
+        object-fit: cover;
+        width: 100%;
+        height: 320px;
+    }
+
+    .separator {
+        width: 2px;
+        background-color: black;
+        height: 100%;
+        margin: 0 20px;
+    }
+
+    .manage-images-btn {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .submit-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .submit-buttons .btn {
+        flex: 1;
+        padding: 12px 15px;
+    }
+</style>
+
+<div class="edit-container">
+    <h4 class="text-center mb-4">Edit Listing</h4>
+    <form asp-action="EditListing" method="post" enctype="multipart/form-data">
+        <div class="row-content">
+            <!-- Form Inputs -->
+            <div class="form-container">
+                <div class="form-group">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input asp-for="Price" class="form-control" type="number" step="1" min="0" />
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Whp" class="form-label">Whp</label>
+                    <input asp-for="Whp" class="form-control" type="number" step="1" min="0" />
+                    <span asp-validation-for="Whp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Milleage" class="form-label">Mileage</label>
+                    <input asp-for="Milleage" class="form-control" type="number" step="1" min="0" />
+                    <span asp-validation-for="Milleage" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Separator Line -->
+            <div class="separator"></div>
+
+            <!-- Carousel and Manage Button -->
+            <div class="carousel-container">
+                <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.CarImages.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="~/images/@Model.CarImages[i].ImageUrl" alt="Car Image @(i + 1)">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+
+                <button type="button" class="btn btn-success manage-images-btn" data-toggle="modal" data-target="#addImagesModal">
+                    Manage Images
+                </button>
+            </div>
+        </div>
+
+        @for (int i = 0; i < Model.CarImages.Count; i++)
+        {
+            <input type="hidden" name="CarImages[@i].Id" value="@Model.CarImages[i].Id" />
+            <input type="hidden" name="CarImages[@i].ImageUrl" value="@Model.CarImages[i].ImageUrl" />
+            <input type="hidden" name="CarImages[@i].CarListingId" value="@Model.CarImages[i].CarListingId" />
+            <input type="hidden" name="CarImages[@i].Order" value="@Model.CarImages[i].Order" />
+        }
+
+        @await Html.PartialAsync("_ManageImagesModal")
+
+        <div class="submit-buttons">
+            <input class="btn btn-primary" type="submit" value="Save" />
+            <a asp-controller="User" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"
+               onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+        </div>
+    </form>
+</div>
+
+<script src="~/js/manageImagesModal.js"></script>
+@* <style>
     .car-image-container{
         width:100%;
         height: 500px;
@@ -102,3 +306,4 @@
 
 
 <script src="~/js/manageImagesModal.js"></script>
+ *@
