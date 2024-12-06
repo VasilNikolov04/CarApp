@@ -144,7 +144,7 @@ namespace CarApp.Core.Services
                 GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
                 ImageUrl = cl.CarImages.OrderBy(i => i.Order).Select(i => i.ImageUrl).FirstOrDefault(),
                 Whp = cl.Car.Whp,             
-                DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
+                DatePosted = cl.DatePosted.ToString("HH:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
                 SellerId = cl.SellerId.ToString(),
                 EngineDisplacement = cl.Car.EngineDisplacement,
                 LocationRegion = cl.City.CarLocationRegion.RegionName,
