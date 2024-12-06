@@ -76,11 +76,6 @@ namespace CarApp.Core.Services
                     }
                 }
             }
-
-            if (newCarListing.CarImages.Any())
-            {
-                newCarListing.MainImageUrl = newCarListing.CarImages.First().ImageUrl;
-            }
             await carListingRepository.AddAsync(newCarListing);
         }
 

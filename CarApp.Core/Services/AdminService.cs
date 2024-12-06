@@ -365,7 +365,7 @@ namespace CarApp.Core.Services
                 {
                     BrandName = cl.Car.Model.CarBrand.BrandName,
                     ModelName = cl.Car.Model.ModelName,
-                    Image =cl.MainImageUrl ?? string.Empty
+                    Image = cl.CarImages.ElementAt(1).ImageUrl ?? string.Empty
                 })
                 .ToListAsync();
 

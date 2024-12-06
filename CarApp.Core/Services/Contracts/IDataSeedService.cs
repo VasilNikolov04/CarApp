@@ -14,5 +14,7 @@ namespace CarApp.Core.Services.Contracts
 
         public Task SeedCitiesAndRegionsFromApi();
 
+        public Task SeedCarsAndListingsAsync();
+
     }
 }

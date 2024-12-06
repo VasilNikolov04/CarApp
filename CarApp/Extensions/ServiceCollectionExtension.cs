@@ -228,5 +228,95 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return applicationUser;
         }
+
+
+        public static async Task SeedUsersAsync(IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var password = configuration["User:Password"];
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new InvalidOperationException("Default password is not configured in appsettings.json");
+            }
+
+            const string roleName = UserRoleName;
+            if (!await roleManager.RoleExistsAsync(roleName))
+            {
+                var roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                if (!roleResult.Succeeded)
+                {
+                    throw new Exception($"Failed to create role {roleName}: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                }
+            }
+
+            var users = new List<ApplicationUser>
+        {
+            new ApplicationUser 
+            { 
+                FirstName = "Ivan", 
+                LastName = "Ivanov", 
+                Email = "ivan79@abv.bg", 
+                UserName = "ivan79@abv.bg", 
+                PhoneNumber = "0823138403" 
+            },
+            new ApplicationUser 
+            {
+                FirstName = "Georgi", 
+                LastName = "Georgiev", 
+                Email = "gosho.G@gmail.com", 
+                UserName = "gosho.G@gmail.com", 
+                PhoneNumber = "0987654321" 
+            },
+            new ApplicationUser 
+            { 
+                FirstName = "Blagovest", 
+                LastName = "Kostadinov", 
+                Email = "b_kostadinov@gmail.com", 
+                UserName = "b_kostadinov@gmail.com", 
+                PhoneNumber = "0831230403" 
+            },
+            new ApplicationUser
+            {
+                FirstName = "Borislav",
+                LastName = "Dinov",
+                Email = "bdinov@abv.bg",
+                UserName = "bdinov@abv.bg",
+                PhoneNumber = "0882230403"
+            }
+        };
+
+            foreach (var user in users)
+            {
+                var existingUser = await userManager.FindByEmailAsync(user.Email);
+                if (existingUser == null)
+                {
+                    var createResult = await userManager.CreateAsync(user, password);
+                    if (!createResult.Succeeded)
+                    {
+                        throw new Exception($"Failed to create user {user.Email}: {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
+                    }
+
+                    var roleResult = await userManager.AddToRoleAsync(user, roleName);
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new Exception($"Failed to assign role to user {user.Email}: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                    }
+                }
+                else
+                {
+                    if (!await userManager.IsInRoleAsync(existingUser, roleName))
+                    {
+                        var roleResult = await userManager.AddToRoleAsync(existingUser, roleName);
+                        if (!roleResult.Succeeded)
+                        {
+                            throw new Exception($"Failed to assign role to user {existingUser.Email}: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                        }
+                    }
+                }
+            }
+        }
+
     }       
 }

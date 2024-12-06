@@ -130,7 +130,7 @@ namespace CarApp.Core.Services
                     Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.Car.Fuel.FuelName,
                     GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
-                    ImageUrl = cl.MainImageUrl,
+                    ImageUrl = cl.CarImages.ElementAt(1).ImageUrl,
                     Whp = cl.Car.Whp,
                     Trim = cl.Car.Trim,
                     EngineDisplacement = cl.Car.EngineDisplacement,

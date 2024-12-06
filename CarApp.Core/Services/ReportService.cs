@@ -66,7 +66,7 @@ namespace CarApp.Core.Services
                 .Select(r => new AllReportedListingViewModel
                 {
                     CarListingId = r.Key,
-                    CarImage = r.First().CarListing.MainImageUrl,
+                    CarImage = r.First().CarListing.CarImages.ElementAt(1).ImageUrl,
                     ReportReason = r.Select(rr => rr.ReportReason)
                                 .Distinct()
                                 .ToList(),

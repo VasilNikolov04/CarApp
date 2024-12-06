@@ -421,11 +421,6 @@ namespace CarApp.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MainImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -784,13 +779,13 @@ namespace CarApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarLocationCity", b =>
                 {
-                    b.HasOne("CarApp.Infrastructure.Data.Models.CarLocationRegion", "CarLocation")
+                    b.HasOne("CarApp.Infrastructure.Data.Models.CarLocationRegion", "CarLocationRegion")
                         .WithMany("LocationCities")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CarLocation");
+                    b.Navigation("CarLocationRegion");
                 });
 
             modelBuilder.Entity("CarApp.Infrastructure.Data.Models.CarModel", b =>

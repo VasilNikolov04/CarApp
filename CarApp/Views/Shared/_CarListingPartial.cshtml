@@ -53,7 +53,7 @@
                 }
             }
         </div>
-        <div class="car-details mt-2 text-muted">
+        <div class="car-details mt-1 text-muted">
             <span>@Model.Year year</span>
             <span>@Model.Milleage km</span>
             <span>@Model.FuelType</span>
@@ -66,7 +66,7 @@
             @Model.Description
         </div>
         <div class="car-bottom-container">
-        <div class="car-region">
+        <div class="car-region d-flex flex-column">
                 @if (@Model.LocationRegion == "Out of Bulgaria")
                 {
                     <span>Location: @Model.LocationTown</span>
@@ -74,6 +74,9 @@
                 else {
                     <span>Location: @Model.LocationRegion, @Model.LocationTown</span>
                 }
+                <div class="car-dateposted">
+                    @Model.DatePosted
+                </div>
         </div>
         @if (User?.Identity?.IsAuthenticated == true)
             {

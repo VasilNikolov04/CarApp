@@ -2,7 +2,9 @@ using CarApp.Core.Services;
 using CarApp.Core.Services.Contracts;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Formats.Asn1.AsnWriter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +25,23 @@ builder.Services.AddMvc()
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
-
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var configuration = services.GetRequiredService<IConfiguration>();
+
+    try
+    {
+        await ServiceCollectionExtension.SeedUsersAsync(services, configuration);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error seeding users: {ex.Message}");
+    }
+}
 
 
 // Configure the HTTP request pipeline.
@@ -65,7 +82,7 @@ using (var scope = app.Services.CreateScope())
     var seedService = scope.ServiceProvider.GetRequiredService<IDataSeedService>();
     await seedService.SeedBrandsAndModelsFromJson();
     await seedService.SeedCitiesAndRegionsFromApi();
-
+    await seedService.SeedCarsAndListingsAsync();
 }
 
 await app.RunAsync();

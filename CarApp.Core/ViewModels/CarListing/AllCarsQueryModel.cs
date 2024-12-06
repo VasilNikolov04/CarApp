@@ -6,7 +6,7 @@ namespace CarApp.Core.ViewModels.CarListing
 {
     public class AllCarsQueryModel
     {
-        public int CarsPerPage { get; } = 4;
+        public int CarsPerPage { get; } = 10;
 
         public CarListingSorting Sorting { get; init; }
 

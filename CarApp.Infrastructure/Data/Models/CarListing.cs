@@ -29,11 +29,6 @@ namespace CarApp.Infrastructure.Data.Models
         [ForeignKey(nameof(CityId))]
         public CarLocationCity City { get; set; } = null!;
 
-
-
-        [MaxLength(ImageUrlMaxLength)]
-        [Required]
-        public string MainImageUrl { get; set; } = null!;
         public IList<CarImage> CarImages { get; set; } = new List<CarImage>();
 
         public ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();

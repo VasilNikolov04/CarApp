@@ -12,7 +12,7 @@ namespace CarApp.Core.ViewModels.RefinedSearch
 {
     public class RefinedSearchViewModel : DropDownViewModel
     {
-        public int CarsPerPage { get; } = 4;
+        public int CarsPerPage { get; } = 10;
 
         public CarListingSorting Sorting { get; init; }
 
