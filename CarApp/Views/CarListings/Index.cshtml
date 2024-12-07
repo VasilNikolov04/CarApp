@@ -1,7 +1,5 @@
 ﻿@model AllCarsQueryModel
-@{
-    ViewBag.BackArrow = "<<";
-}
+
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
     @if (User?.Identity?.IsAuthenticated == true)
@@ -115,6 +113,7 @@
         <partial name="_CarListingPartial" model="@carListing" />
     }
 </div>
+<partial name="_PaginationLinksPartial" model="Model" />
 
 @section Scripts {
     <script src="~/js/carSelectionIndex.js"></script>

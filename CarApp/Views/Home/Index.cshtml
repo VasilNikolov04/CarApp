@@ -1,8 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model HomePageViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Find Your Next Car</h1>
+        <p class="subheading">Buy and sell cars with ease. Start your journey today!</p>
+        <div class="cta-buttons">
+        <a asp-controller="CarListings" asp-action="Add" class="btn btn-primary cta-button">
+            <i class="fas fa-plus"></i>Add Car Listing</a>
+            <a asp-controller="CarListings" asp-action="Index" class="btn btn-primary cta-button">
+            <i class="fas fa-plus"></i>All Car Listings
+        </a>
+        </div>
+    </div>
+</div>
+
+
+<div class="statistics-row">
+    <div class="stat-item">
+        <h3>@Model.TotalCarsListed</h3>
+        <p>Cars Listed</p>
+    </div>
+    <div class="stat-item">
+        <h3>@Model.AllSellers</h3>
+        <p>Users Registered</p>
+    </div>
+    <div class="stat-item">
+        <h3>@Model.AllUsers</h3>
+        <p>Active Sellers</p>
+    </div>
+</div>
+
+<div class="latest-listings">
+    <h2>Latest Listings</h2>
+    @await Html.PartialAsync("_LatestCarsPartial", Model.LatestCars) 
 </div>

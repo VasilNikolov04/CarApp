@@ -1,4 +1,5 @@
 ﻿using CarApp.Core.ViewModels.CarListing;
+using CarApp.Core.ViewModels.Home;
 using CarApp.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -39,5 +40,8 @@ namespace CarApp.Core.ViewModels
         public SellerViewModel Seller { get; set; } = null!;
 
         public ICollection<CarImage> Images { get; set; } = new List<CarImage>();
+
+        public IEnumerable<FeaturedCarsViewModel> LatestCars { get; set; }
+    = new List<FeaturedCarsViewModel>();
     }
 }

@@ -3,39 +3,79 @@
     <h1>Favourites </h1>
 <hr />
 <style>
-    .card-img-top {
+    .latest-cars-container{
+        width:100%;
+        display:grid;
+        padding:20px;
+        grid-template-columns: repeat(4, minmax(250px, 4fr));
+        gap:20px;
+    }
+    .car-image {
         width: 100%;
         height: 150px;
         object-fit: cover;
+        border-bottom: 1px solid #ddd;
     }
 
+    .car-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #f2f2f2;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+        transition: transform 0.3s;
+    }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+
+    .car-details {
+        padding: 10px;
+        text-align: center;
+    }
+
+        .car-details h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .car-details p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+
 </style>
-<div class="row text-center">
-    @foreach (var carListing in Model)
+<div class="latest-cars-container">
+    @if (Model != null && Model.Any())
     {
-        <div class="card border-3 border-dark m-3 justify-content-center" style="width: 18rem;">
-            <a asp-controller="CarListings" asp-action="Details" asp-route-id="@carListing.Id" class="text-reset text-decoration-none">
-                <img class="card-img-top mt-2" src="~/images/@carListing.ImageUrl" alt="Car Image">
-                <div class="card-body">
-                    <h5 class="card-title">@carListing.Brand <strong>@carListing.Model</strong></h5>
+        foreach (var car in Model)
+        {
+            <div class="card-container d-flex flex-column">
+            <a asp-controller="CarListings" asp-action="Details" asp-route-id="@car.Id" class="text-reset text-decoration-none">
+                <div class="car-card" style="width: 18rem;">
+                    <img src="~/images/@car.ImageUrl" alt="@car.Model" class="car-image" />
+                    <div class="car-details">
+                        <h3><strong>@car.Brand @car.Model @car.Trim </strong>(@car.Year)</h3>
+                        <h3><strong>Price:</strong> @car.Price</h3>
+                        <span><strong>Location:</strong> @car.LocationRegion, @car.LocationTown </span>
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">@carListing.FuelType</li>
-                    <li class="list-group-item">@carListing.GearType</li>
-                    @if (carListing.Whp > 0)
-                    {
-                        <li class="list-group-item">@carListing.Whp whp</li>
-                    }
-                    <li class="list-group-item">€@carListing.Price</li>
-                </ul>
             </a>
             <form asp-action="RemoveFromFavourites" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" name="carListingId" value="@carListing.Id"/>
+                <input type="hidden" name="carListingId" value="@car.Id" />
                 <button type="submit" class="btn btn-warning m-2">Remove from favorites</button>
             </form>
-        </div>
-
-
+            </div>
+        }
+    }
+    else
+    {
+        <p>No cars available at the moment. Please check back later.</p>
     }
 </div>

@@ -2,6 +2,7 @@
 using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels;
 using CarApp.Core.ViewModels.CarListing;
+using CarApp.Core.ViewModels.Home;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
@@ -166,6 +167,26 @@ namespace CarApp.Core.Services
 
         public async Task<CarDetailsViewModel?> CarListingDetails(int listingId)
         {
+            List<FeaturedCarsViewModel> latestCars = await carListingRepository
+                .GetAllAttached()
+                .Where(cl => cl.IsDeleted == false)
+                .OrderByDescending(cl => cl.DatePosted)
+                .Select(cl => new FeaturedCarsViewModel()
+                {
+                    Id = cl.Id,
+                    Brand = cl.Car.Model.CarBrand.BrandName,
+                    Model = cl.Car.Model.ModelName,
+                    Trim = cl.Car.Trim ?? string.Empty,
+                    Year = cl.Car.Year,
+                    Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
+                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
+                    LocationRegion = cl.City.CarLocationRegion.RegionName,
+                    LocationCity = cl.City.CityName,
+                    ImageUrl = cl.CarImages.FirstOrDefault().ImageUrl ?? string.Empty
+                })
+                .Take(4)
+                .ToListAsync();
+
             CarDetailsViewModel? model = await carListingRepository
                     .GetAllAttached()
                     .Where(car => car.Id == listingId && car.IsDeleted == false)
@@ -191,7 +212,8 @@ namespace CarApp.Core.Services
                         Whp = cl.Car.Whp,
                         Milleage = cl.Car.Mileage.ToString("N0"),
                         Description = cl.Description,
-                        DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture)
+                        DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
+                        LatestCars = latestCars
                     })
                     .AsNoTracking()
                     .FirstOrDefaultAsync();

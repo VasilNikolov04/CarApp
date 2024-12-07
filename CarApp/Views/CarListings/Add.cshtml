@@ -182,7 +182,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label asp-for="@Model.CarImages">Insert Images</label>
-                    <input asp-for="@Model.CarImages" type="file" class="form-control-file" id="CarImages" name="CarImages" multiple required>
+                    <input asp-for="@Model.CarImages" type="file" class="form-control-file" id="CarImages" name="CarImages" max="8" multiple required>
                     <span asp-validation-for="@Model.CarImages" class="text-danger"></span>
                 </div>
             </div>
