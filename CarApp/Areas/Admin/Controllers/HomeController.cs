@@ -26,9 +26,11 @@ namespace CarApp.Areas.Admin.Controllers
             return View(models);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int carListingId)
         {
-            bool result = await reportService.ApproveCarListingAsyn(carListingId);
+            bool result = await reportService.ApproveCarListingAsync(carListingId);
             if(result == false)
             {
                 return RedirectToAction(nameof(ForReview));

@@ -130,6 +130,7 @@
 <div class="edit-container">
     <h4 class="text-center mb-4">Edit Listing</h4>
     <form asp-action="EditListing" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
         <div class="row-content">
             <!-- Form Inputs -->
             <div class="form-container">
@@ -158,10 +159,8 @@
                 </div>
             </div>
 
-            <!-- Separator Line -->
             <div class="separator"></div>
 
-            <!-- Carousel and Manage Button -->
             <div class="carousel-container">
                 <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">

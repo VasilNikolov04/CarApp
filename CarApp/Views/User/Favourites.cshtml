@@ -30,6 +30,7 @@
                 </ul>
             </a>
             <form asp-action="RemoveFromFavourites" method="post">
+                @Html.AntiForgeryToken()
                 <input type="hidden" name="carListingId" value="@carListing.Id"/>
                 <button type="submit" class="btn btn-warning m-2">Remove from favorites</button>
             </form>

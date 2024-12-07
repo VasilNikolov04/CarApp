@@ -30,6 +30,7 @@
                     <div class="title-fav">
                         <span class="favorite-star text-primary">
                         <form method="post" asp-action="AddToFavourites" asp-controller="User">
+                                @Html.AntiForgeryToken()
                             <input type="hidden" name="carListingId" value="@Model.Id" />
                             <button type="submit" class="fav-button">
                             <i class="bi bi-star star" id="star"></i>
@@ -43,6 +44,7 @@
                     <div class="title-fav">
                         <span class="favorite-star text-primary">
                             <form method="post" asp-action="RemoveFromFavourites" asp-controller="User">
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="carListingId" value="@Model.Id" />
                                 <button type="submit" class="fav-button">
                                     <i class="bi bi-star-fill clicked star" id="star"></i>

@@ -57,11 +57,17 @@ namespace CarApp.Controllers
 
         [HttpPost]
         [Authorize]
-        [AutoValidateAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(CarViewModel model)
         {
             string userId = User.GetUserId()!;
             if (ModelState.IsValid == false)
+            {
+                model = await utilityService.PopulateDropdownsAsync();
+                return View(model);
+            }
+
+            if (!model.CarImages.Any() || model.CarImages == null)
             {
                 model = await utilityService.PopulateDropdownsAsync();
                 return View(model);

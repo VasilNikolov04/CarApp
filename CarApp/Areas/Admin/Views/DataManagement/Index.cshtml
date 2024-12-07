@@ -24,6 +24,7 @@
                     <td>@brand.BrandId</td>
                     <td>
                         <form method="post" asp-action="EditBrand" asp-controller="DataManagement" asp-area="Admin" class="d-inline">
+                            @Html.AntiForgeryToken()
                             <input type="hidden" name="brandId" value="@brand.BrandId" />
                             <input type="text" name="brandName" value="@brand.BrandName" />
                             <button type="submit" class="btn btn-warning btn-sm">Save</button>

@@ -28,6 +28,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignRole(string userId, string role)
         {
             bool userExist = await adminService.UserExistsByIdAsync(userId);
@@ -47,6 +48,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveRole(string userId, string role)
         {
             bool userExists = await adminService
@@ -87,6 +89,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(DeleteUserViewModel user)
         {
 

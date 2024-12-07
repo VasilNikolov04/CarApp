@@ -37,7 +37,7 @@ namespace CarApp.Core.Services
             await reportRepository.AddAsync(report);
         }
 
-        public async Task<bool> ApproveCarListingAsyn(int carListingId)
+        public async Task<bool> ApproveCarListingAsync(int carListingId)
         {
             var reports = await reportRepository
                 .GetAllAttached()

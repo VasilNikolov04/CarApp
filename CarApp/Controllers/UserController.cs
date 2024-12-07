@@ -59,6 +59,7 @@ namespace CarApp.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditListing(CarListingEditViewModel model)
         {
             string userId = User.GetUserId()!;
@@ -173,6 +174,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(CarListingDeleteViewModel modelToDelete)
         {
             string userId = User.GetUserId()!;
@@ -209,6 +211,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToFavourites(int carListingId)
         {
             string? userId = User?.GetUserId();
@@ -233,6 +236,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveFromFavourites(int carListingId)
         {
             string? userId = User?.GetUserId();
@@ -274,6 +278,7 @@ namespace CarApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Report(ReportListingViewModel model)
         {
             var userId = User?.GetUserId();

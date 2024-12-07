@@ -9,6 +9,7 @@
         </div>
     </div>
     <form method="post" asp-area="Admin" asp-controller="DataManagement" asp-action="CreateModel">
+        @Html.AntiForgeryToken()
             <input type="text" id="newModel" name="newModelName" placeholder="New Model Name" required />
             <input type="hidden" name="brandId" value="@Model.BrandId" />
             <button type="submit" class="btn btn-success mb-3">Add New Model</button>
@@ -29,6 +30,7 @@
                     <td>@carModel.ModelId</td>
                     <td>
                         <form method="post" asp-action="EditModel" asp-controller="DataManagement" asp-area="Admin" class="d-inline">
+                            @Html.AntiForgeryToken()
                             <input type="hidden" name="modelId" value="@carModel.ModelId" />
                             <input type="text" name="modelName" value="@carModel.ModelName" />
                             <input type="hidden" name="brandId" value="@Model.BrandId" />
@@ -37,6 +39,7 @@
                     </td>
                     <td>
                         <form method="post" asp-action="DeleteModel" asp-controller="DataManagement" asp-area="Admin" class="d-inline ms-2">
+                            @Html.AntiForgeryToken()
                             <input type="hidden" name="modelId" value="@carModel.ModelId" />
                             <input type="hidden" name="brandId" value="@Model.BrandId" />
                             <input type="hidden" name="modelCount" value="@Model.CarModels.Count()" />

@@ -142,7 +142,7 @@ namespace CarApp.Core.Services
                 FuelType = cl.Car.Fuel.FuelName,
                 Year = cl.Car.Year,
                 GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
-                ImageUrl = cl.CarImages.OrderBy(i => i.Order).Select(i => i.ImageUrl).FirstOrDefault(),
+                ImageUrl = cl.CarImages.OrderBy(i => i.Order).FirstOrDefault().ImageUrl ?? string.Empty,
                 Whp = cl.Car.Whp,             
                 DatePosted = cl.DatePosted.ToString("HH:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
                 SellerId = cl.SellerId.ToString(),

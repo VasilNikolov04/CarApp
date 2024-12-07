@@ -11,7 +11,7 @@ namespace CarApp.Core.Services.Contracts
     public interface IReportService
     {
         Task AddReportAsync(ReportListingViewModel model, string userId);
-        Task<bool> ApproveCarListingAsyn(int carListingId);
+        Task<bool> ApproveCarListingAsync(int carListingId);
         Task<IEnumerable<AllReportedListingViewModel>> GetAllReportedCarListingsAsync();
         Task<ReportListingViewModel?> GetCarListingForReportAsync(int carListingId);
     }

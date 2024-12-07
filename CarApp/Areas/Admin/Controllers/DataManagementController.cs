@@ -41,6 +41,7 @@ namespace CarApp.Areas.Admin.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBrand(int brandId, string brandName)
         {
             bool result = await adminService.EditBrandNameAsync(brandId, brandName);
@@ -54,6 +55,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditModel(int modelId, string modelName, int brandId)
         {
             bool result = await adminService.EditModelNameAsync(modelId, modelName);
@@ -67,6 +69,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateModel(int brandId, string newModelName)
         {
             if (string.IsNullOrWhiteSpace(newModelName))
@@ -87,6 +90,7 @@ namespace CarApp.Areas.Admin.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteModel(int modelId, int brandId, int modelCount)
         {
             CarBrand? brand = await brandRepository.GetByIdAsync(brandId);
@@ -105,6 +109,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddBrandWithModels([FromBody]  BrandAddInputViewModel input)
         {
             if (String.IsNullOrEmpty(input.BrandName) || input.Models == null || input.Models.Count == 0)
@@ -142,6 +147,7 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteBrand(BrandDeleteViewModel brandAndModelsToDelete)
         {
             bool IsDeleted = await adminService.DeleteBrandAndModelsAsync(brandAndModelsToDelete);
