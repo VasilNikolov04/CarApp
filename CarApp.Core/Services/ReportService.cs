@@ -57,6 +57,7 @@ namespace CarApp.Core.Services
             var reportedListings = await reportRepository
                 .GetAllAttached()
                 .Where(r => r.CarListing.IsDeleted == false)
+                .Include(r =>r.CarListing.CarImages)
                 .Include(r => r.CarListing)
                 .Include(r => r.Reporter)
                 .ToListAsync();
@@ -66,7 +67,8 @@ namespace CarApp.Core.Services
                 .Select(r => new AllReportedListingViewModel
                 {
                     CarListingId = r.Key,
-                    CarImage = r.First().CarListing.CarImages.ElementAt(1).ImageUrl,
+                    CarImage = r.First().CarListing.CarImages?.FirstOrDefault()?.ImageUrl ?? 
+                        string.Empty,
                     ReportReason = r.Select(rr => rr.ReportReason)
                                 .Distinct()
                                 .ToList(),

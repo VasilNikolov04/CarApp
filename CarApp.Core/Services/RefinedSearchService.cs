@@ -123,7 +123,7 @@ namespace CarApp.Core.Services
                 FuelType = cl.Car.Fuel.FuelName,
                 Year = cl.Car.Year,
                 GearType = cl.Car.Gear != null ? cl.Car.Gear.GearName : string.Empty,
-                ImageUrl = cl.CarImages.ElementAt(1).ImageUrl,
+                ImageUrl = cl.CarImages.ElementAt(0).ImageUrl,
                 Whp = cl.Car.Whp,
                 DatePosted = cl.DatePosted.ToString("HH:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
                 SellerId = cl.SellerId.ToString()

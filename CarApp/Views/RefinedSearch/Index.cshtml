@@ -5,10 +5,115 @@
 @{
     ViewBag.BackArrow = "<<";
 }
+<style>
+    .filter-container {
+        margin: auto;
+        border-radius: 8px;
+        padding:20px;
+        background-color: #f2f2f2;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    }
 
+    h2 {
+        color: #333;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+        form .form-group {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        form .form-control,
+        form .form-select {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+            form .form-control:focus,
+            form .form-select:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+            }
+
+        form .input-group-text {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px 0 0 5px;
+        }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    .row {
+        margin-bottom: 20px;
+    }
+
+        .row .col-md-3,
+        .row .col-md-4,
+        .row .col-md-6 {
+            margin-bottom: 15px;
+        }
+
+    label[asp-for="Sorting"] {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+    }
+
+        .input-group .form-select {
+            flex: 1;
+        }
+
+        .input-group .btn {
+            margin-left: 10px;
+        }
+
+        .row.align-items-end .form-group {
+    margin-bottom: 0; 
+}
+
+.row.align-items-end .btn {
+    margin-top: 5px; 
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+</style>
 <meta charset="UTF-8">
-<div class="container mt-5">
-    <h2 class="mb-4">Search Car Listings Page: @Model.CurrentPage</h2>
+<div class="container filter-container mt-5 mb-5">
 
     <form method="get">
 
@@ -82,20 +187,20 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label asp-for="MinEngineDisplacement">Min Engine Displacement</label>
+                    <label asp-for="MinEngineDisplacement">Min CC</label>
                         <input asp-for="MinEngineDisplacement" type="number" class="form-control">
                 </div>
             </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label asp-for="MaxEngineDisplacement">Max Engine Displacement</label>
+                        <label asp-for="MaxEngineDisplacement">Max CC</label>
                         <input asp-for="MaxEngineDisplacement" type="number" class="form-control">
                     </div>
                 </div>
 
             <div class="col-md-3">
                 <div class="form-group">
-                    <label asp-for="MinPrice">Price</label>
+                    <label asp-for="MinPrice">Min Price</label>
                     <div class="input-group">
                         <span class="input-group-text">€</span>
                         <input asp-for="MinPrice" class="form-control" type="number" step="1">
@@ -104,7 +209,7 @@
             </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label asp-for="MaxPrice">Price</label>
+                        <label asp-for="MaxPrice">Max Price</label>
                         <div class="input-group">
                             <span class="input-group-text">€</span>
                             <input asp-for="MaxPrice" class="form-control" type="number" step="1">
@@ -153,38 +258,36 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3 align-items-end">
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="@Model.Drivetrain">Drivetrain</label>
-                        <select asp-for="@Model.Drivetrain" class="form-control">
-                            <option value="">Any Drivetrain Type</option>
-                            @foreach (var drivetrain in Model.Drivetrains)
-                            {
-                                <option value="@drivetrain.DrivetrainName">@drivetrain.DrivetrainName</option>         
-                            }
-                        </select>
+                    <select asp-for="@Model.Drivetrain" class="form-control">
+                        <option value="">Any Drivetrain Type</option>
+                        @foreach (var drivetrain in Model.Drivetrains)
+                        {
+                            <option value="@drivetrain.DrivetrainName">@drivetrain.DrivetrainName</option>
+                        }
+                    </select>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="@Model.CarBody">Car Body Type</label>
-                        <select asp-for="@Model.CarBody" class="form-control">
-                            <option value="">Any Car Body</option>
-                            @foreach (var carBodyType in Model.CarBodyTypes)
-                            {
-                                <option value="@carBodyType.Name">@carBodyType.Name</option>   
-                            }
-                        </select>
+                    <label asp-for="@Model.CarBody">Body Type</label>
+                    <select asp-for="@Model.CarBody" class="form-control">
+                        <option value="">Any Car Body</option>
+                        @foreach (var carBodyType in Model.CarBodyTypes)
+                        {
+                            <option value="@carBodyType.Name">@carBodyType.Name</option>
+                        }
+                    </select>
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <input asp-for="Sorting" type="hidden" value="@((int)Model.Sorting)" />
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
-                </div>
+            <div class="col-md-4">
+                <input asp-for="Sorting" type="hidden" value="@((int)Model.Sorting)" />
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
             </div>
         </div>
     </form>
@@ -223,7 +326,6 @@
         </div>
     </form>
 </div>
-<partial name="_PaginationLinksPartialRefinedSearch" model="Model" />
 <div class="row text-center">
     @foreach(var carListing in Model.CarListings)
     {

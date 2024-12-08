@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using static CarApp.Infrastructure.Constants.DataErrorMessages.Car;
+using static CarApp.Infrastructure.Constants.DataConstants.Car;
 
 namespace CarApp.Core.ViewModels
 {
@@ -47,18 +48,20 @@ namespace CarApp.Core.ViewModels
         /// <summary>
         /// Car Trim
         /// </summary>
+        [MaxLength(TrimMaxLength)]
         public string? Trim { get; set; }
 
         /// <summary>
         /// Car Engine displacement
         /// </summary>
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Range(50,10000)]
+        [Range(EngineDisplacementMinLength,EngineDisplacementMaxLength)]
         public int EngineDisplacement { get; set; }
 
         /// <summary>
         /// Car Description
         /// </summary>
+        [MaxLength(CarListingDescriptionMaxLength)]
         public string? Description { get; set; }= string.Empty;
 
         /// <summary>
@@ -73,7 +76,8 @@ namespace CarApp.Core.ViewModels
         /// </summary>
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public int Milleage { get; set; }
+        [Range(MileageMinLength, MileageMaxLength)]
+        public int Mileage { get; set; }
 
         /// <summary>
         /// Car Fuel

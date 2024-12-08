@@ -254,7 +254,6 @@ namespace CarApp.Controllers
 
             var referer = Request.Headers["Referer"].ToString();
 
-            // If Referer is not empty, redirect to the previous page
             if (!string.IsNullOrEmpty(referer))
             {
                 return Redirect(referer);

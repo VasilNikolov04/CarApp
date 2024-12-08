@@ -17,6 +17,8 @@ namespace CarApp.Infrastructure.Constants
         {
             public const int CarListingDescriptionMaxLength = 1500;
 
+            public const int TrimMaxLength = 40;
+
             public const int CarBrandNameMaxLength = 50;
             public const int CarModelNameMaxLength = 50;
             public const int CarCategoryNameMaxLength = 30;
@@ -40,6 +42,13 @@ namespace CarApp.Infrastructure.Constants
             public const int CarGearMaxLength = 20;
 
             public const int DrivetrainNameMaxLength = 25;
+
+            public const int EngineDisplacementMinLength = 50;
+            public const int EngineDisplacementMaxLength = 10000;
+
+            public const int MileageMinLength = 0;
+            public const int MileageMaxLength = 2000000;
+
         }
 
         public static class Reports

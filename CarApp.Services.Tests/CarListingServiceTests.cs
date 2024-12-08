@@ -135,7 +135,7 @@ namespace CarApp.Services.Tests
         public void Setup()
         {
             carRepository = new Mock<IRepository<Car, int>>();
-            carListingRepository = new Mock<IRepository<CarListing, int>>();  
+            carListingRepository = new Mock<IRepository<CarListing, int>>();
         }
 
         [Test]
@@ -153,14 +153,14 @@ namespace CarApp.Services.Tests
             ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
-                .GetAllCarListingsAsync(currentPage: currentPage,listingsPerPage: listingsPerPage);
+                .GetAllCarListingsAsync(currentPage: currentPage, listingsPerPage: listingsPerPage);
 
             Assert.That(allCarListingsActual, Is.Not.Null);
             Assert.That(allCarListingsActual.CarListings.Count(), Is.EqualTo(carListingsData.Count));
 
             for (int i = 0; i < allCarListingsActual.CarListings.Count(); i++)
             {
-                Assert.That(allCarListingsActual.CarListings.OrderBy(cl => cl.Id).ToList()[i].Id, 
+                Assert.That(allCarListingsActual.CarListings.OrderBy(cl => cl.Id).ToList()[i].Id,
                     Is.EqualTo(carListingsData.OrderBy(cl => cl.Id).ToList()[i].Id));
             }
         }
@@ -203,7 +203,7 @@ namespace CarApp.Services.Tests
             IQueryable<CarListing> carListingsMockQueryable = carListingsData
                 .Where(cl => cl.Price <= priceFilter)
                 .AsQueryable().BuildMock();
-            
+
             carListingRepository
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
@@ -248,7 +248,7 @@ namespace CarApp.Services.Tests
                 .GetAllCarListingsAsync(brand: brandFilter, model: modelFilter, currentPage: currentPage, listingsPerPage: listingsPerPage);
 
             Assert.That(allCarListingsActual, Is.Not.Null);
-            Assert.That(allCarListingsActual.CarListings.Count(), Is.EqualTo(carListingsMockQueryable.Count())); 
+            Assert.That(allCarListingsActual.CarListings.Count(), Is.EqualTo(carListingsMockQueryable.Count()));
 
             foreach (var listing in allCarListingsActual.CarListings)
             {
@@ -308,6 +308,7 @@ namespace CarApp.Services.Tests
         }
 
     }
+    [TestFixture]
     public class AddCarListingTests
     {
         private IList<CarListing> carListingsData = new List<CarListing>()
@@ -440,7 +441,7 @@ namespace CarApp.Services.Tests
                 ModelId = 1,
                 Year = 2020,
                 Trim = "Base",
-                Milleage = 15000,
+                Mileage = 15000,
                 Whp = 200,
                 EngineDisplacement = 2500,
                 CarBodyId = 2,
@@ -467,6 +468,168 @@ namespace CarApp.Services.Tests
 
             carRepositoryMock.Verify(cr => cr.AddAsync(It.IsAny<Car>()), Times.Once);
             carListingRepositoryMock.Verify(clr => clr.AddAsync(It.IsAny<CarListing>()), Times.Once);
+        }
+    }
+    [TestFixture]
+
+    public class CarListingDetailsTests
+    {
+        private IList<CarListing> carListingsData;
+
+        private Mock<IRepository<CarListing, int>> carListingRepository;
+        private Mock<IRepository<Car, int>> carRepository;
+
+        [SetUp]
+        public void Setup()
+        {
+            carRepository = new Mock<IRepository<Car, int>>();
+            carListingRepository = new Mock<IRepository<CarListing, int>>();
+
+            carListingsData = new List<CarListing>
+            {
+            new CarListing
+            {
+                Id = 1,
+                Car = new Car
+                {
+                    Model = new CarModel
+                    {
+                        ModelName = "370 Z",
+                        CarBrand = new CarBrand { BrandName = "Nissan" }
+                    },
+                    CarBodyType = new CarBodyType { Name = "Coupe" },
+                    Trim = "Base",
+                    EngineDisplacement = 2000,
+                    Whp = 296,
+                    Mileage = 15000,
+                    Year = 2021,
+                    Fuel = new CarFuelType { FuelName = "Electric" },
+                    Gear = new CarGear { GearName = "Automatic" }
+                },
+                Description = "Great car",
+                Price = 22000,
+                IsDeleted = false,
+                CarImages = new List<CarImage>
+                {
+                    new CarImage { Order = 0, ImageUrl = "url1" },
+                    new CarImage { Order = 1, ImageUrl = "url2" }
+                },
+                City = new CarLocationCity
+                {
+                    CityName = "Los Angeles",
+                    CarLocationRegion = new CarLocationRegion { RegionName = "West Coast" }
+                },
+                DatePosted = DateTime.UtcNow,
+                SellerId = "sellerId",
+                Seller = new ApplicationUser
+                {
+                    FirstName = "Timmy",
+                    LastName = "Turner",
+                    Email = "timmy@abv.bg",
+                    PhoneNumber = "123456789"
+                }
+            },
+            new CarListing
+            {
+                Id = 2,
+                SellerId = "sellerId2",
+                IsDeleted = true
+            }
+        };
+
+            
+        }
+
+        [Test]
+        public async Task CarListingDetailsWithInvalidId()
+        {
+            int listingId = 999;
+            IQueryable<CarListing> carListingsMockQueryable = carListingsData.AsQueryable().BuildMock();
+
+            this.carListingRepository
+                .Setup(cl => cl.GetAllAttached())
+                .Returns(carListingsMockQueryable);
+
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+
+            CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
+
+            Assert.That(allCarListingsActual, Is.Null);
+
+        }
+
+        [Test]
+        public async Task CarListingDetailsSuccess()
+        {
+            int listingId = 1;
+            
+            IQueryable<CarListing> carListingsMockQueryable = carListingsData.AsQueryable().BuildMock();
+
+            this.carListingRepository
+                .Setup(cl => cl.GetAllAttached())
+                .Returns(carListingsMockQueryable);
+
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+
+            CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(allCarListingsActual, Is.Not.Null);
+                Assert.That(allCarListingsActual.Id, Is.EqualTo(1));
+                Assert.That(allCarListingsActual.Brand, Is.EqualTo("Nissan"));
+                Assert.That(allCarListingsActual.Model, Is.EqualTo("370 Z"));
+                Assert.That(allCarListingsActual.Trim, Is.EqualTo("Base"));
+                Assert.That(allCarListingsActual.Year, Is.EqualTo(2021));
+                Assert.That(allCarListingsActual.Price, Is.EqualTo("22 000,00 €"));
+                Assert.That(allCarListingsActual.Description, Is.EqualTo("Great car"));
+                Assert.That(allCarListingsActual.Seller.SellerFullName, Is.EqualTo("Timmy Turner"));
+                Assert.That(allCarListingsActual.Seller.SellerEmail, Is.EqualTo("timmy@abv.bg"));
+                Assert.That(allCarListingsActual.Seller.SellerPhoneNumber, Is.EqualTo("123456789"));
+            });
+        }
+
+        [Test]
+        public async Task CarListingDetailsWithDeletedListing()
+        {
+            int listingId = 2;
+
+            IQueryable<CarListing> carListingsMockQueryable = carListingsData.AsQueryable().BuildMock();
+
+            this.carListingRepository
+                .Setup(cl => cl.GetAllAttached())
+                .Returns(carListingsMockQueryable);
+
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+
+            CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
+
+            Assert.That(allCarListingsActual, Is.Null);
+        }
+
+        [Test]
+        public async Task CarListingDetailsReturnsLatestCars()
+        {
+            int listingId = 1;
+            IQueryable<CarListing> carListingsMockQueryable = carListingsData.AsQueryable().BuildMock();
+
+            this.carListingRepository
+                .Setup(cl => cl.GetAllAttached())
+                .Returns(carListingsMockQueryable);
+
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+
+            CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
+
+
+            Assert.That(allCarListingsActual?.LatestCars, Is.Not.Null);
+            Assert.That(allCarListingsActual?.LatestCars.Count(), Is.EqualTo(1)); 
+            Assert.Multiple(() =>
+            {
+                Assert.That(allCarListingsActual?.LatestCars.First().Id, Is.EqualTo(1));
+                Assert.That(allCarListingsActual?.LatestCars.First().Brand, Is.EqualTo("Nissan"));
+                Assert.That(allCarListingsActual?.LatestCars.First().Model, Is.EqualTo("370 Z"));
+            });
         }
     }
 }

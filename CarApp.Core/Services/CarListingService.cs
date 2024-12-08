@@ -31,7 +31,7 @@ namespace CarApp.Core.Services
                 ModelId = model.ModelId,
                 Year = model.Year,
                 Trim = model.Trim,
-                Mileage = model.Milleage,
+                Mileage = model.Mileage,
                 Whp = model.Whp,
                 EngineDisplacement = model.EngineDisplacement,
                 CarBodyId = model.CarBodyId,

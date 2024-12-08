@@ -43,8 +43,7 @@ namespace CarApp.Core.Services
                         UserId = userId,
                         CarListingId = carListing.Id
                     };
-                    await context.Favourites.AddAsync(newFavourite);
-                    await context.SaveChangesAsync();
+                    await favouritesRepository.AddAsync(newFavourite);
                 }
                 return true;
             }
@@ -64,7 +63,7 @@ namespace CarApp.Core.Services
                     Price = cl.CarListing.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.CarListing.Car.Fuel.FuelName,
                     GearType = cl.CarListing.Car.Gear.GearName,
-                    ImageUrl = cl.CarListing.CarImages.ElementAt(1).ImageUrl,
+                    ImageUrl = cl.CarListing.CarImages.ElementAt(0).ImageUrl,
                     Whp = cl.CarListing.Car.Whp,
                     EngineDisplacement = cl.CarListing.Car.EngineDisplacement,
                     LocationRegion = cl.CarListing.City.CarLocationRegion.RegionName,
