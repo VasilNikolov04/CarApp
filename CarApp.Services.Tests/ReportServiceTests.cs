@@ -3,9 +3,11 @@ using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels;
 using CarApp.Core.ViewModels.CarListing;
 using CarApp.Infrastructure.Constants.Enum;
+using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using MockQueryable;
+using MockQueryable.Moq;
 using Moq;
 
 namespace CarApp.Services.Tests
@@ -13,24 +15,126 @@ namespace CarApp.Services.Tests
     [TestFixture]
     public class AddReportAsyncTests
     {
-        private IList<CarListing> carListingsData;
-
-        private Mock<IRepository<CarListing, int>> carListingRepository;
-        private Mock<IRepository<Car, int>> carRepository;
-        private Mock<IRepository<Report, int>> reportRepository;
+        private Mock<IRepository<CarListing, int>> carListingRepositoryMock;
+        private Mock<IRepository<Report, int>> reportRepositoryMock;
+        private ReportService reportService;
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            carRepository = new Mock<IRepository<Car, int>>();
-            carListingRepository = new Mock<IRepository<CarListing, int>>();
-            reportRepository = new Mock<IRepository<Report, int>>();
+            carListingRepositoryMock = new Mock<IRepository<CarListing, int>>();
+            reportRepositoryMock = new Mock<IRepository<Report, int>>();
+            reportService = new ReportService(carListingRepositoryMock.Object, reportRepositoryMock.Object);
+        }
 
-            carListingsData = new List<CarListing>
+        [Test]
+        public async Task AddReportAsyncValidInput()
+        {
+            var model = new ReportListingViewModel
             {
+                ListingId = 1,
+                SellerId = "seller123",
+                SelectedReason = "Spam",
+                Comment = "This is spam."
+            };
+            var userId = "user123";
+
+            reportRepositoryMock
+                .Setup(r => r.AddAsync(It.IsAny<Report>()))
+                .Returns(Task.CompletedTask);
+
+            await reportService.AddReportAsync(model, userId);
+
+            reportRepositoryMock.Verify(r => r.AddAsync(It.Is<Report>(
+                report => report.ListingId == model.ListingId &&
+                          report.ReporterId == userId &&
+                          report.SellerId == model.SellerId &&
+                          report.ReportReason == ReportReason.Spam &&
+                          report.Comment == model.Comment)), Times.Once);
+
+        }
+        [Test]
+        public async Task ApproveCarListingAsyncValidId()
+        {
+            int carListingId = 1;
+            var mockReports = new List<Report>
+            {
+                new Report { ListingId = carListingId, ReporterId = "user1", SellerId = "seller1" },
+                new Report { ListingId = carListingId, ReporterId = "user2", SellerId = "seller1" }
+            };
+
+            reportRepositoryMock
+                .Setup(r => r.GetAllAttached())
+                .Returns(mockReports.AsQueryable().BuildMock());
+
+            reportRepositoryMock
+                .Setup(r => r.DeleteAsync(It.IsAny<Report>()))
+                .Returns(Task.FromResult(true));
+
+            var reportService = new ReportService(carListingRepositoryMock.Object, reportRepositoryMock.Object);
+
+            var result = await reportService.ApproveCarListingAsync(carListingId);
+
+            Assert.That(result, Is.True);
+
+            reportRepositoryMock.Verify(r => r.DeleteAsync(It.IsAny<Report>()), Times.Exactly(mockReports.Count));
+        }
+
+        [Test]
+        public async Task GetAllReportedCarListingsAsync()
+        {
+            var reports = new List<Report>
+        {
+            new Report
+            {
+                ListingId = 1,
+                ReportReason = ReportReason.Spam,
+                Comment = "Spam Comment",
+                Reporter = new ApplicationUser { UserName = "reporter1" },
+                ReportedAt = DateTime.Now,
+                CarListing = new CarListing
+                {
+                    SellerId = "sellerId",
+                    CarImages = new List<CarImage> { new CarImage { ImageUrl = "image1.jpg" } },
+                    IsDeleted = false
+                }
+            }
+        };
+
+            reportRepositoryMock
+                .Setup(r => r.GetAllAttached())
+                .Returns(reports.AsQueryable().BuildMock());
+
+            var result = await reportService.GetAllReportedCarListingsAsync();
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count(), Is.EqualTo(1));
+            var firstReport = result.First();
+            Assert.Multiple(() =>
+            {
+                Assert.That(firstReport.CarListingId, Is.EqualTo(1));
+                Assert.That(firstReport.ReportReason, Has.Member(ReportReason.Spam));
+                Assert.That(firstReport.Comment, Has.Member("Spam Comment"));
+                Assert.That(firstReport.CommentAuthors, Has.Member("reporter1"));
+            });
+        }
+
+        [Test]
+        public async Task GetCarListingForReportAsyncValidId()
+        {
+            int carListingId = 1;
+            var carListings = new List<CarListing>
+        {
             new CarListing
             {
-                Id = 1,
+                Id = carListingId,
+                SellerId = "sellerId",
+                Seller = new ApplicationUser 
+                { 
+                    FirstName = "Tom", 
+                    LastName = "Cruz", 
+                    Email = "tomccruz@gmail.com" 
+                },
                 Car = new Car
                 {
                     Model = new CarModel
@@ -38,97 +142,24 @@ namespace CarApp.Services.Tests
                         ModelName = "370 Z",
                         CarBrand = new CarBrand { BrandName = "Nissan" }
                     },
-                    CarBodyType = new CarBodyType { Name = "Coupe" },
-                    Trim = "Base",
-                    EngineDisplacement = 2000,
-                    Whp = 296,
-                    Mileage = 15000,
-                    Year = 2021,
-                    Fuel = new CarFuelType { FuelName = "Electric" },
-                    Gear = new CarGear { GearName = "Automatic" }
+                    Trim = "Base"
                 },
-                Description = "Great car",
-                Price = 22000,
-                IsDeleted = false,
-                CarImages = new List<CarImage>
-                {
-                    new CarImage { Order = 0, ImageUrl = "url1" },
-                    new CarImage { Order = 1, ImageUrl = "url2" }
-                },
-                City = new CarLocationCity
-                {
-                    CityName = "Los Angeles",
-                    CarLocationRegion = new CarLocationRegion { RegionName = "West Coast" }
-                },
-                DatePosted = DateTime.UtcNow,
-                SellerId = "sellerId",
-                Seller = new ApplicationUser
-                {
-                    FirstName = "Timmy",
-                    LastName = "Turner",
-                    Email = "timmy@abv.bg",
-                    PhoneNumber = "123456789"
-                }
-            },
-            new CarListing
-            {
-                Id = 2,
-                SellerId = "sellerId2",
-                IsDeleted = true
+                IsDeleted = false
             }
         };
 
+            carListingRepositoryMock
+                .Setup(cl => cl.GetAllAttached())
+                .Returns(carListings.AsQueryable().BuildMock());
 
+            var result = await reportService.GetCarListingForReportAsync(carListingId);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ListingId, Is.EqualTo(carListingId));
+            Assert.That(result.SellerId, Is.EqualTo("sellerId"));
+            Assert.That(result.SellerFullName, Is.EqualTo("Tom Cruz"));
+            Assert.That(result.SellerEmail, Is.EqualTo("tomccruz@gmail.com"));
+            Assert.That(result.CarListingTitle, Is.EqualTo("Nissan 370 Z Base"));
         }
-
-        //[Test]
-        //public async Task AddReportAsync_ValidModelAndUserId_ShouldAddReport()
-        //{
-        //    // Arrange
-        //    string userId = "user1";
-        //    var model = new ReportListingViewModel
-        //    {
-        //        ListingId = 100,
-        //        SellerId = "seller1",
-        //        SelectedReason = "Spam",
-        //        Comment = "This is a test report"
-        //    };
-
-        //    var reportsData = new List<Report>();
-
-        //    var reportRepositoryMock = new Mock<IRepository<Report, int>>();
-
-        //    IQueryable<Report> reportMockQueryable = reportsData.AsQueryable().BuildMock();
-
-        //    this.carListingRepository
-        //        .Setup(cl => cl.GetAllAttached())
-        //        .Returns(carListingsMockQueryable);
-
-        //    ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
-
-        //    CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
-
-
-        //    reportRepositoryMock
-        //        .Setup(r => r.AddAsync(It.IsAny<Report>()))
-        //        .Callback((Report report) => reportsData.Add(report))
-        //        .Returns(Task.CompletedTask);
-
-        //    var service = new ReportingService(reportRepositoryMock.Object);
-
-        //    await service.AddReportAsync(model, userId);
-
-        //    Assert.That(reportsData.Count, Is.EqualTo(1));
-        //    var addedReport = reportsData.First();
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(addedReport.ListingId, Is.EqualTo(model.ListingId));
-        //        Assert.That(addedReport.ReporterId, Is.EqualTo(userId));
-        //        Assert.That(addedReport.SellerId, Is.EqualTo(model.SellerId));
-        //        Assert.That(addedReport.ReportReason, Is.EqualTo(ReportReason.Spam));
-        //        Assert.That(addedReport.Comment, Is.EqualTo(model.Comment));
-        //        Assert.That(addedReport.ReportedAt, Is.EqualTo(DateTime.Now).Within(TimeSpan.FromSeconds(1))); // Allow slight time difference
-        //    });
-        //}
     }
 }

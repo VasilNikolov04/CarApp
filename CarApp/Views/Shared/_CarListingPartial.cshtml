@@ -6,6 +6,132 @@
     
 }
 <style>
+    .car-listing {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        background-color: #f2f2f2;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    }
+
+        .car-listing:hover {
+            background-color: #f2f2f2;
+            box-shadow: 0 0 8px rgb(0, 0, 0);
+        }
+
+    .car-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #000000;
+        border-radius: 8px;
+        padding: 5px;
+        width: 350px;
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .car-dateposted {
+        color: dimgray;
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .car-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .car-bottom-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .car-image-container:hover {
+        background-color: cornflowerblue;
+    }
+
+
+    .car-title:hover {
+        color: cornflowerblue;
+    }
+
+    .car-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .car-details span {
+        margin-right: 15px;
+    }
+
+    .car-details {
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    .car-description {
+        text-align: left;
+        padding-left: 20px;
+        padding-right: 20px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.5;
+        max-height: calc(1.5em * 2);
+    }
+
+    .car-region {
+        font-weight: bold;
+        text-align: left;
+        font-size: 1.2rem;
+        padding-left: 20px;
+    }
+
+    .title {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        grid-gap: 20px;
+        padding-left: 20px;
+    }
+
+    .car-price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: green;
+    }
+
+
+
+
+    .fav-button {
+        visibility: hidden;
+    }
+
+    #star {
+        font-size: 35px;
+        visibility: visible;
+        color: cornflowerblue;
+    }
+
+    .button-options {
+        visibility: hidden;
+    }
+
+    .options-dots {
+        font-size: 1.5rem;
+        visibility: visible;
+        color: black;
+    }
 
 </style>
 

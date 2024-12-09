@@ -3,6 +3,7 @@ using CarApp.Core.ViewModels.Home;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using CarApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,16 +54,31 @@ namespace CarApp.Controllers
                 LatestCars = latestCars,
                 TotalCarsListed = carListingRepository.GetAllAttached().Where(cl => cl.IsDeleted == false).Count(),
                 AllUsers = userManager.Users.Count(),
-                AllSellers = userManager.Users.Where(u => u.CarListings != null && u.CarListings.Any()).Count()
+                AllSellers = userManager.Users.Where(u => u.CarListings != null && u.CarListings.Where(cl => cl.IsDeleted == false).Any()).Count()
             };
 
             return View(model);
         }
 
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int statusCode)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if(statusCode == 400)
+            {
+                return View("Error400");
+            }
+
+            if (statusCode == 404)
+            {
+                return View("Error404");
+            }
+
+            if (statusCode == 500)
+            {
+                return View("Error400");
+            }
+            return View();
         }
     }
 }

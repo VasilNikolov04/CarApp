@@ -60,6 +60,7 @@ namespace CarApp.Core.Services
                 .GetAllAttached()
                 .Include(cl => cl.CarImages)
                 .FirstOrDefaultAsync(cl => cl.Id == model.Id);
+
             if (car == null || carListing == null)
             {
                 return false;
@@ -89,9 +90,13 @@ namespace CarApp.Core.Services
                 }
             }
 
-            if (model.NewCarImages != null && model.NewCarImages.Count > 0)
+            if (model.NewCarImages.Any() && model.NewCarImages.Count > 0)
             {
-                int displayIndex = carListing.CarImages.Max(img => img.Order);
+                int displayIndex = 0;
+                if (model.CarImages.Any() && model.CarImages.Count > 1)
+                {
+                    displayIndex = carListing.CarImages.Max(img => img.Order);
+                }
 
                 foreach (var image in model.NewCarImages)
                 {
@@ -107,9 +112,10 @@ namespace CarApp.Core.Services
                         carListing.CarImages.Add(new CarImage 
                         { 
                             ImageUrl = fileName,
-                            Order = ++displayIndex,
+                            Order = displayIndex,
                             CarListingId = carListing.Id
                         });
+                        displayIndex++;
                     }
                 }
             }

@@ -1,5 +1,140 @@
 ﻿@model HomePageViewModel
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+
+    .hero-section {
+        background-color: #85c0ff;
+        display: flex;
+        height: 40vh;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+    }
+
+    .hero-content {
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    .hero-section h1 {
+        font-size: 3.5em;
+        margin-bottom: 15px;
+    }
+
+    .hero-section .subheading {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .hero-section .cta-buttons a {
+        text-decoration: none;
+        padding: 15px 30px;
+        margin: 10px;
+        border-radius: 50px;
+        font-size: 1.3em;
+    }
+
+
+    .statistics-row {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-around;
+        padding: 30px 0;
+        background-color: #fff;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-item {
+        flex: 1;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .stat-item h3 {
+            font-size: 2.5em;
+            color: #ff5722;
+        }
+
+        .stat-item p {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+    .latest-listings {
+        padding: 40px 20px;
+        margin-top: 20px;
+    }
+
+        .latest-listings h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+    .latest-cars-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .car-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s;
+    }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .car-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .car-details {
+        padding: 15px;
+        text-align: center;
+    }
+
+        .car-details h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .car-details p {
+            font-size: 1em;
+            color: #777;
+        }
+
+    .btn-view-details {
+        background-color: #ff5722;
+        color: white;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+    }
+
+        .btn-view-details:hover {
+            background-color: #e64a19;
+        }
+
+</style>
 
 <div class="hero-section">
     <div class="hero-content">
@@ -22,11 +157,11 @@
         <p>Cars Listed</p>
     </div>
     <div class="stat-item">
-        <h3>@Model.AllSellers</h3>
+        <h3>@Model.AllUsers</h3>
         <p>Users Registered</p>
     </div>
     <div class="stat-item">
-        <h3>@Model.AllUsers</h3>
+        <h3>@Model.AllSellers</h3>
         <p>Active Sellers</p>
     </div>
 </div>

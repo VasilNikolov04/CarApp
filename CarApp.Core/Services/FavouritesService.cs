@@ -28,10 +28,15 @@ namespace CarApp.Core.Services
 
         public async Task<bool> AddCarListingToFavouritesAsync(int carListingId, string userId)
         {
+            if(userId == null)
+            {
+                return false;
+            }
+
             CarListing? carListing = await carListingRepository
                 .GetByIdAsync(carListingId);
 
-            if (carListing != null && userId != null)
+            if (carListing != null)
             {
                 Favourite? alreadyAddedToFavourites = await context.Favourites
                     .FirstOrDefaultAsync(f => f.UserId == userId && f.CarListingId == carListingId);

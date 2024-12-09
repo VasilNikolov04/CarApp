@@ -12,14 +12,12 @@ namespace CarApp.Core.Services
     {
         private readonly IRepository<CarListing, int> carListingRepository;
         private readonly IRepository<Report, int> reportRepository;
-        private readonly IUtilityService utilityService;
 
         public ReportService(IRepository<CarListing, int> _carListingRepository, 
-            IRepository<Report, int> _reportRepository, IUtilityService _utilityService)
+            IRepository<Report, int> _reportRepository)
         {
             carListingRepository = _carListingRepository;
             reportRepository = _reportRepository;
-            utilityService = _utilityService;
         }
 
         public async Task AddReportAsync(ReportListingViewModel model, string userId)

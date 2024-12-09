@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 namespace CarApp.Areas.Admin.Components
 {
     public class AdminMenuComponent : ViewComponent

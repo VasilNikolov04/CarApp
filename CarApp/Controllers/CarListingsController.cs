@@ -85,7 +85,7 @@ namespace CarApp.Controllers
 
             if(carlisting == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
 
             return View(carlisting);
