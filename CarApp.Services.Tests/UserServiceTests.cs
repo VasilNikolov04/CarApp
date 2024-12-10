@@ -21,28 +21,120 @@ namespace CarApp.Services.Tests
     [TestFixture]
     public class UserServiceTests
     {
-        private readonly Mock<IRepository<CarListing, int>> carListingRepositoryMock;
-        private readonly Mock<IRepository<Car, int>> carRepositoryMock;
-        private readonly Mock<UserManager<ApplicationUser>> userManagerMock;
-        private readonly UserService userService;
+        private IList<CarListing> carListingsData;
+        private IList<ApplicationUser> usersData;
 
-        public UserServiceTests()
+        private Mock<IRepository<CarListing, int>> carListingRepository;
+        private Mock<IRepository<Car, int>> carRepository;
+        private Mock<UserManager<ApplicationUser>> userManager;
+
+        [SetUp]
+        public void Setup()
         {
-            carListingRepositoryMock = new Mock<IRepository<CarListing, int>>();
-            carRepositoryMock = new Mock<IRepository<Car, int>>();
-            userManagerMock = MockUserManager();
-
-            userService = new UserService(carListingRepositoryMock.Object, carRepositoryMock.Object, userManagerMock.Object);
-        }
-
-        private Mock<UserManager<ApplicationUser>> MockUserManager()
+            carListingsData = new List<CarListing>
         {
-            var store = new Mock<IUserStore<ApplicationUser>>();
-            return new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
+            new CarListing
+            {
+                Id = 1,
+                SellerId = "user1",
+                Description = "Test Car 1",
+                Price = 10000,
+                IsDeleted = false,
+                Car = new Car
+                {
+                    Mileage = 50000,
+                    Whp = 200
+                },
+                CarImages = new List<CarImage>
+                {
+                    new CarImage { Id = 1, ImageUrl = "image1.jpg", Order = 0 },
+                    new CarImage { Id = 2, ImageUrl = "image2.jpg", Order = 1 }
+                }
+            },
+            new CarListing
+            {
+                Id = 2,
+                SellerId = "user2",
+                Description = "Test Car 2",
+                Price = 20000,
+                IsDeleted = false,
+                Car = new Car
+                {
+                    Mileage = 30000,
+                    Whp = 300
+                },
+                CarImages = new List<CarImage>
+                {
+                    new CarImage { Id = 3, ImageUrl = "image3.jpg", Order = 0 }
+                }
+            }
+        };
+
+            usersData = new List<ApplicationUser>
+        {
+            new ApplicationUser { Id = "user1", FirstName = "Timmy", LastName = "Turner", Email="timmyturner@abv.bg" },
+            new ApplicationUser { Id = "user2", FirstName = "Jim", LastName = "Carrey", Email="j.carrey@abv.bg" }
+        };
+
+            carListingRepository = new Mock<IRepository<CarListing, int>>();
+            carRepository = new Mock<IRepository<Car, int>>();
+
+            var userStore = new Mock<IUserStore<ApplicationUser>>();
+            userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
         }
 
         [Test]
-        public async Task DeleteCarListingAsync_ValidListingAndUser_DeletesSuccessfully()
+        public async Task DeleteCarListingAsyncReturnsTrue()
+        {
+            // Arrange
+            var userId = "user1";
+            var model = new CarListingDeleteViewModel { Id = 1 };
+
+            carListingRepository
+                .Setup(r => r.GetAllAttached())
+                .Returns(carListingsData.AsQueryable().BuildMock());
+
+            userManager
+                .Setup(um => um.FindByIdAsync(userId))
+                .ReturnsAsync(usersData.First(u => u.Id == userId));
+
+            userManager
+                .Setup(um => um.GetRolesAsync(It.IsAny<ApplicationUser>()))
+                .ReturnsAsync(new List<string>());
+
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
+            
+            var result = await userService.DeleteCarListingAsync(model, userId);
+
+            Assert.That(result, Is.True);
+            Assert.That(carListingsData.First(cl => cl.Id == model.Id).IsDeleted, Is.True);
+        }
+        [Test]
+        public async Task DeleteCarListingAsyncReturnsFalse()
+        {
+            var userId = "user2";
+            var model = new CarListingDeleteViewModel { Id = 1 };
+
+            carListingRepository
+                .Setup(r => r.GetAllAttached())
+                .Returns(carListingsData.AsQueryable().BuildMock());
+
+            userManager
+                .Setup(um => um.FindByIdAsync(userId))
+                .ReturnsAsync(usersData.First(u => u.Id == userId));
+
+            userManager
+                .Setup(um => um.GetRolesAsync(It.IsAny<ApplicationUser>()))
+                .ReturnsAsync(new List<string>());
+
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
+
+            var result = await userService.DeleteCarListingAsync(model, userId);
+
+            Assert.That(result, Is.False);
+        }
+        [Test]
+        public async Task DeleteCarListingAsyncDeletesSuccessfully()
         {
             var userId = "validUserId";
             var carListingId = 1;
@@ -50,31 +142,30 @@ namespace CarApp.Services.Tests
             var carListing = new CarListing { Id = carListingId, SellerId = userId, IsDeleted = false };
             var user = new ApplicationUser { Id = userId };
 
-            userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
-            userManagerMock.Setup(um => um.GetRolesAsync(user)).ReturnsAsync(new List<string>());
+            userManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
+            userManager.Setup(um => um.GetRolesAsync(user)).ReturnsAsync(new List<string>());
 
-            carListingRepositoryMock.Setup(repo => repo.GetAllAttached())
+            carListingRepository.Setup(repo => repo.GetAllAttached())
                 .Returns(new List<CarListing> { carListing }.AsQueryable().BuildMock());
 
-            carRepositoryMock.Setup(repo => repo.SaveChangesAsync()).Returns(Task.CompletedTask);
+            carRepository.Setup(repo => repo.SaveChangesAsync()).Returns(Task.CompletedTask);
+            
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
 
-            // Act
+
             var result = await userService.DeleteCarListingAsync(new CarListingDeleteViewModel { Id = carListingId }, userId);
 
-            // Assert
             Assert.True(result);
             Assert.True(carListing.IsDeleted);
-            carRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+            carRepository.Verify(repo => repo.SaveChangesAsync(), Times.Once);
         }
-
         [Test]
-        public async Task EditCarListingAsync_ValidListing_UpdatesSuccessfully()
+        public async Task EditCarListingAsyncUpdatesSuccessfully()
         {
-            // Arrange
-            var userId = "validUserId";
+            var userId = "user1";
             var carListingId = 1;
 
-            var car = new Car { CarListing = new CarListing { Id = carListingId, SellerId = "seller1" } };
+            var car = new Car { CarListing = new CarListing { Id = carListingId, SellerId = "user1" } };
             var carListing = new CarListing
             {
                 Id = carListingId,
@@ -83,13 +174,13 @@ namespace CarApp.Services.Tests
                 CarImages = new List<CarImage>()
             };
 
-            carRepositoryMock.Setup(repo => repo.GetAllAttached())
+            carRepository.Setup(repo => repo.GetAllAttached())
                 .Returns(new List<Car> { car }.AsQueryable().BuildMock());
 
-            carListingRepositoryMock.Setup(repo => repo.GetAllAttached())
-                .Returns(new List<CarListing> { carListing }.AsQueryable());
+            carListingRepository.Setup(repo => repo.GetAllAttached())
+                .Returns(new List<CarListing> { carListing }.AsQueryable().BuildMock());
 
-            carListingRepositoryMock.Setup(repo => repo.SaveChangesAsync()).Returns(Task.CompletedTask);
+            carListingRepository.Setup(repo => repo.SaveChangesAsync()).Returns(Task.CompletedTask);
 
             var model = new CarListingEditViewModel
             {
@@ -101,41 +192,41 @@ namespace CarApp.Services.Tests
                 CarImages = new List<CarImageViewModel>()
             };
 
-            // Act
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
+
             var result = await userService.EditCarListingAsync(model, userId);
 
-            // Assert
             Assert.True(result);
             Assert.That(carListing.Description, Is.EqualTo("Updated description"));
             Assert.That(carListing.Price, Is.EqualTo(12345));
             Assert.That(car.Whp, Is.EqualTo(200));
-            carListingRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+            carListingRepository.Verify(repo => repo.SaveChangesAsync(), Times.Once);
         }
 
         [Test]
-        public async Task GetAllUserCarListingsAsync_ReturnsCorrectListings()
+        public async Task GetAllUserCarListingsAsyncSuccessfully()
         {
-            var userId = "userId";
+            var userId = "user2";
 
-            var carListings = new List<CarListing>
-            {
-                new CarListing { Id = 1, SellerId = userId, IsDeleted = false },
-                new CarListing { Id = 2, SellerId = userId, IsDeleted = true }
-            };
+            IQueryable<CarListing> carListingsMockQueryable = carListingsData.AsQueryable().BuildMock();
 
-            carListingRepositoryMock.Setup(repo => repo.GetAllAttached())
-                .Returns(carListings.AsQueryable().BuildMock());
+            carListingRepository.Setup(repo => repo.GetAllAttached())
+                .Returns(carListingsMockQueryable.BuildMock());
+           
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
 
             var result = await userService.GetAllUserCarListingsAsync(userId);
-            Assert.That(result.Count(),Is.EqualTo(1));
-            Assert.That(result.First().Id, Is.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Count(), Is.EqualTo(1));
+                Assert.That(result.First().Id, Is.EqualTo(2));
+            });
         }
 
         [Test]
-        public async Task GetCarListingForDeleteAsync_ValidListing_ReturnsModel()
+        public async Task GetCarListingForDeleteAsyncReturnsModel()
         {
-            // Arrange
-            var userId = "userId";
+            var userId = "user1";
             var carListingId = 1;
 
             var carListing = new CarListing
@@ -146,24 +237,23 @@ namespace CarApp.Services.Tests
                 Car = new Car { Model = new CarModel { CarBrand = new CarBrand { BrandName = "Brand" }, ModelName = "Model" } }
             };
 
-            carListingRepositoryMock.Setup(repo => repo.GetAllAttached())
-                .Returns(new List<CarListing> { carListing }.AsQueryable());
+            carListingRepository.Setup(repo => repo.GetAllAttached())
+                .Returns(new List<CarListing> { carListing }.AsQueryable().BuildMock());
 
-            userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser { Id = userId });
-            userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string>());
+            userManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser { Id = userId });
+            userManager.Setup(um => um.GetRolesAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string>());
 
-            // Act
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
+
             var result = await userService.GetCarListingForDeleteAsync(carListingId, userId);
 
-            // Assert
             Assert.NotNull(result);
             Assert.That(result.Id, Is.EqualTo(carListingId));
         }
 
         [Test]
-        public async Task GetCarListingForEditAsync_ValidListing_ReturnsModel()
+        public async Task GetCarListingForEditAsyncReturnsModel()
         {
-            // Arrange
             var carListingId = 1;
 
             var carListing = new CarListing
@@ -177,13 +267,13 @@ namespace CarApp.Services.Tests
                 CarImages = new List<CarImage> { new CarImage { Id = 1, ImageUrl = "url", Order = 0 } }
             };
 
-            carListingRepositoryMock.Setup(repo => repo.GetAllAttached())
-                .Returns(new List<CarListing> { carListing }.AsQueryable());
+            carListingRepository.Setup(repo => repo.GetAllAttached())
+                .Returns(new List<CarListing> { carListing }.AsQueryable().BuildMock());
+            
+            var userService = new UserService(carListingRepository.Object, carRepository.Object, userManager.Object);
 
-            // Act
             var result = await userService.GetCarListingForEditAsync(carListingId);
 
-            // Assert
             Assert.NotNull(result);
             Assert.That(result.Id, Is.EqualTo(carListingId));
             Assert.That(result.Description, Is.EqualTo("Description"));
