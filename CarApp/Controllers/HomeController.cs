@@ -64,10 +64,6 @@ namespace CarApp.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)
         {
-            if(statusCode == 400)
-            {
-                return View("Error400");
-            }
 
             if (statusCode == 404)
             {
@@ -76,7 +72,7 @@ namespace CarApp.Controllers
 
             if (statusCode == 500)
             {
-                return View("Error400");
+                return View("Error500");
             }
             return View();
         }

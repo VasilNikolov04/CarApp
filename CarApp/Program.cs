@@ -1,11 +1,5 @@
-using CarApp.Core.Services;
 using CarApp.Core.Services.Contracts;
-using CarApp.Infrastructure.Data;
-using CarApp.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +47,10 @@ else
     app.UseExceptionHandler("/Home/Error/500");
     app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
     app.UseHsts();
+    builder.WebHost.UseWebRoot("wwwroot");
+    builder.WebHost.UseStaticWebAssets();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
