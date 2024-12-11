@@ -160,8 +160,10 @@
                              data-id="@image.Id">
                             <div class="image-wrapper">
                                 <img src="~/images/@image.ImageUrl" class="img-fluid img-thumbnail" alt="Car Image @image.Order">
-                                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeImage('@image.Id')">Remove</button>
-                                
+                                @if (Model.CarImages.Count() > 1)
+                                {
+                                    <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeImage('@image.Id')">Remove</button>
+                                }
                             </div>
                         </div>
                     }

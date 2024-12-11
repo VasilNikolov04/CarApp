@@ -1,7 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     const addImagesButton = document.querySelector('.btn-success[data-toggle="modal"]');
 
-    // Open modal on button click
     addImagesButton.addEventListener('click', function () {
         const modal = new bootstrap.Modal(document.getElementById('addImagesModal'));
         modal.show();
@@ -38,13 +37,13 @@
     });
 
     function dragStart(event) {
-        draggedImage = event.target.closest('.draggable-image-container'); // Ensure correct element
+        draggedImage = event.target.closest('.draggable-image-container');
         event.dataTransfer.setData('text', draggedImage.dataset.id);
         event.dataTransfer.effectAllowed = 'move';
     }
 
     function dragOver(event) {
-        event.preventDefault(); // Prevent default to allow drop
+        event.preventDefault();
         const target = event.target.closest('.draggable-image-container');
         if (target && target !== draggedImage) {
             target.classList.add('drag-over');
@@ -144,22 +143,19 @@
             imgElement.classList.add('img-fluid', 'img-thumbnail');
             imgElement.alt = `Car Image ${index + 1}`;
 
-            const removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mt-2');
-            removeButton.textContent = 'Remove';
+            imageWrapperDiv.appendChild(imgElement);
 
-            if (!allowRemoval) {
-                removeButton.style.display = 'none';
-                removeButton.disabled = true;
-            } else {
+            if (allowRemoval) {
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mt-2');
+                removeButton.textContent = 'Remove';
                 removeButton.onclick = function () {
                     removeImage(image.id);
                 };
+                imageWrapperDiv.appendChild(removeButton);
             }
 
-            imageWrapperDiv.appendChild(imgElement);
-            imageWrapperDiv.appendChild(removeButton);
             colDiv.appendChild(imageWrapperDiv);
             imageContainer.appendChild(colDiv);
 
