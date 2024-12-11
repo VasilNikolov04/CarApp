@@ -1,13 +1,51 @@
 ﻿@model CarListingDeleteViewModel
 @{
 }
-<hr />
+<style>
+    .card-body img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
 
+    .card-footer .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .card-footer .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+        .card-footer .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .card-footer .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: black;
+    }
+
+        .card-footer .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+</style>
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title text-center">@Model.Brand @Model.Model</h3>
+                <img src="~/images/@Model.Image" />
+                <h2>Seller Email: @Model.SellerEmail</h2>
+                <h2>Seller Name: @Model.SellerFullName</h2>
             </div>
             <div class="card-footer">
                 <form asp-action="Delete" method="post">

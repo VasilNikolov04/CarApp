@@ -170,7 +170,10 @@ namespace CarApp.Core.Services
                     {
                         Id = cl.Id,
                         Brand = cl.Car.Model.CarBrand.BrandName,
-                        Model = cl.Car.Model.ModelName
+                        Model = cl.Car.Model.ModelName,
+                        SellerEmail = cl.Seller.Email ?? string.Empty,
+                        SellerFullName = $"{cl.Seller.FirstName} {cl.Seller.LastName}",
+                        Image = cl.CarImages.Where(ci => ci.Order == 0).FirstOrDefault().ImageUrl
                     })
                     .FirstOrDefaultAsync();
 

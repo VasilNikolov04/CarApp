@@ -12,5 +12,11 @@ namespace CarApp.Core.ViewModels
         public string Brand { get; set; } = null!;
 
         public string Model { get; set; } = null!;
+
+        public string SellerFullName { get; set; } = null!;
+
+        public string SellerEmail { get; set; } = null!;
+
+        public string Image { get; set; } = null!;
     }
 }

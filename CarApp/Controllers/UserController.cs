@@ -52,7 +52,7 @@ namespace CarApp.Controllers
             CarListingEditViewModel? model = await userService.GetCarListingForEditAsync(Id);
             if (model == null || model.IsDeleted == true)
             {
-                return RedirectToAction(nameof(UserListings));
+                return NotFound();
             }
             return View(model);
         }

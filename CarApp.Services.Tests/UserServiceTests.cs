@@ -108,7 +108,6 @@ namespace CarApp.Services.Tests
         [Test]
         public async Task DeleteCarListingAsyncReturnsTrue()
         {
-            // Arrange
             var userId = "user1";
             var model = new CarListingDeleteViewModel { Id = 1 };
 
