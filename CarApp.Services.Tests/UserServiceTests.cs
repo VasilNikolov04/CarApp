@@ -255,7 +255,23 @@ namespace CarApp.Services.Tests
                 Id = carListingId,
                 SellerId = userId,
                 IsDeleted = false,
-                Car = new Car { Model = new CarModel { CarBrand = new CarBrand { BrandName = "Brand" }, ModelName = "Model" } }
+                Car = new Car { 
+                    Model = new CarModel { 
+                    CarBrand = new CarBrand { 
+                        BrandName = "Brand" 
+                    }, 
+                    ModelName = "Model" } 
+                },
+                Seller = new ApplicationUser
+                {
+                    Email = "user1@abv.bg",
+                    FirstName = "User",
+                    LastName = "Userov"
+                },
+                CarImages = new List<CarImage>
+                {
+                    new CarImage{ ImageUrl="image.png"}
+                }
             };
 
             carListingRepository.Setup(repo => repo.GetAllAttached())
