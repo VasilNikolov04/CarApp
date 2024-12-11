@@ -128,6 +128,8 @@
         const imageContainer = document.querySelector('#addImagesModal .modal-body .row');
         imageContainer.innerHTML = '';
 
+        const allowRemoval = images.length > 1;
+
         images.forEach((image, index) => {
             const colDiv = document.createElement('div');
             colDiv.classList.add('col-md-4', 'mb-3', 'draggable-image-container');
@@ -146,9 +148,15 @@
             removeButton.type = 'button';
             removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mt-2');
             removeButton.textContent = 'Remove';
-            removeButton.onclick = function () {
-                removeImage(image.id);
-            };
+
+            if (!allowRemoval) {
+                removeButton.style.display = 'none';
+                removeButton.disabled = true;
+            } else {
+                removeButton.onclick = function () {
+                    removeImage(image.id);
+                };
+            }
 
             imageWrapperDiv.appendChild(imgElement);
             imageWrapperDiv.appendChild(removeButton);
