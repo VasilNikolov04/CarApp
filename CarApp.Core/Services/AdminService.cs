@@ -19,18 +19,21 @@ namespace CarApp.Core.Services
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IRepository<CarBrand, int> brandRepository;
+        private readonly IRepository<Report, int> reportRepository;
         private readonly IRepository<CarModel, int> modelRepository;
         private readonly IRepository<CarListing, int> carListingRepository;
 
         public AdminService(UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager,
             IRepository<CarBrand, int> _brandRepository, IRepository<CarModel, int> _modelRepository,
-            IUtilityService _utilityService, IRepository<CarListing, int> _carListingRepository)
+            IUtilityService _utilityService, IRepository<CarListing, int> _carListingRepository,
+            IRepository<Report, int> _reportRepository)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             brandRepository = _brandRepository;
             modelRepository = _modelRepository;
             carListingRepository = _carListingRepository;
+            reportRepository = _reportRepository;
         }
 
         public async Task<bool> AssignUserToRoleAsync(string userId, string roleName)
@@ -68,6 +71,16 @@ namespace CarApp.Core.Services
             if (userExist == null)
             {
                 return false;
+            }
+
+            List<Report> userCarListingReports = await reportRepository
+                .GetAllAttached()
+                .Where(r => r.SellerId == user.UserId)
+                .ToListAsync();
+
+            foreach (var carlisting in userCarListingReports)
+            {
+                await reportRepository.DeleteAsync(carlisting);
             }
 
             IdentityResult result = await userManager.DeleteAsync(userExist);
@@ -360,7 +373,7 @@ namespace CarApp.Core.Services
 
             List<DeleteUserCarListingsViewModel>? userCarListings = await carListingRepository
                 .GetAllAttached()
-                .Where(cl => cl.SellerId == user.Id)
+                .Where(cl => cl.SellerId == user.Id && cl.IsDeleted == false)
                 .Select(cl => new DeleteUserCarListingsViewModel()
                 {
                     BrandName = cl.Car.Model.CarBrand.BrandName,
