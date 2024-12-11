@@ -32,49 +32,71 @@ namespace CarApp.Services.Tests
         public void Setup()
         {
             carListingsData = new List<CarListing>
+            {
+                new CarListing
         {
-            new CarListing
+            Id = 1,
+            SellerId = "user1",
+            Description = "Test Car 1",
+            Price = 10000,
+            IsDeleted = false,
+            Car = new Car
             {
-                Id = 1,
-                SellerId = "user1",
-                Description = "Test Car 1",
-                Price = 10000,
-                IsDeleted = false,
-                Car = new Car
+                Mileage = 50000,
+                Whp = 200,
+                Model = new CarModel
                 {
-                    Mileage = 50000,
-                    Whp = 200
+                    ModelName = "Mustang",
+                    CarBrand = new CarBrand { BrandName = "Ford" }
                 },
-                CarImages = new List<CarImage>
-                {
-                    new CarImage { Id = 1, ImageUrl = "image1.jpg", Order = 0 },
-                    new CarImage { Id = 2, ImageUrl = "image2.jpg", Order = 1 }
-                }
+                Fuel = new CarFuelType { FuelName = "Gasoline" },
+                Gear = new CarGear { GearName = "Manual" },
+                CarBodyType = new CarBodyType { Name = "Sedan" },
+                EngineDisplacement = 2000
             },
-            new CarListing
+            City = new CarLocationCity { CityName = "Plovdiv", 
+                CarLocationRegion = new CarLocationRegion { RegionName = "Plovdiv" } },
+            CarImages = new List<CarImage>
             {
-                Id = 2,
-                SellerId = "user2",
-                Description = "Test Car 2",
-                Price = 20000,
-                IsDeleted = false,
-                Car = new Car
-                {
-                    Mileage = 30000,
-                    Whp = 300
-                },
-                CarImages = new List<CarImage>
-                {
-                    new CarImage { Id = 3, ImageUrl = "image3.jpg", Order = 0 }
-                }
+                new CarImage { Id = 1, ImageUrl = "image1.jpg", Order = 0 },
+                new CarImage { Id = 2, ImageUrl = "image2.jpg", Order = 1 }
             }
-        };
+        },
+                new CarListing
+        {
+            Id = 2,
+            SellerId = "user2",
+            Description = "Test Car 2",
+            Price = 20000,
+            IsDeleted = false,
+            Car = new Car
+            {
+                Mileage = 30000,
+                Whp = 300,
+                Model = new CarModel
+                {
+                    ModelName = "370 Z",
+                    CarBrand = new CarBrand { BrandName = "Nissan" }
+                },
+                Fuel = new CarFuelType { FuelName = "Gasoline" },
+                Gear = new CarGear { GearName = "Automatic" },
+                CarBodyType = new CarBodyType { Name = "Coupe" },
+                EngineDisplacement = 3700
+            },
+            City = new CarLocationCity { CityName = "Sofia", 
+                CarLocationRegion = new CarLocationRegion { RegionName = "Sofia" } },
+            CarImages = new List<CarImage>
+            {
+                new CarImage { Id = 3, ImageUrl = "image3.jpg", Order = 0 }
+            }
+        }
+            };
 
             usersData = new List<ApplicationUser>
-        {
+            {
             new ApplicationUser { Id = "user1", FirstName = "Timmy", LastName = "Turner", Email="timmyturner@abv.bg" },
             new ApplicationUser { Id = "user2", FirstName = "Jim", LastName = "Carrey", Email="j.carrey@abv.bg" }
-        };
+            };
 
             carListingRepository = new Mock<IRepository<CarListing, int>>();
             carRepository = new Mock<IRepository<Car, int>>();
