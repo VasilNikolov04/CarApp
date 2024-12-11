@@ -14,12 +14,10 @@
             if (modelName) {
                 models.push(modelName);
 
-                // Add to list
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
                 listItem.textContent = modelName;
 
-                // Add remove button to each list item
                 const removeButton = document.createElement('button');
                 removeButton.className = 'btn btn-danger btn-sm';
                 removeButton.textContent = 'Remove';
@@ -69,6 +67,6 @@
         });
         function displayError(message) {
             errorMessage.textContent = message;
-            errorMessage.classList.remove('d-none'); // Show the error message
+            errorMessage.classList.remove('d-none');
         }
     });

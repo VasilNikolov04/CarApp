@@ -196,6 +196,7 @@ namespace CarApp.Core.Services
                         Brand = cl.Car.Model.CarBrand.BrandName,
                         Model = cl.Car.Model.ModelName,
                         Trim = cl.Car.Trim,
+                        SellerId = cl.SellerId,
                         EngineDisplacement = cl.Car.EngineDisplacement,
                         Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
                         FuelType = cl.Car.Fuel.FuelName,

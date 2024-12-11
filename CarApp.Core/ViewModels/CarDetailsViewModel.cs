@@ -37,6 +37,8 @@ namespace CarApp.Core.ViewModels
 
         public string DatePosted { get; set; } = null!;
 
+        public string SellerId { get; set; } = null!;
+
         public SellerViewModel Seller { get; set; } = null!;
 
         public ICollection<CarImage> Images { get; set; } = new List<CarImage>();

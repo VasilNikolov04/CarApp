@@ -109,7 +109,6 @@ namespace CarApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddBrandWithModels([FromBody]  BrandAddInputViewModel input)
         {
             if (String.IsNullOrEmpty(input.BrandName) || input.Models == null || input.Models.Count == 0)

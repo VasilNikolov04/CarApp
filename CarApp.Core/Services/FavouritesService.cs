@@ -65,6 +65,7 @@ namespace CarApp.Core.Services
                     Id = cl.CarListing.Id,
                     Brand = cl.CarListing.Car.Model.CarBrand.BrandName,
                     Model = cl.CarListing.Car.Model.ModelName,
+                    Year = cl.CarListing.Car.Year,
                     Price = cl.CarListing.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")),
                     FuelType = cl.CarListing.Car.Fuel.FuelName,
                     GearType = cl.CarListing.Car.Gear.GearName,

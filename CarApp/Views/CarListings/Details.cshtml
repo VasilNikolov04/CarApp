@@ -1,4 +1,5 @@
 ﻿@model CarDetailsViewModel
+@inject IFavouritesService favouriteService
 @{
 }
 <style>
@@ -53,7 +54,62 @@
 
         <div class="col-lg-4 mt-4 mt-lg-0 right-col">
             <div class="car-name">
+                <div class="top-row d-flex flex-row justify-content-between">
                 <h2><b>@Model.Brand @Model.Model</b> @Model.Trim</h2>
+                    @if (Model.SellerId != User?.GetUserId()?.ToString() && User?.Identity?.IsAuthenticated == true)
+                    {
+                        @if (await favouriteService.IsCarListingInFavourites(Model.Id, User.GetUserId()) == false)
+                        {
+                            <div class="title-fav">
+                                <span class="favorite-star text-primary">
+                                    <form method="post" asp-action="AddToFavourites" asp-controller="User">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="carListingId" value="@Model.Id" />
+                                        <button type="submit" class="fav-button">
+                                            <i class="bi bi-star star" id="star"></i>
+                                        </button>
+                                    </form>
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="title-fav">
+                                <span class="favorite-star text-primary">
+                                    <form method="post" asp-action="RemoveFromFavourites" asp-controller="User">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="carListingId" value="@Model.Id" />
+                                        <button type="submit" class="fav-button">
+                                            <i class="bi bi-star-fill clicked star" id="star"></i>
+                                        </button>
+                                    </form>
+                                </span>
+                            </div>
+                        }
+                    }
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                        <div class="btn-group">
+                            <button type="button" class="button-options" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical options-dots"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @if (Model.SellerId == User?.GetUserId())
+                                {
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="EditListing" asp-route-Id="@Model.Id">Edit</a></li>
+                                }
+                                @if (Model.SellerId == User?.GetUserId() || User?.IsInRole(AdminRoleName) == true)
+                                {
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Delete" asp-route-Id="@Model.Id">Delete</a></li>
+                                }
+                                @if (Model.SellerId != User?.GetUserId())
+                                {
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Report" asp-route-carListingId="@Model.Id">Report</a></li>
+                                }
+                            </ul>
+                        </div>
+                }
+            </div>
                 <hr />
                 <h2 class="mt-1 car-price"><b>@Model.Price</b></h2>
             </div>

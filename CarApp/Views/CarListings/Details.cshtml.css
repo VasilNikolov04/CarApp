@@ -79,3 +79,22 @@
 .car-price {
     color: green;
 }
+.fav-button {
+    visibility: hidden;
+}
+
+#star {
+    font-size: 35px;
+    visibility: visible;
+    color: cornflowerblue;
+}
+
+.button-options {
+    visibility: hidden;
+}
+
+.options-dots {
+    font-size: 1.5rem;
+    visibility: visible;
+    color: black;
+}
