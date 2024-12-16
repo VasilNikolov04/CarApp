@@ -2,116 +2,6 @@
 @using CarApp.Core.ViewModels.RefinedSearch
 @model RefinedSearchViewModel
 
-@{
-    ViewBag.BackArrow = "<<";
-}
-<style>
-    .filter-container {
-        margin: auto;
-        border-radius: 8px;
-        padding:20px;
-        background-color: #f2f2f2;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    }
-
-    h2 {
-        color: #333;
-        font-weight: 700;
-        text-align: center;
-    }
-
-    form {
-        margin-top: 20px;
-    }
-
-        form .form-group {
-            margin-bottom: 15px;
-        }
-
-        form label {
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        form .form-control,
-        form .form-select {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 1rem;
-        }
-
-            form .form-control:focus,
-            form .form-select:focus {
-                border-color: #007bff;
-                box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
-            }
-
-        form .input-group-text {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px 0 0 5px;
-        }
-
-    button[type="submit"] {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 1.1rem;
-        transition: background-color 0.3s ease;
-    }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-    .row {
-        margin-bottom: 20px;
-    }
-
-        .row .col-md-3,
-        .row .col-md-4,
-        .row .col-md-6 {
-            margin-bottom: 15px;
-        }
-
-    label[asp-for="Sorting"] {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    .input-group {
-        display: flex;
-        align-items: center;
-    }
-
-        .input-group .form-select {
-            flex: 1;
-        }
-
-        .input-group .btn {
-            margin-left: 10px;
-        }
-
-        .row.align-items-end .form-group {
-    margin-bottom: 0; 
-}
-
-.row.align-items-end .btn {
-    margin-top: 5px; 
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-}
-</style>
 <meta charset="UTF-8">
 <div class="container filter-container mt-5 mb-5">
 
@@ -287,7 +177,7 @@
 
             <div class="col-md-4">
                 <input asp-for="Sorting" type="hidden" value="@((int)Model.Sorting)" />
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                <button type="submit" class="btn btn-primary w-100 filter-button">Submit</button>
             </div>
         </div>
     </form>
