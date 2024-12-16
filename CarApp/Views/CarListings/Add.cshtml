@@ -197,7 +197,9 @@
     </form>
 </div>
 
+
 @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/carSelection.js"></script>
 
     <script>

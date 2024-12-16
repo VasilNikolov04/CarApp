@@ -132,7 +132,6 @@
     <form asp-action="EditListing" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
         <div class="row-content">
-            <!-- Form Inputs -->
             <div class="form-container">
                 <div class="form-group">
                     <label asp-for="Description" class="form-label">Description</label>
@@ -204,3 +203,5 @@
 </div>
 
 <script src="~/js/manageImagesModal.js"></script>
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

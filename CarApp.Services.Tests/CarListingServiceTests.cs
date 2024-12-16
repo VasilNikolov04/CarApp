@@ -6,10 +6,8 @@ using CarApp.Core.ViewModels.CarListing;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using MockQueryable;
 using Moq;
-using System.Globalization;
 
 namespace CarApp.Services.Tests
 {
