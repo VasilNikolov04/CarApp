@@ -1,3 +1,4 @@
+using CarApp.Core.Services.Contracts;
 using CarApp.Core.ViewModels;
 using CarApp.Core.ViewModels.Home;
 using CarApp.Infrastructure.Data.Models;
@@ -17,45 +18,22 @@ namespace CarApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IRepository<CarListing, int> carListingRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICarListingService carListingService;
 
         public HomeController(ILogger<HomeController> logger, 
             IRepository<CarListing, int> _carListingRepository,
-            UserManager<ApplicationUser> _userManager)
+            UserManager<ApplicationUser> _userManager,
+            ICarListingService _carListingService)
         {
             _logger = logger;
             carListingRepository = _carListingRepository;
             userManager = _userManager;
+            carListingService = _carListingService;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<FeaturedCarsViewModel> latestCars = await carListingRepository
-                .GetAllAttached()
-                .Where(cl => cl.IsDeleted == false)
-                .OrderByDescending(cl => cl.DatePosted)
-                .Select(cl => new FeaturedCarsViewModel()
-                {
-                    Id = cl.Id,
-                    Brand = cl.Car.Model.CarBrand.BrandName,
-                    Model = cl.Car.Model.ModelName,
-                    Trim = cl.Car.Trim ?? string.Empty,
-                    Year = cl.Car.Year,
-                    Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
-                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
-                    LocationRegion = cl.City.CarLocationRegion.RegionName,
-                    LocationCity = cl.City.CityName,
-                    ImageUrl = cl.CarImages.FirstOrDefault().ImageUrl ?? string.Empty
-                })
-                .Take(4)
-                .ToListAsync();
-
-            HomePageViewModel model = new HomePageViewModel
-            {
-                LatestCars = latestCars,
-                TotalCarsListed = carListingRepository.GetAllAttached().Where(cl => cl.IsDeleted == false).Count(),
-                AllUsers = userManager.Users.Count(),
-                AllSellers = userManager.Users.Where(u => u.CarListings != null && u.CarListings.Where(cl => cl.IsDeleted == false).Any()).Count()
-            };
+            var model = await carListingService.GetHomePageDataAsync();
 
             return View(model);
         }

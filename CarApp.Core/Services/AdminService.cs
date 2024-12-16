@@ -25,7 +25,7 @@ namespace CarApp.Core.Services
 
         public AdminService(UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager,
             IRepository<CarBrand, int> _brandRepository, IRepository<CarModel, int> _modelRepository,
-            IUtilityService _utilityService, IRepository<CarListing, int> _carListingRepository,
+            IRepository<CarListing, int> _carListingRepository,
             IRepository<Report, int> _reportRepository)
         {
             userManager = _userManager;

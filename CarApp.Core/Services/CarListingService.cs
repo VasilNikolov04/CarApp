@@ -6,6 +6,7 @@ using CarApp.Core.ViewModels.Home;
 using CarApp.Infrastructure.Data;
 using CarApp.Infrastructure.Data.Models;
 using CarApp.Infrastructure.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -15,12 +16,15 @@ namespace CarApp.Core.Services
     {
         private readonly IRepository<CarListing,int> carListingRepository;
         private readonly IRepository<Car, int> carRepository;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public CarListingService(IRepository<CarListing, int> _carListingRepository,
-            IRepository<Car, int> _carRepository)
+            IRepository<Car, int> _carRepository,
+            UserManager<ApplicationUser> _userManager)
         {
             carListingRepository = _carListingRepository;
             carRepository = _carRepository;
+            userManager = _userManager;
         }
 
         public async Task AddCarListingAsync(CarViewModel model, string? userId)
@@ -167,25 +171,7 @@ namespace CarApp.Core.Services
 
         public async Task<CarDetailsViewModel?> CarListingDetails(int listingId)
         {
-            List<FeaturedCarsViewModel> latestCars = await carListingRepository
-                .GetAllAttached()
-                .Where(cl => cl.IsDeleted == false)
-                .OrderByDescending(cl => cl.DatePosted)
-                .Select(cl => new FeaturedCarsViewModel()
-                {
-                    Id = cl.Id,
-                    Brand = cl.Car.Model.CarBrand.BrandName,
-                    Model = cl.Car.Model.ModelName,
-                    Trim = cl.Car.Trim ?? string.Empty,
-                    Year = cl.Car.Year,
-                    Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
-                    DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
-                    LocationRegion = cl.City.CarLocationRegion.RegionName,
-                    LocationCity = cl.City.CityName,
-                    ImageUrl = cl.CarImages.FirstOrDefault().ImageUrl ?? string.Empty
-                })
-                .Take(4)
-                .ToListAsync();
+            var latestCars = await GetFeaturedCarsList();
 
             CarDetailsViewModel? model = await carListingRepository
                     .GetAllAttached()
@@ -222,7 +208,50 @@ namespace CarApp.Core.Services
             return model;
         }
 
+        public async Task<HomePageViewModel> GetHomePageDataAsync()
+        {
+            var latestCars = await GetFeaturedCarsList();
 
-        
+            var totalCarsListed = await carListingRepository
+                .GetAllAttached()
+            .CountAsync(cl => !cl.IsDeleted);
+
+            var allUsersCount = userManager.Users.Count();
+
+            var allSellersCount = userManager.Users
+                .Count(u => u.CarListings != null && u.CarListings.Any(cl => !cl.IsDeleted));
+
+            return new HomePageViewModel
+            {
+                LatestCars = latestCars,
+                TotalCarsListed = totalCarsListed,
+                AllUsers = allUsersCount,
+                AllSellers = allSellersCount
+            };
+        }
+
+
+        public async Task<IEnumerable<FeaturedCarsViewModel>> GetFeaturedCarsList()
+        {
+            return await carListingRepository
+          .GetAllAttached()
+          .Where(cl => !cl.IsDeleted)
+          .OrderByDescending(cl => cl.DatePosted)
+          .Select(cl => new FeaturedCarsViewModel
+          {
+              Id = cl.Id,
+              Brand = cl.Car.Model.CarBrand.BrandName,
+              Model = cl.Car.Model.ModelName,
+              Trim = cl.Car.Trim ?? string.Empty,
+              Year = cl.Car.Year,
+              Price = cl.Price.ToString("C", new System.Globalization.CultureInfo("Fr-fr")),
+              DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
+              LocationRegion = cl.City.CarLocationRegion.RegionName,
+              LocationCity = cl.City.CityName,
+              ImageUrl = cl.CarImages.FirstOrDefault().ImageUrl ?? string.Empty
+          })
+          .Take(4)
+          .ToListAsync();
+        }
     }
 }

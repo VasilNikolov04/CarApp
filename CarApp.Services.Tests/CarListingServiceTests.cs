@@ -148,7 +148,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
                 .GetAllCarListingsAsync(currentPage: currentPage, listingsPerPage: listingsPerPage);
@@ -177,7 +177,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
                 .GetAllCarListingsAsync(brand: brandFilter, currentPage: currentPage, listingsPerPage: listingsPerPage);
@@ -206,7 +206,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
                 .GetAllCarListingsAsync(price: priceFilter, currentPage: currentPage, listingsPerPage: listingsPerPage);
@@ -240,7 +240,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
                 .GetAllCarListingsAsync(brand: brandFilter, model: modelFilter, currentPage: currentPage, listingsPerPage: listingsPerPage);
@@ -267,7 +267,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
                 .GetAllCarListingsAsync(sorting: sorting, currentPage: currentPage, listingsPerPage: listingsPerPage);
@@ -292,7 +292,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAsReadOnly())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarListingQueryServiceModel allCarListingsActual = await carListingService
                 .GetAllCarListingsAsync(currentPage: currentPage, listingsPerPage: listingsPerPage);
@@ -460,7 +460,7 @@ namespace CarApp.Services.Tests
             carRepositoryMock.Setup(cr => cr.AddAsync(It.IsAny<Car>())).Returns(Task.CompletedTask);
             carListingRepositoryMock.Setup(clr => clr.AddAsync(It.IsAny<CarListing>())).Returns(Task.CompletedTask);
 
-            var service = new CarListingService(carListingRepositoryMock.Object, carRepositoryMock.Object);
+            var service = new CarListingService(carListingRepositoryMock.Object, carRepositoryMock.Object, null);
 
             await service.AddCarListingAsync(model, userId);
 
@@ -548,7 +548,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAttached())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
 
@@ -567,7 +567,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAttached())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object,null);
 
             CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
 
@@ -598,7 +598,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAttached())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
 
@@ -615,7 +615,7 @@ namespace CarApp.Services.Tests
                 .Setup(cl => cl.GetAllAttached())
                 .Returns(carListingsMockQueryable);
 
-            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object);
+            ICarListingService carListingService = new CarListingService(carListingRepository.Object, carRepository.Object, null);
 
             CarDetailsViewModel allCarListingsActual = await carListingService.CarListingDetails(listingId);
 

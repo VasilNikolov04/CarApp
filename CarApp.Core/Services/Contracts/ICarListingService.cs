@@ -1,6 +1,7 @@
 ﻿using CarApp.Core.Enumerations;
 using CarApp.Core.ViewModels;
 using CarApp.Core.ViewModels.CarListing;
+using CarApp.Core.ViewModels.Home;
 
 namespace CarApp.Core.Services.Contracts
 {
@@ -16,6 +17,8 @@ namespace CarApp.Core.Services.Contracts
 
         Task AddCarListingAsync(CarViewModel model, string? user);
 
-        Task<CarDetailsViewModel?> CarListingDetails(int listingId); 
+        Task<CarDetailsViewModel?> CarListingDetails(int listingId);
+
+        Task<HomePageViewModel> GetHomePageDataAsync();
     }
 }
