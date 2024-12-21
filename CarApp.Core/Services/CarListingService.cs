@@ -248,7 +248,7 @@ namespace CarApp.Core.Services
               DatePosted = cl.DatePosted.ToString("hh:mm 'on' dd/MM/yy", CultureInfo.InvariantCulture),
               LocationRegion = cl.City.CarLocationRegion.RegionName,
               LocationCity = cl.City.CityName,
-              ImageUrl = cl.CarImages.FirstOrDefault().ImageUrl ?? string.Empty
+              ImageUrl = cl.CarImages.OrderBy(im => im.Order).FirstOrDefault().ImageUrl ?? string.Empty
           })
           .Take(4)
           .ToListAsync();
